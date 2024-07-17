@@ -1,0 +1,16 @@
+$radius: 15px;
+$skill-padding: 10px;
+
+.skills-section {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: calc($skill-padding/2) $skill-padding;
+
+  &__skill {
+    border: solid 2px black;
+    border-radius: $radius;
+    padding: calc($skill-padding/2) $skill-padding calc($skill-padding/2) $skill-padding;
+    margin: 0 0 0 0;
+  }
+}

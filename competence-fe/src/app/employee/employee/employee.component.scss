@@ -1,0 +1,32 @@
+$width: 400px;
+$default-gap: 30px;
+$input-height: 1.5rem;
+$default-radius: 10px;
+$info-section-row-gap: 5px;
+
+.employee {
+  display: flex;
+  flex-direction: column;
+  row-gap: $default-gap;
+  max-width: $width;
+
+  &__section {
+    display: flex;
+    flex-direction: column;
+    row-gap: $info-section-row-gap;
+
+    &-label {
+      font-weight: bold;
+    }
+
+    &-input {
+      height: $input-height;
+    }
+  }
+
+  &__projects {
+    display: flex;
+    flex-direction: column;
+    row-gap: $info-section-row-gap;
+  }
+}

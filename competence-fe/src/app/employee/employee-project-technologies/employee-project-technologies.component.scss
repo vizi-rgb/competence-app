@@ -1,0 +1,16 @@
+$column-gap: 10px;
+$border-radius: 5px;
+
+.technologies {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  column-gap: $column-gap;
+
+  &__technology {
+    margin: 0;
+    border-radius: $border-radius;
+    border: black 1px solid;
+    padding: 0 5px 0 5px;
+  }
+}

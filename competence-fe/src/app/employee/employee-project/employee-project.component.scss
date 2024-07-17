@@ -1,0 +1,17 @@
+$padding: 5px;
+$title-size: 20px;
+$description-size: 16px;
+
+.project {
+  border: black 1px solid;
+  padding: $padding;
+
+  &__title {
+    font-size: $title-size;
+    font-weight: bold;
+  }
+
+  &__description {
+    font-size: $description-size;
+  }
+}

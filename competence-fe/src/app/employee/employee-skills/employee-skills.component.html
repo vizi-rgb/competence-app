@@ -1,0 +1,7 @@
+<div class="skills-section">
+  <input
+    class="skills-section__skill"
+    *ngFor="let skill of skills; index as i; trackBy: trackByFn"
+    [(ngModel)]="skills[i]"
+  />
+</div>

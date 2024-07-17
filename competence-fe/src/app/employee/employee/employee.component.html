@@ -1,0 +1,61 @@
+<div class="employee">
+  <h1>Dane pracownika</h1>
+  <div class="employee__section">
+    <label class="employee__section-label" for="name">Imię</label>
+    <input
+      class="employee__section-input"
+      id="name"
+      placeholder="Imię"
+      [(ngModel)]="employee.name"
+    />
+  </div>
+
+  <div class="employee__section">
+    <label class="employee__section-label">Nazwisko</label>
+    <input
+      class="employee__section-input"
+      id="surname"
+      placeholder="Nazwisko"
+      [(ngModel)]="employee.surname"
+    />
+  </div>
+
+  <div class="employee__section">
+    <label class="employee__section-label" for="dateOfEmployment">
+      Data zatrudnienia
+    </label>
+    <input
+      class="employee__section-input"
+      id="dateOfEmployment"
+      name="dateOfEmployment"
+      type="date"
+      [ngModel]="employee.dateOfEmployment | date: 'yyyy-MM-dd'"
+      (ngModelChange)="onDateOfEmploymentChange($event)"
+    />
+  </div>
+
+  <div class="employee__section">
+    <label class="employee__section-label" for="manager">Menedżer</label>
+    <select id="manager" [(ngModel)]="employee.manager">
+      <option *ngFor="let manager of this.managers" [ngValue]="manager">
+        {{ manager.name + " " + manager.surname }}
+      </option>
+    </select>
+  </div>
+
+  <div class="employee__section">
+    <label class="employee__section-label" for="skills">Umiejętności</label>
+    <div id="skills">
+      <app-employee-skills [skills]="employee.skills"></app-employee-skills>
+    </div>
+  </div>
+
+  <div class="employee__section">
+    <label class="employee__section-label" for="projects">Projekty</label>
+    <div id="projects" class="employee__projects">
+      <ng-container *ngFor="let project of employee.projects">
+        <app-employee-project [project]="project"></app-employee-project>
+      </ng-container>
+    </div>
+  </div>
+</div>
