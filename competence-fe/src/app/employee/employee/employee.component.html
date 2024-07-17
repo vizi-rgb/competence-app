@@ -53,9 +53,9 @@
   <div class="employee__section">
     <label class="employee__section-label" for="projects">Projekty</label>
     <div id="projects" class="employee__projects">
-      <ng-container *ngFor="let project of employee.projects">
+      @for (project of employee.projects; track project) {
         <app-employee-project [project]="project"></app-employee-project>
-      </ng-container>
+      }
     </div>
   </div>
 </div>

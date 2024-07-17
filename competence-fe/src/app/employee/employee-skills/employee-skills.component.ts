@@ -12,8 +12,4 @@ import { FormsModule } from '@angular/forms';
 export class EmployeeSkillsComponent {
   @Input({ required: true })
   skills!: string[];
-
-  trackByFn(index: number, item: string) {
-    return index;
-  }
 }

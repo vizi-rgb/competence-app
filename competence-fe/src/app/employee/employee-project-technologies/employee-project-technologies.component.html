@@ -1,5 +1,7 @@
 <div class="technologies">
-  <p *ngFor="let tech of technologies" class="technologies__technology">
-    {{ tech }}
-  </p>
+  @for (tech of technologies; track tech) {
+    <p class="technologies__technology">
+      {{ tech }}
+    </p>
+  }
 </div>
