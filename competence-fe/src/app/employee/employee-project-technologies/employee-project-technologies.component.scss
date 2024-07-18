@@ -1,5 +1,8 @@
-$column-gap: 10px;
+$column-gap: 1rem;
+$padding: 0.5rem;
+$technology-font-size: 1.4rem;
 $border-radius: 5px;
+
 
 .technologies {
   display: flex;
@@ -8,9 +11,10 @@ $border-radius: 5px;
   column-gap: $column-gap;
 
   &__technology {
+    font-size: $technology-font-size;
     margin: 0;
     border-radius: $border-radius;
     border: black 1px solid;
-    padding: 0 5px 0 5px;
+    padding: 0 $padding 0 $padding;
   }
 }
