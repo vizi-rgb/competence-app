@@ -10,7 +10,8 @@ $skill-padding: 10px;
   &__skill {
     border: solid 2px black;
     border-radius: $radius;
-    padding: calc($skill-padding/2) $skill-padding calc($skill-padding/2) $skill-padding;
+    padding: calc($skill-padding/2) $skill-padding calc($skill-padding/2)
+      $skill-padding;
     margin: 0;
   }
 }
