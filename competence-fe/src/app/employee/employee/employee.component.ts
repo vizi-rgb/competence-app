@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { EmployeeModel } from '../../models/employee.model';
 import { DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -21,8 +21,10 @@ import { EMPLOYEES } from '../../mocks/employees.mock';
   styleUrl: './employee.component.scss',
 })
 export class EmployeeComponent {
-  managers: EmployeeModel[] = MANAGERS;
+  @Input()
   employee: EmployeeModel = EMPLOYEES.at(0)!;
+
+  managers: EmployeeModel[] = MANAGERS;
 
   onDateOfEmploymentChange(date: string) {
     const newDate: Date = new Date(date);
