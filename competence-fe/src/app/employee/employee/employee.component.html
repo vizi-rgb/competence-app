@@ -11,7 +11,7 @@
   </div>
 
   <div class="employee__section">
-    <label class="employee__section-label">Nazwisko</label>
+    <label class="employee__section-label" for="surname">Nazwisko</label>
     <input
       class="employee__section-input"
       id="surname"
@@ -37,9 +37,11 @@
   <div class="employee__section">
     <label class="employee__section-label" for="manager">Menedżer</label>
     <select id="manager" [(ngModel)]="employee.manager">
-      <option *ngFor="let manager of this.managers" [ngValue]="manager">
-        {{ manager.name + " " + manager.surname }}
-      </option>
+      @for (manager of managers; track manager.id) {
+        <option [ngValue]="manager">
+          {{ manager.name + " " + manager.surname }}
+        </option>
+      }
     </select>
   </div>
 

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { Employee } from '../../models/employee';
-import { Project } from '../../models/project';
+import { EmployeeModel } from '../../models/employee.model';
+import { ProjectModel } from '../../models/project.model';
 import { DatePipe, NgForOf, NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { isValidDate } from 'rxjs/internal/util/isDate';
@@ -22,19 +22,19 @@ import { EmployeeProjectComponent } from '../employee-project/employee-project.c
   styleUrl: './employee.component.scss',
 })
 export class EmployeeComponent {
-  project: Project = {
+  project: ProjectModel = {
     title: 'Jungle',
     description: 'Tropical fruits delivery system',
     technologies: ['Angular', 'Java', 'Spring Boot'],
   };
 
-  secondProject: Project = {
+  secondProject: ProjectModel = {
     title: 'EVO',
     description: 'Software for accountants',
     technologies: ['React', 'PHP', 'Laravel', 'Supabase'],
   };
 
-  manager: Employee = {
+  manager: EmployeeModel = {
     id: 'c418f5fd-5c5a-4fa6-ac38-9501aa02cbbd',
     name: 'Thierry',
     surname: 'Henry',
@@ -44,7 +44,7 @@ export class EmployeeComponent {
     projects: [this.project],
   };
 
-  secondManager: Employee = {
+  secondManager: EmployeeModel = {
     id: '90e9887b-cb4a-49fb-9431-0f28cf7443f8',
     name: 'Cristiano',
     surname: 'Ronaldo',
@@ -54,9 +54,9 @@ export class EmployeeComponent {
     projects: [this.project],
   };
 
-  managers: Employee[] = [this.manager, this.secondManager];
+  managers: EmployeeModel[] = [this.manager, this.secondManager];
 
-  employee: Employee = {
+  employee: EmployeeModel = {
     id: '1ac6627c-4f39-45a0-b3a9-8edd59c8a8bc',
     name: 'John',
     surname: 'Doe',
