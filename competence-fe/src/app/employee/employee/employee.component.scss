@@ -1,14 +1,20 @@
 $width: 400px;
-$default-gap: 30px;
-$input-height: 1.5rem;
 $default-radius: 10px;
-$info-section-row-gap: 5px;
+
+$default-gap: 3rem;
+$input-height: 1.5rem;
+$info-section-row-gap: 0.5rem;
+$title-size: 2.5rem;
 
 .employee {
   display: flex;
   flex-direction: column;
   row-gap: $default-gap;
   max-width: $width;
+
+  &__title {
+    font-size: $title-size;
+  }
 
   &__section {
     display: flex;
