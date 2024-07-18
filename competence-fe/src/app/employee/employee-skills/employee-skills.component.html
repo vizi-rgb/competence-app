@@ -1,0 +1,5 @@
+<div class="skills-section">
+  @for (skill of skills; track $index) {
+    <input class="skills-section__skill" [(ngModel)]="skills[$index]" />
+  }
+</div>
