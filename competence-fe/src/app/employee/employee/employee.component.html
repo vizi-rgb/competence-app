@@ -6,8 +6,7 @@
       class="employee__section-input"
       id="name"
       placeholder="Imię"
-      [(ngModel)]="employee.name"
-    />
+      [(ngModel)]="employee.name" />
   </div>
 
   <div class="employee__section">
@@ -16,8 +15,7 @@
       class="employee__section-input"
       id="surname"
       placeholder="Nazwisko"
-      [(ngModel)]="employee.surname"
-    />
+      [(ngModel)]="employee.surname" />
   </div>
 
   <div class="employee__section">
@@ -30,8 +28,7 @@
       name="dateOfEmployment"
       type="date"
       [ngModel]="employee.dateOfEmployment | date: 'yyyy-MM-dd'"
-      (ngModelChange)="onDateOfEmploymentChange($event)"
-    />
+      (ngModelChange)="onDateOfEmploymentChange($event)" />
   </div>
 
   <div class="employee__section">
@@ -39,7 +36,7 @@
     <select id="manager" [(ngModel)]="employee.manager">
       @for (manager of managers; track manager.id) {
         <option [ngValue]="manager">
-          {{ manager.name + " " + manager.surname }}
+          {{ manager.name + ' ' + manager.surname }}
         </option>
       }
     </select>
