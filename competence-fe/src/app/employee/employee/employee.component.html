@@ -45,15 +45,19 @@
 
     <div class="employee__section">
       <label class="employee__section-label" for="skills">Umiejętności</label>
-      <div id="skills">
-        <app-employee-skills [skills]="employee.skills"></app-employee-skills>
+      <div class="employee__skills-section" id="skills">
+        @for (_ of employee.skills; track $index) {
+          <input
+            class="employee__skill"
+            [(ngModel)]="employee.skills[$index]" />
+        }
       </div>
     </div>
 
     <div class="employee__section">
       <label class="employee__section-label" for="projects">Projekty</label>
       <div id="projects" class="employee__projects">
-        @for (project of employee.projects; track project) {
+        @for (project of employee.projects; track $index) {
           <app-employee-project [project]="project"></app-employee-project>
         }
       </div>

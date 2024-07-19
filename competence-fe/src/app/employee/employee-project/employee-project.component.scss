@@ -1,6 +1,8 @@
 $padding: 0.5rem;
 $title-size: 1.6rem;
-$description-size: 1.4rem;
+$content-size: 1.4rem;
+$column-gap: 1rem;
+$border-radius: 5px;
 
 .project {
   border: black 1px solid;
@@ -12,6 +14,22 @@ $description-size: 1.4rem;
   }
 
   &__description {
-    font-size: $description-size;
+    font-size: $content-size;
   }
+
+  &__technologies {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    column-gap: $column-gap;
+  }
+
+  &__technology {
+    font-size: $content-size;
+    margin: 0;
+    border-radius: $border-radius;
+    border: black 1px solid;
+    padding: 0 $padding 0 $padding;
+  }
+
 }

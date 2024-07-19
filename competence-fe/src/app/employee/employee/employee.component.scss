@@ -5,6 +5,7 @@ $default-gap: 3rem;
 $input-height: 1.5rem;
 $info-section-row-gap: 0.5rem;
 $title-size: 2.5rem;
+$skill-padding: 1rem;
 
 .employee {
   display: flex;
@@ -28,6 +29,21 @@ $title-size: 2.5rem;
     &-input {
       height: $input-height;
     }
+  }
+
+
+  &__skills-section {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: calc($skill-padding / 2) $skill-padding;
+  }
+
+  &__skill {
+    border: solid 2px black;
+    border-radius: $default-radius;
+    padding: calc($skill-padding / 2) $skill-padding calc($skill-padding / 2) $skill-padding;
+    margin: 0;
   }
 
   &__projects {
