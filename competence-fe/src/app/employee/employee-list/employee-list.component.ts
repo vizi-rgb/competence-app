@@ -4,21 +4,18 @@ import { EMPLOYEES } from '../../mocks/employees.mock';
 import { EmployeeComponent } from '../employee/employee.component';
 
 @Component({
-  selector: 'app-employees-list',
+  selector: 'app-employee-list',
   standalone: true,
   imports: [EmployeeComponent],
-  templateUrl: './employees-list.component.html',
-  styleUrl: './employees-list.component.scss',
+  templateUrl: './employee-list.component.html',
+  styleUrl: './employee-list.component.scss',
 })
-export class EmployeesListComponent {
+export class EmployeeListComponent {
   readonly employees: EmployeeModel[] = EMPLOYEES;
   selectedEmployee?: EmployeeModel;
 
   onEmployeeSelect(employee: EmployeeModel) {
-    if (this.selectedEmployee === employee) {
-      this.selectedEmployee = undefined;
-    } else {
-      this.selectedEmployee = employee;
-    }
+    this.selectedEmployee =
+      this.selectedEmployee !== employee ? employee : undefined;
   }
 }

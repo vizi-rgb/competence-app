@@ -6,7 +6,6 @@ import { isValidDate } from 'rxjs/internal/util/isDate';
 import { EmployeeSkillsComponent } from '../employee-skills/employee-skills.component';
 import { EmployeeProjectComponent } from '../employee-project/employee-project.component';
 import { MANAGERS } from '../../mocks/managers.mock';
-import { EMPLOYEES } from '../../mocks/employees.mock';
 
 @Component({
   selector: 'app-employee',
@@ -22,15 +21,15 @@ import { EMPLOYEES } from '../../mocks/employees.mock';
 })
 export class EmployeeComponent {
   @Input()
-  employee: EmployeeModel = EMPLOYEES.at(0)!;
+  employee?: EmployeeModel;
 
   managers: EmployeeModel[] = MANAGERS;
 
   onDateOfEmploymentChange(date: string) {
     const newDate: Date = new Date(date);
 
-    if (isValidDate(newDate)) {
-      this.employee!.dateOfEmployment = newDate;
+    if (isValidDate(newDate) && this.employee) {
+      this.employee.dateOfEmployment = newDate;
     }
   }
 }

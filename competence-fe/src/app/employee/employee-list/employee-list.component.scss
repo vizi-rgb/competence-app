@@ -7,10 +7,15 @@ $button-flex-gap: 1rem;
 $button-bg-color: azure;
 $title-size: 2rem;
 
-.employees-list {
+.employee-list {
   display: flex;
   flex-direction: row;
   column-gap: $column-gap;
+
+  &__overview {
+    border-left: black 1px dashed;
+    padding-left: $column-gap;
+  }
 
   &__button {
     display: flex;
@@ -39,9 +44,5 @@ $title-size: 2rem;
   &__title {
     font-size: $title-size;
   }
-}
 
-.employee-overview {
-  border-left: black 1px dashed;
-  padding-left: $column-gap;
 }

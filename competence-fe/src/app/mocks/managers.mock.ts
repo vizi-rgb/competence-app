@@ -9,7 +9,7 @@ export const MANAGERS: EmployeeModel[] = [
     dateOfEmployment: new Date(2000, 6, 1),
     manager: null,
     skills: ['Managing projects', 'Interpersonal skills'],
-    projects: [PROJECTS.at(0)!],
+    projects: [PROJECTS[0]!],
   },
   {
     id: '90e9887b-cb4a-49fb-9431-0f28cf7443f8',
@@ -18,6 +18,6 @@ export const MANAGERS: EmployeeModel[] = [
     dateOfEmployment: new Date(2003, 6, 1),
     manager: null,
     skills: ['Managing projects', 'Interpersonal skills'],
-    projects: [PROJECTS.at(0)!],
+    projects: [PROJECTS[0]!],
   },
 ];

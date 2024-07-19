@@ -2,7 +2,7 @@ import { EmployeeModel } from '../models/employee.model';
 import { PROJECTS } from './projects.mock';
 import { MANAGERS } from './managers.mock';
 
-const defaultManager: EmployeeModel = MANAGERS.at(0)!;
+const defaultManager: EmployeeModel = MANAGERS[0]!;
 
 export const EMPLOYEES: EmployeeModel[] = [
   {
