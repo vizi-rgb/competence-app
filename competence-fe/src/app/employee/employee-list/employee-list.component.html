@@ -1,0 +1,27 @@
+<div class="employee-list content">
+  <div>
+    <h1 class="employee-list__title">Lista pracowników</h1>
+
+    <ul>
+      @for (employee of employees; track employee.id) {
+        <li class="employee-list__element">
+          <button
+            class="employee-list__button employee-list__button--hover content"
+            [class.employees-list__button--selected]="
+              employee === selectedEmployee
+            "
+            (click)="onEmployeeSelect(employee)">
+            <span>{{ $index + 1 }}.</span>
+            <span>{{ employee.name + ' ' + employee.surname }}</span>
+          </button>
+        </li>
+      }
+    </ul>
+  </div>
+
+  @if (selectedEmployee) {
+    <div class="employee-list__overview">
+      <app-employee [employee]="selectedEmployee"></app-employee>
+    </div>
+  }
+</div>

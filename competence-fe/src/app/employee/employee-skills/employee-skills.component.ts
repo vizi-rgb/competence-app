@@ -1,11 +1,10 @@
 import { Component, Input } from '@angular/core';
-import { NgForOf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-employee-skills',
   standalone: true,
-  imports: [NgForOf, FormsModule],
+  imports: [FormsModule],
   templateUrl: './employee-skills.component.html',
   styleUrl: './employee-skills.component.scss',
 })
