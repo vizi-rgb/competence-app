@@ -1,6 +1,7 @@
-$width: 400px;
 $default-radius: 10px;
 
+$width: 40rem;
+$new-skill-width: 4rem;
 $default-gap: 3rem;
 $input-height: 1.5rem;
 $info-section-row-gap: 0.5rem;
@@ -11,7 +12,7 @@ $skill-padding: 1rem;
   display: flex;
   flex-direction: column;
   row-gap: $default-gap;
-  max-width: $width;
+  width: $width;
 
   &__title {
     font-size: $title-size;
@@ -44,6 +45,11 @@ $skill-padding: 1rem;
     border-radius: $default-radius;
     padding: calc($skill-padding / 2) $skill-padding calc($skill-padding / 2) $skill-padding;
     margin: 0;
+  }
+
+  &__skill--empty {
+    background-color: lightgrey;
+    width: $new-skill-width;
   }
 
   &__projects {
