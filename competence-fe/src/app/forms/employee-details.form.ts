@@ -1,4 +1,4 @@
-import { FormControl } from '@angular/forms';
+import { FormArray, FormControl } from '@angular/forms';
 import { EmployeeModel } from '../models/employee.model';
 import { Technology } from '../constants/technology.enum';
 import { SoftSkill } from '../constants/soft-skill.enum';
@@ -8,5 +8,5 @@ export interface EmployeeDetailsForm {
   surname: FormControl<string>;
   dateOfEmployment: FormControl<string>;
   manager: FormControl<EmployeeModel | null>;
-  newSkill: FormControl<Technology | SoftSkill | null>;
+  skills: FormArray<FormControl<Technology | SoftSkill>>;
 }
