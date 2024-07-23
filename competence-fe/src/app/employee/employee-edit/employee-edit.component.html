@@ -74,7 +74,7 @@
             formArrayName="skills"
             (change)="onSkillSelect($event)">
             <option>Dodaj</option>
-            @for (skill of getAvailableSkills(); track $index) {
+            @for (skill of getAvailableSkills(); track skill) {
               <option [ngValue]="skill">
                 {{ skill }}
               </option>

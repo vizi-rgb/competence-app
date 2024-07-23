@@ -89,6 +89,7 @@ export class EmployeeEditComponent {
     for (const [key, techValue] of Object.entries(Technology)) {
       if (techValue === skill) {
         const selectedTechnology = Technology[key as keyof typeof Technology];
+        console.log(selectedTechnology);
         this.skills.push(this.fb.nonNullable.control(selectedTechnology));
       }
     }
@@ -101,7 +102,7 @@ export class EmployeeEditComponent {
     );
 
     const employeeSkills = new Set<Technology | SoftSkill>(
-      this.employee?.skills ?? []
+      this.skills.getRawValue()
     );
 
     return allSkills.filter((skill) => !employeeSkills.has(skill));
@@ -117,6 +118,7 @@ export class EmployeeEditComponent {
 
   onSkillSelect(event: Event): void {
     const selectElement = event.target as HTMLSelectElement;
+    console.log(selectElement);
     this.addSkill(selectElement.value);
   }
 
