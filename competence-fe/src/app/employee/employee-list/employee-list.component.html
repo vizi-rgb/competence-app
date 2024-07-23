@@ -21,7 +21,16 @@
 
   @if (selectedEmployee) {
     <div class="employee-list__overview">
-      <app-employee [employee]="selectedEmployee"></app-employee>
+      @if (editEmployeeModeSelected) {
+        <app-employee-edit
+          [employee]="selectedEmployee"
+          (editCanceled)="onEditCanceled()"
+          (formSubmitted)="onEditFormSubmitted($event)"></app-employee-edit>
+      } @else {
+        <app-employee
+          [employee]="selectedEmployee"
+          (editEmployeeSelected)="onEditEmployeeSelected()"></app-employee>
+      }
     </div>
   }
 </div>

@@ -1,97 +1,58 @@
-<form (ngSubmit)="onFormSubmit()" [formGroup]="employeeForm">
-  <div class="employee content">
-    <h1 class="employee__title">Dane pracownika</h1>
-    @if (employee) {
-      <div class="employee__section">
-        <label class="employee__section-label" for="name">Imię</label>
-        <input
-          class="employee__section-input"
-          id="name"
-          placeholder="Imię"
-          formControlName="name" />
-        @if (isMissing(name)) {
-          <span class="employee__error-message">Imię jest wymagane</span>
+<div class="employee content">
+  <h1 class="employee__title">Dane pracownika</h1>
+  @if (employee) {
+    <div class="employee__section">
+      <label class="employee__section-label" for="name">Imię</label>
+      <p class="employee__section-input" id="name" placeholder="Imię">
+        {{ employee.name }}
+      </p>
+    </div>
+
+    <div class="employee__section">
+      <label class="employee__section-label" for="surname">Nazwisko</label>
+      <p class="employee__section-input" id="surname" placeholder="Nazwisko">
+        {{ employee.surname }}
+      </p>
+    </div>
+
+    <div class="employee__section">
+      <label class="employee__section-label" for="dateOfEmployment">
+        Data zatrudnienia
+      </label>
+      <p
+        class="employee__section-input"
+        id="dateOfEmployment"
+        name="dateOfEmployment"
+        type="date">
+        {{ employee.dateOfEmployment | date: 'dd.MM.yyyy' }}
+      </p>
+    </div>
+
+    <div class="employee__section">
+      <label class="employee__section-label" for="manager">Menedżer</label>
+      <p id="manager">
+        {{ employee.manager?.name + ' ' + employee.manager?.surname }}
+      </p>
+    </div>
+
+    <div class="employee__section">
+      <label class="employee__section-label" for="skills">Umiejętności</label>
+      <div class="employee__skills-section" id="skills">
+        @for (skill of employee.skills; track $index) {
+          <p class="employee__skill">{{ skill }}</p>
         }
       </div>
+    </div>
 
-      <div class="employee__section">
-        <label class="employee__section-label" for="surname">Nazwisko</label>
-        <input
-          class="employee__section-input"
-          id="surname"
-          placeholder="Nazwisko"
-          formControlName="surname" />
-        @if (isMissing(surname)) {
-          <span class="employee__error-message">Nazwisko jest wymagane</span>
+    <div class="employee__section">
+      <label class="employee__section-label" for="projects">Projekty</label>
+      <div id="projects" class="employee__projects">
+        @for (project of employee.projects; track $index) {
+          <app-employee-project [project]="project"></app-employee-project>
         }
       </div>
+    </div>
 
-      <div class="employee__section">
-        <label class="employee__section-label" for="dateOfEmployment">
-          Data zatrudnienia
-        </label>
-        <input
-          class="employee__section-input"
-          id="dateOfEmployment"
-          name="dateOfEmployment"
-          type="date"
-          formControlName="dateOfEmployment" />
-        @if (isMissing(dateOfEmployment)) {
-          <span class="employee__error-message">
-            Data zatrudnienia jest wymagana
-          </span>
-        }
-      </div>
-
-      <div class="employee__section">
-        <label class="employee__section-label" for="manager">Menedżer</label>
-        <select id="manager" formControlName="manager">
-          @for (manager of managers; track manager.id) {
-            <option [ngValue]="manager">
-              {{ manager.name + ' ' + manager.surname }}
-            </option>
-          }
-        </select>
-        @if (isMissing(manager)) {
-          <span class="employee__error-message">Menedżer jest wymagany</span>
-        }
-      </div>
-
-      <div class="employee__section">
-        <label class="employee__section-label" for="skills">Umiejętności</label>
-        <div class="employee__skills-section" id="skills">
-          @for (skill of employee.skills; track $index) {
-            <p class="employee__skill">{{ skill }}</p>
-          }
-          @for (skill of newSkills; track $index) {
-            <p class="employee__skill">{{ skill }}</p>
-          }
-          <select
-            class="employee__skill employee__skill--empty"
-            title="Dodaj nową umiejętność"
-            formControlName="newSkill">
-            <option>Dodaj</option>
-            @for (skill of getAvailableSkills(); track $index) {
-              <option [ngValue]="skill">
-                {{ skill }}
-              </option>
-            }
-          </select>
-        </div>
-      </div>
-
-      <div class="employee__section">
-        <label class="employee__section-label" for="projects">Projekty</label>
-        <div id="projects" class="employee__projects">
-          @for (project of employee.projects; track $index) {
-            <app-employee-project [project]="project"></app-employee-project>
-          }
-        </div>
-      </div>
-
-      <button type="submit" [disabled]="employeeForm.invalid">
-        Zatwierdź zmiany
-      </button>
-    }
-  </div>
-</form>
+    <button (click)="onEditClicked()">Edytuj dane pracownika</button>
+  }
+</div>

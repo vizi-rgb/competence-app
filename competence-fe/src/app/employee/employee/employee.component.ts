@@ -1,19 +1,8 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { EmployeeModel } from '../../models/employee.model';
-import { DatePipe, formatDate } from '@angular/common';
-import {
-  AbstractControl,
-  FormBuilder,
-  FormGroup,
-  FormsModule,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { DatePipe } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EmployeeProjectComponent } from '../employee-project/employee-project.component';
-import { MANAGERS } from '../../mocks/managers.mock';
-import { EmployeeDetailsForm } from '../../forms/employee-details.form';
-import { Technology } from '../../constants/technology.enum';
-import { SoftSkill } from '../../constants/soft-skill.enum';
 
 @Component({
   selector: 'app-employee',
@@ -29,106 +18,12 @@ import { SoftSkill } from '../../constants/soft-skill.enum';
 })
 export class EmployeeComponent {
   @Input()
-  get employee() {
-    return this._employee;
-  }
+  employee?: EmployeeModel;
 
-  set employee(employee: EmployeeModel | undefined) {
-    if (!employee) return;
+  @Output()
+  editEmployeeSelected = new EventEmitter<void>();
 
-    this._employee = employee;
-    this.buildForm(employee);
-    this.newSkills = [];
-  }
-
-  private _employee?: EmployeeModel;
-  managers: EmployeeModel[] = MANAGERS;
-  employeeForm: FormGroup<EmployeeDetailsForm>;
-  newSkills: (Technology | SoftSkill)[] = [];
-
-  constructor(private fb: FormBuilder) {
-    this.employeeForm = this.fb.nonNullable.group({
-      name: ['', Validators.required],
-      surname: ['', Validators.required],
-      dateOfEmployment: [
-        formatDate(Date.now(), 'yyyy-MM-dd', 'en'),
-        Validators.required,
-      ],
-      manager: [null as EmployeeModel | null, Validators.required],
-      newSkill: null as Technology | SoftSkill | null,
-    });
-
-    this.employeeForm.controls.newSkill.valueChanges.subscribe((value) => {
-      for (const [key, techValue] of Object.entries(Technology)) {
-        if (techValue === value) {
-          const selectedTechnology = Technology[key as keyof typeof Technology];
-          this.newSkills.push(selectedTechnology);
-        }
-      }
-    });
-  }
-
-  get name() {
-    return this.employeeForm.get('name');
-  }
-
-  get surname() {
-    return this.employeeForm.get('surname');
-  }
-
-  get dateOfEmployment() {
-    return this.employeeForm.get('dateOfEmployment');
-  }
-
-  get manager() {
-    return this.employeeForm.get('manager');
-  }
-
-  getAvailableSkills(): (Technology | SoftSkill)[] {
-    const allSkills = Array.of<Technology | SoftSkill>(
-      ...Object.values(Technology),
-      ...Object.values(SoftSkill)
-    );
-
-    const employeeSkills = new Set<Technology | SoftSkill>(
-      this.employee?.skills ?? []
-    );
-
-    return allSkills.filter((skill) => !employeeSkills.has(skill));
-  }
-
-  onFormSubmit(): void {
-    if (this.employeeForm.invalid || !this.employee) return;
-    this.updateEmployee(this.employee, this.employeeForm);
-    this.newSkills = [];
-  }
-
-  private buildForm(employee: EmployeeModel): void {
-    this.employeeForm.setValue({
-      name: employee.name,
-      surname: employee.surname,
-      dateOfEmployment: formatDate(
-        employee.dateOfEmployment,
-        'yyyy-MM-dd',
-        'en'
-      ),
-      manager: employee.manager,
-      newSkill: null,
-    });
-  }
-
-  updateEmployee(
-    employee: EmployeeModel,
-    employeeForm: FormGroup<EmployeeDetailsForm>
-  ): void {
-    employee.name = employeeForm.value.name!;
-    employee.surname = employeeForm.value.surname!;
-    employee.dateOfEmployment = new Date(employeeForm.value.dateOfEmployment!);
-    employee.manager = employeeForm.value.manager!;
-    employee.skills = employee.skills.concat(this.newSkills);
-  }
-
-  protected isMissing(field: AbstractControl | null): boolean {
-    return (field?.invalid && field?.hasError('required')) ?? false;
+  onEditClicked() {
+    this.editEmployeeSelected.emit();
   }
 }
