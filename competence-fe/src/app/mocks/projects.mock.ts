@@ -1,14 +1,20 @@
 import { ProjectModel } from '../models/project.model';
+import { Technology } from '../constants/technology.enum';
 
 export const PROJECTS: ProjectModel[] = [
   {
     title: 'Jungle',
     description: 'Tropical fruits delivery system',
-    technologies: ['Angular', 'Java', 'Spring Boot'],
+    technologies: [Technology.ANGULAR, Technology.JAVA, Technology.SPRING_BOOT],
   },
   {
     title: 'EVO',
     description: 'Software for accountants',
-    technologies: ['React', 'PHP', 'Laravel', 'Supabase'],
+    technologies: [
+      Technology.REACT,
+      Technology.PHP,
+      Technology.LARAVEL,
+      Technology.SUPABASE,
+    ],
   },
 ];
