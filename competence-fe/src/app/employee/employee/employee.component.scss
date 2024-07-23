@@ -8,6 +8,10 @@ $info-section-row-gap: 0.5rem;
 $title-size: 2.5rem;
 $skill-padding: 1rem;
 
+$error-size: 1.2rem;
+$error-color: red;
+
+
 .employee {
   display: flex;
   flex-direction: column;
@@ -56,5 +60,10 @@ $skill-padding: 1rem;
     display: flex;
     flex-direction: column;
     row-gap: $info-section-row-gap;
+  }
+
+  &__error-message {
+    color: $error-color;
+    font-size: $error-size;
   }
 }

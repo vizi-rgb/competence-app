@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { EmployeeModel } from '../../models/employee.model';
 import { DatePipe, formatDate } from '@angular/common';
 import {
+  AbstractControl,
   FormBuilder,
   FormGroup,
   FormsModule,
@@ -67,6 +68,22 @@ export class EmployeeComponent {
     });
   }
 
+  get name() {
+    return this.employeeForm.get('name');
+  }
+
+  get surname() {
+    return this.employeeForm.get('surname');
+  }
+
+  get dateOfEmployment() {
+    return this.employeeForm.get('dateOfEmployment');
+  }
+
+  get manager() {
+    return this.employeeForm.get('manager');
+  }
+
   getAvailableSkills(): (Technology | SoftSkill)[] {
     const allSkills = Array.of<Technology | SoftSkill>(
       ...Object.values(Technology),
@@ -109,5 +126,9 @@ export class EmployeeComponent {
     employee.dateOfEmployment = new Date(employeeForm.value.dateOfEmployment!);
     employee.manager = employeeForm.value.manager!;
     employee.skills = employee.skills.concat(this.newSkills);
+  }
+
+  protected isMissing(field: AbstractControl | null): boolean {
+    return (field?.invalid && field?.hasError('required')) ?? false;
   }
 }

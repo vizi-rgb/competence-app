@@ -9,6 +9,9 @@
           id="name"
           placeholder="Imię"
           formControlName="name" />
+        @if (isMissing(name)) {
+          <span class="employee__error-message">Imię jest wymagane</span>
+        }
       </div>
 
       <div class="employee__section">
@@ -18,6 +21,9 @@
           id="surname"
           placeholder="Nazwisko"
           formControlName="surname" />
+        @if (isMissing(surname)) {
+          <span class="employee__error-message">Nazwisko jest wymagane</span>
+        }
       </div>
 
       <div class="employee__section">
@@ -30,6 +36,11 @@
           name="dateOfEmployment"
           type="date"
           formControlName="dateOfEmployment" />
+        @if (isMissing(dateOfEmployment)) {
+          <span class="employee__error-message">
+            Data zatrudnienia jest wymagana
+          </span>
+        }
       </div>
 
       <div class="employee__section">
@@ -41,6 +52,9 @@
             </option>
           }
         </select>
+        @if (isMissing(manager)) {
+          <span class="employee__error-message">Menedżer jest wymagany</span>
+        }
       </div>
 
       <div class="employee__section">
