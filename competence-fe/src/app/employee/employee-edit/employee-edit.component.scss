@@ -1,0 +1,80 @@
+$default-radius: 10px;
+
+$width: 40rem;
+$new-skill-width: 4rem;
+$default-gap: 3rem;
+$input-height: 1.5rem;
+$info-section-row-gap: 0.5rem;
+$title-size: 2.5rem;
+$skill-padding: 1rem;
+
+$error-size: 1.2rem;
+$error-color: red;
+
+
+.employee {
+  display: flex;
+  flex-direction: column;
+  row-gap: $default-gap;
+  width: $width;
+
+  &__title {
+    font-size: $title-size;
+  }
+
+  &__section {
+    display: flex;
+    flex-direction: column;
+    row-gap: $info-section-row-gap;
+
+    &-label {
+      font-weight: bold;
+    }
+
+    &-input {
+      height: $input-height;
+    }
+  }
+
+
+  &__skills-section {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: calc($skill-padding / 2) $skill-padding;
+  }
+
+  &__skill {
+    border: solid 2px black;
+    border-radius: $default-radius;
+    padding: calc($skill-padding / 2) $skill-padding calc($skill-padding / 2) $skill-padding;
+    margin: 0;
+  }
+
+  &__skill--empty {
+    background-color: lightgrey;
+    width: $new-skill-width;
+  }
+
+  &__projects {
+    display: flex;
+    flex-direction: column;
+    row-gap: $info-section-row-gap;
+  }
+
+  &__error-message {
+    color: $error-color;
+    font-size: $error-size;
+  }
+
+  &__button-section {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    column-gap: $info-section-row-gap;
+  }
+
+  &__button-secondary {
+    background-color: red;
+  }
+}
