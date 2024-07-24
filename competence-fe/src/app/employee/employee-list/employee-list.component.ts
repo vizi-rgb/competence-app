@@ -5,52 +5,78 @@ import { EmployeeComponent } from '../employee/employee.component';
 import { EmployeeEditComponent } from '../employee-edit/employee-edit.component';
 import { EmployeeService } from '../../services/employee.service';
 import { FormGroup } from '@angular/forms';
-import { EmployeeDetailsForm } from '../../forms/employee-details.form';
-import { UpdateEmployeeRequest } from '../../dto/employee-dto';
+import { EmployeeAddComponent } from '../employee-add/employee-add.component';
+
+enum Mode {
+  VIEW,
+  EDIT,
+  ADD,
+  NONE,
+}
 
 @Component({
   selector: 'app-employee-list',
   standalone: true,
-  imports: [EmployeeComponent, EmployeeEditComponent],
+  imports: [EmployeeComponent, EmployeeEditComponent, EmployeeAddComponent],
   templateUrl: './employee-list.component.html',
   styleUrl: './employee-list.component.scss',
 })
 export class EmployeeListComponent {
   readonly employees: EmployeeModel[] = EMPLOYEES;
   selectedEmployee?: EmployeeModel;
-  editEmployeeModeSelected = false;
+  selectedMode: Mode = Mode.NONE;
+  protected readonly Mode = Mode;
 
   constructor(private employeeService: EmployeeService) {}
 
-  onEmployeeSelect(employee: EmployeeModel) {
-    this.selectedEmployee =
-      this.selectedEmployee !== employee ? employee : undefined;
+  onEmployeeSelect(employee: EmployeeModel): void {
+    const isSameEmployee: boolean =
+      this.selectedEmployee != null && this.selectedEmployee === employee;
+
+    const isOnViewMode: boolean = this.selectedMode === Mode.VIEW;
+
+    if (isSameEmployee && isOnViewMode) {
+      this.selectedEmployee = undefined;
+      this.selectedMode = Mode.NONE;
+    } else {
+      this.selectedEmployee = employee;
+      this.selectedMode = Mode.VIEW;
+    }
   }
 
-  onEditEmployeeSelected() {
-    this.editEmployeeModeSelected = true;
+  onAddEmployeeSelected(): void {
+    if (this.selectedMode === Mode.ADD) {
+      this.selectedMode = this.selectedEmployee ? Mode.VIEW : Mode.NONE;
+    } else {
+      this.selectedMode = Mode.ADD;
+    }
   }
 
-  onEditCanceled() {
-    this.editEmployeeModeSelected = false;
+  onAddEmployeeCanceled(): void {
+    this.selectedMode = this.selectedEmployee ? Mode.VIEW : Mode.NONE;
   }
 
-  onEditFormSubmitted(payload: FormGroup<EmployeeDetailsForm>): void {
+  onAddEmployeeSubmitted(form: FormGroup): void {
+    const values = form.getRawValue();
+    this.employeeService.createEmployee(values);
+  }
+
+  onEditEmployeeSelected(): void {
+    this.selectedMode = Mode.EDIT;
+  }
+
+  onEditCanceled(): void {
+    this.selectedMode = Mode.VIEW;
+  }
+
+  onEditFormSubmitted(payload: FormGroup): void {
     if (!this.selectedEmployee) {
       return;
     }
 
     const formValues = payload.getRawValue();
 
-    const requestData: UpdateEmployeeRequest = {
-      name: formValues.name,
-      surname: formValues.surname,
-      manager: formValues.manager,
-      dateOfEmployment: new Date(formValues.dateOfEmployment),
-      skills: formValues.skills,
-    };
-
-    this.employeeService.updateEmployee(this.selectedEmployee.id, requestData);
-    this.editEmployeeModeSelected = false;
+    this.employeeService.updateEmployee(this.selectedEmployee.id, formValues);
+    this.selectedMode = Mode.VIEW;
   }
 }

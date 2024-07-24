@@ -1,5 +1,7 @@
 $button-border-radius: 7px;
 
+$add-button-size: 3rem;
+
 $column-gap: 3rem;
 $button-height: 2rem;
 $list-padding: 0.5rem;
@@ -43,6 +45,19 @@ $title-size: 2rem;
 
   &__title {
     font-size: $title-size;
+  }
+
+  &__add-button {
+    width: $add-button-size;
+    height: $add-button-size;
+    display: flex;
+    justify-content: center;
+
+    &--hover:hover {
+      width: calc(2 * $add-button-size);
+      transition-duration: 200ms;
+      transition-timing-function: ease-in-out;
+    }
   }
 
 }

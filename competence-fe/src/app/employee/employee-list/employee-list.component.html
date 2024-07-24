@@ -3,12 +3,20 @@
     <h1 class="employee-list__title">Lista pracowników</h1>
 
     <ul>
+      <li class="employee-list__element">
+        <button
+          class="employee-list__button employee-list__add-button employee-list__add-button--hover content"
+          (click)="onAddEmployeeSelected()">
+          <span>+</span>
+        </button>
+      </li>
       @for (employee of employees; track employee.id) {
         <li class="employee-list__element">
           <button
             class="employee-list__button employee-list__button--hover content"
             [class.employee-list__button--selected]="
-              employee === selectedEmployee
+              employee === selectedEmployee &&
+              (selectedMode === Mode.VIEW || selectedMode === Mode.EDIT)
             "
             (click)="onEmployeeSelect(employee)">
             <span>{{ $index + 1 }}.</span>
@@ -19,18 +27,29 @@
     </ul>
   </div>
 
-  @if (selectedEmployee) {
-    <div class="employee-list__overview">
-      @if (editEmployeeModeSelected) {
+  @switch (selectedMode) {
+    @case (Mode.VIEW) {
+      <div class="employee-list__overview">
+        <app-employee
+          [employee]="selectedEmployee"
+          (editEmployeeSelected)="onEditEmployeeSelected()"></app-employee>
+      </div>
+    }
+    @case (Mode.EDIT) {
+      <div class="employee-list__overview">
         <app-employee-edit
           [employee]="selectedEmployee"
           (editCanceled)="onEditCanceled()"
           (formSubmitted)="onEditFormSubmitted($event)"></app-employee-edit>
-      } @else {
-        <app-employee
-          [employee]="selectedEmployee"
-          (editEmployeeSelected)="onEditEmployeeSelected()"></app-employee>
-      }
-    </div>
+      </div>
+    }
+    @case (Mode.ADD) {
+      <div class="employee-list__overview">
+        <app-employee-add
+          (submitted)="onAddEmployeeSubmitted($event)"
+          (canceled)="onAddEmployeeCanceled()"></app-employee-add>
+      </div>
+    }
+    @default {}
   }
 </div>

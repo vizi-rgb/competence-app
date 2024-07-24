@@ -1,5 +1,7 @@
 <div class="employee content">
-  <h1 class="employee__title">Dane pracownika</h1>
+  <h1 class="employee__title">
+    Dane {{ employee?.manager ? 'pracownika' : 'managera' }}
+  </h1>
   @if (employee) {
     <div class="employee__section">
       <label class="employee__section-label" for="name">Imię</label>
@@ -28,12 +30,14 @@
       </p>
     </div>
 
-    <div class="employee__section">
-      <label class="employee__section-label" for="manager">Menedżer</label>
-      <p id="manager">
-        {{ employee.manager?.name + ' ' + employee.manager?.surname }}
-      </p>
-    </div>
+    @if (employee.manager) {
+      <div class="employee__section">
+        <label class="employee__section-label" for="manager">Menedżer</label>
+        <p id="manager">
+          {{ employee.manager?.name + ' ' + employee.manager?.surname }}
+        </p>
+      </div>
+    }
 
     <div class="employee__section">
       <label class="employee__section-label" for="skills">Umiejętności</label>

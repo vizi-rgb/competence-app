@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
-import { UpdateEmployeeRequest } from '../dto/employee-dto';
+import {
+  CreateEmployeeRequest,
+  UpdateEmployeeRequest,
+} from '../dto/employee-dto';
 import { EmployeeModel } from '../models/employee.model';
 import { EMPLOYEES } from '../mocks/employees.mock';
 
@@ -10,12 +13,24 @@ export class EmployeeService {
   private employees: EmployeeModel[] = EMPLOYEES;
 
   updateEmployee(id: string, payload: UpdateEmployeeRequest) {
-    const employee = this.employees.find((employee) => employee.id === id);
+    const employee: EmployeeModel | undefined = this.employees.find(
+      (employee: EmployeeModel) => employee.id === id
+    );
+
     if (!employee) {
       throw new Error('Employee not found');
     }
 
     this.doPartialUpdateOnEmployee(employee, payload);
+  }
+
+  createEmployee(payload: CreateEmployeeRequest) {
+    const newEmployee: EmployeeModel = {
+      id: crypto.randomUUID(),
+      ...payload,
+    };
+
+    EMPLOYEES.push(newEmployee);
   }
 
   private doPartialUpdateOnEmployee(
@@ -40,6 +55,10 @@ export class EmployeeService {
 
     if (payload.skills) {
       employee.skills = payload.skills;
+    }
+
+    if (payload.projects) {
+      employee.projects = payload.projects;
     }
   }
 }

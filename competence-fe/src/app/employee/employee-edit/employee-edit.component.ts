@@ -2,23 +2,28 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { EmployeeModel } from '../../models/employee.model';
 import { MANAGERS } from '../../mocks/managers.mock';
 import {
-  AbstractControl,
   FormArray,
   FormBuilder,
   FormGroup,
+  FormsModule,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { EmployeeDetailsForm } from '../../forms/employee-details.form';
-import { Technology } from '../../constants/technology.enum';
-import { SoftSkill } from '../../constants/soft-skill.enum';
 import { formatDate } from '@angular/common';
 import { EmployeeProjectComponent } from '../employee-project/employee-project.component';
+import {
+  getAvailableProjects,
+  getAvailableSkills,
+  getValueFromHtmlSelect,
+  isMissing,
+} from '../../util/employee.util';
+import { ProjectModel } from '../../models/project.model';
+import { PROJECTS } from '../../mocks/projects.mock';
 
 @Component({
   selector: 'app-employee-edit',
   standalone: true,
-  imports: [EmployeeProjectComponent, ReactiveFormsModule],
+  imports: [EmployeeProjectComponent, ReactiveFormsModule, FormsModule],
   templateUrl: './employee-edit.component.html',
   styleUrl: './employee-edit.component.scss',
 })
@@ -39,11 +44,11 @@ export class EmployeeEditComponent {
   editCanceled = new EventEmitter<void>();
 
   @Output()
-  formSubmitted = new EventEmitter<FormGroup<EmployeeDetailsForm>>();
+  formSubmitted = new EventEmitter<FormGroup>();
 
   private _employee?: EmployeeModel;
   managers: EmployeeModel[] = MANAGERS;
-  employeeForm: FormGroup<EmployeeDetailsForm>;
+  employeeForm: FormGroup;
 
   constructor(private fb: FormBuilder) {
     this.employeeForm = this.fb.nonNullable.group({
@@ -53,11 +58,9 @@ export class EmployeeEditComponent {
         formatDate(Date.now(), 'yyyy-MM-dd', 'en'),
         Validators.required,
       ],
-      manager: [null as EmployeeModel | null, Validators.required],
-      skills: this.fb.nonNullable.array([
-        Technology.PHP,
-        SoftSkill.MANAGING_PROJECTS,
-      ]),
+      manager: [null],
+      skills: this.fb.nonNullable.array([]),
+      projects: this.fb.nonNullable.array([]),
     });
   }
 
@@ -81,31 +84,24 @@ export class EmployeeEditComponent {
     return this.employeeForm.get('skills') as FormArray;
   }
 
+  get projects() {
+    return this.employeeForm.get('projects') as FormArray;
+  }
+
   deleteSkill(index: number): void {
     this.skills.removeAt(index);
   }
 
   addSkill(skill: string): void {
-    for (const [key, techValue] of Object.entries(Technology)) {
-      if (techValue === skill) {
-        const selectedTechnology = Technology[key as keyof typeof Technology];
-        console.log(selectedTechnology);
-        this.skills.push(this.fb.nonNullable.control(selectedTechnology));
-      }
-    }
+    this.skills.push(this.fb.nonNullable.control(skill));
   }
 
-  getAvailableSkills(): (Technology | SoftSkill)[] {
-    const allSkills = Array.of<Technology | SoftSkill>(
-      ...Object.values(Technology),
-      ...Object.values(SoftSkill)
-    );
+  deleteProject(index: number): void {
+    this.projects.removeAt(index);
+  }
 
-    const employeeSkills = new Set<Technology | SoftSkill>(
-      this.skills.getRawValue()
-    );
-
-    return allSkills.filter((skill) => !employeeSkills.has(skill));
+  addProject(project: ProjectModel): void {
+    this.projects.push(this.fb.nonNullable.control(project));
   }
 
   onSubmit(): void {
@@ -117,13 +113,19 @@ export class EmployeeEditComponent {
   }
 
   onSkillSelect(event: Event): void {
-    const selectElement = event.target as HTMLSelectElement;
-    console.log(selectElement);
-    this.addSkill(selectElement.value);
+    const skill: string = getValueFromHtmlSelect(event);
+    this.addSkill(skill);
   }
 
-  protected isMissing(field: AbstractControl | null): boolean {
-    return (field?.invalid && field?.hasError('required')) ?? false;
+  onProjectSelect(event: Event): void {
+    const projectTitle: string = getValueFromHtmlSelect(event);
+    const project: ProjectModel | undefined = PROJECTS.find(
+      (project: ProjectModel) => project.title === projectTitle
+    );
+
+    if (project) {
+      this.addProject(project);
+    }
   }
 
   private updateForm(employee: EmployeeModel): void {
@@ -142,5 +144,14 @@ export class EmployeeEditComponent {
       'skills',
       this.fb.nonNullable.array(employee.skills)
     );
+
+    this.employeeForm.setControl(
+      'projects',
+      this.fb.nonNullable.array(employee.projects)
+    );
   }
+
+  protected readonly getAvailableSkills = getAvailableSkills;
+  protected readonly isMissing = isMissing;
+  protected readonly getAvailableProjects = getAvailableProjects;
 }
