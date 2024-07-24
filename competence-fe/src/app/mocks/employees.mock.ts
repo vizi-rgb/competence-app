@@ -4,6 +4,7 @@ import { PROJECTS } from './projects.mock';
 import { Technology } from '../constants/technology.enum';
 
 const defaultManager: EmployeeModel = MANAGERS[0]!;
+const defaultProjects = [PROJECTS[0], PROJECTS[1]];
 
 export const EMPLOYEES: EmployeeModel[] = [
   {
@@ -21,7 +22,7 @@ export const EMPLOYEES: EmployeeModel[] = [
       Technology.KAFKA,
       Technology.TERRAFORM,
     ],
-    projects: [...PROJECTS],
+    projects: [...defaultProjects],
   },
   {
     id: '2bd7738d-5g40-56b1-c4b0-9ffe60d9b9cd',
@@ -37,7 +38,7 @@ export const EMPLOYEES: EmployeeModel[] = [
       Technology.DOCKER,
       Technology.GRAPHQL,
     ],
-    projects: [...PROJECTS],
+    projects: [...defaultProjects],
   },
   {
     id: '3ce8849e-6h51-67c2-d5c1-0gga71e0e0de',
@@ -46,7 +47,7 @@ export const EMPLOYEES: EmployeeModel[] = [
     dateOfEmployment: new Date(2020, 4, 20),
     manager: defaultManager,
     skills: [Technology.VUE_JS, Technology.RUBY_ON_RAILS],
-    projects: [...PROJECTS],
+    projects: [...defaultProjects],
   },
   {
     id: '4df995af-7i62-78d3-e6d2-1hhb82f1f1ef',
@@ -63,7 +64,7 @@ export const EMPLOYEES: EmployeeModel[] = [
       Technology.ELASTICSEARCH,
       Technology.AZURE,
     ],
-    projects: [...PROJECTS],
+    projects: [...defaultProjects],
   },
   {
     id: '5egaa6b0-8j73-89e4-f7e3-2iic93g2g2gf',
@@ -80,7 +81,7 @@ export const EMPLOYEES: EmployeeModel[] = [
       Technology.JIRA,
       Technology.FIREBASE,
     ],
-    projects: [...PROJECTS],
+    projects: [...defaultProjects],
   },
   {
     id: '6fhhb7c1-9k84-90f5-g8f4-3jkd04h3h3hg',
@@ -97,7 +98,7 @@ export const EMPLOYEES: EmployeeModel[] = [
       Technology.PROMETHEUS,
       Technology.CIRCLECI,
     ],
-    projects: [...PROJECTS],
+    projects: [...defaultProjects],
   },
   {
     id: '7giic8d2-0l95-01g6-h9g5-4kle15i4i4ih',
@@ -114,7 +115,7 @@ export const EMPLOYEES: EmployeeModel[] = [
       Technology.LOGSTASH,
       Technology.HEROKU,
     ],
-    projects: [...PROJECTS],
+    projects: [...defaultProjects],
   },
   {
     id: '8hjjd9e3-1m06-12h7-i0h6-5lmf26j5j5ji',
@@ -131,7 +132,7 @@ export const EMPLOYEES: EmployeeModel[] = [
       Technology.FLUENTD,
       Technology.DIGITALOCEAN,
     ],
-    projects: [...PROJECTS],
+    projects: [...defaultProjects],
   },
   {
     id: '9ikkf0f4-2n17-23i8-j1i7-6mng37k6k6kj',
@@ -148,7 +149,7 @@ export const EMPLOYEES: EmployeeModel[] = [
       Technology.GRAFANA,
       Technology.NETLIFY,
     ],
-    projects: [...PROJECTS],
+    projects: [...defaultProjects],
   },
   {
     id: '0jllg1g5-3o28-34j9-k2j8-7noh48l7l7lk',
@@ -165,6 +166,6 @@ export const EMPLOYEES: EmployeeModel[] = [
       Technology.SPLUNK,
       Technology.VERCEL,
     ],
-    projects: [...PROJECTS],
+    projects: [...defaultProjects],
   },
 ];
