@@ -1,7 +1,7 @@
-import { EmployeeModel } from '../models/employee.model';
+import { EmployeeModel } from '../features/employee/models/employee.model';
 import { MANAGERS } from './managers.mock';
 import { PROJECTS } from './projects.mock';
-import { Technology } from '../constants/technology.enum';
+import { Technology } from '../core/constants/technology.enum';
 
 const defaultManager: EmployeeModel = MANAGERS[0]!;
 const defaultProjects = [PROJECTS[0], PROJECTS[1]];
