@@ -9,7 +9,7 @@
           id="name"
           placeholder="Imię"
           formControlName="name" />
-        @if (isMissing(name)) {
+        @if (isMissing(nameControl)) {
           <span class="employee__error-message">Imię jest wymagane</span>
         }
       </div>
@@ -21,7 +21,7 @@
           id="surname"
           placeholder="Nazwisko"
           formControlName="surname" />
-        @if (isMissing(surname)) {
+        @if (isMissing(surnameControl)) {
           <span class="employee__error-message">Nazwisko jest wymagane</span>
         }
       </div>
@@ -36,7 +36,7 @@
           name="dateOfEmployment"
           type="date"
           formControlName="dateOfEmployment" />
-        @if (isMissing(dateOfEmployment)) {
+        @if (isMissing(dateOfEmploymentControl)) {
           <span class="employee__error-message">
             Data zatrudnienia jest wymagana
           </span>
@@ -57,7 +57,7 @@
       <div class="employee__section">
         <label class="employee__section-label" for="skills">Umiejętności</label>
         <div class="employee__skills-section" id="skills">
-          @for (skill of skills.controls; track $index) {
+          @for (skill of skillsControl.controls; track $index) {
             <button
               type="button"
               (click)="deleteSkill($index)"
@@ -72,7 +72,7 @@
             (change)="onSkillSelect($event)">
             <option>Dodaj</option>
             @for (
-              skill of getAvailableSkills(skills.getRawValue());
+              skill of getAvailableSkills(skillsControl.getRawValue());
               track skill
             ) {
               <option [ngValue]="skill">
@@ -88,7 +88,7 @@
         <select (change)="onProjectSelect($event)">
           <option></option>
           @for (
-            project of getAvailableProjects(projects.getRawValue());
+            project of getAvailableProjects(projectsControl.getRawValue());
             track project
           ) {
             <option [ngValue]="project.title">
@@ -97,7 +97,7 @@
           }
         </select>
         <div id="projects" class="employee__projects">
-          @for (project of projects.controls; track project) {
+          @for (project of projectsControl.controls; track project) {
             <app-employee-project
               [project]="project.value"
               (click)="deleteProject($index)"></app-employee-project>

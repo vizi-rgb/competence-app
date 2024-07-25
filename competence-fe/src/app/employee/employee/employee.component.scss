@@ -49,11 +49,11 @@ $error-color: red;
     border-radius: $default-radius;
     padding: calc($skill-padding / 2) $skill-padding calc($skill-padding / 2) $skill-padding;
     margin: 0;
-  }
 
-  &__skill--empty {
-    background-color: lightgrey;
-    width: $new-skill-width;
+    &--empty {
+      background-color: lightgrey;
+      width: $new-skill-width;
+    }
   }
 
   &__projects {

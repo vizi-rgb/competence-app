@@ -37,6 +37,11 @@ export class EmployeeAddComponent {
   form: FormGroup;
   managers: EmployeeModel[] = MANAGERS;
 
+  protected readonly getAvailableSkills = getAvailableSkills;
+  protected readonly isMissing = isMissing;
+  protected readonly isModifiedAndInvalid = isModifiedAndInvalid;
+  protected readonly getAvailableProjects = getAvailableProjects;
+
   constructor(private fb: FormBuilder) {
     this.form = fb.nonNullable.group({
       name: ['', Validators.required],
@@ -48,27 +53,27 @@ export class EmployeeAddComponent {
     });
   }
 
-  get name() {
+  get nameControl() {
     return this.form.get('name');
   }
 
-  get surname() {
+  get surnameControl() {
     return this.form.get('surname');
   }
 
-  get dateOfEmployment() {
+  get dateOfEmploymentControl() {
     return this.form.get('dateOfEmployment');
   }
 
-  get manager() {
+  get managerControl() {
     return this.form.get('manager');
   }
 
-  get skills() {
+  get skillsControl() {
     return this.form.get('skills') as FormArray;
   }
 
-  get projects() {
+  get projectsControl() {
     return this.form.get('projects') as FormArray;
   }
 
@@ -83,16 +88,16 @@ export class EmployeeAddComponent {
 
   onClear(): void {
     this.form.reset();
-    this.skills.clear();
-    this.projects.clear();
+    this.skillsControl.clear();
+    this.projectsControl.clear();
   }
 
   addSkill(skill: string): void {
-    this.skills.push(this.fb.nonNullable.control(skill));
+    this.skillsControl.push(this.fb.nonNullable.control(skill));
   }
 
   deleteSkill(index: number): void {
-    this.skills.removeAt(index);
+    this.skillsControl.removeAt(index);
   }
 
   onSkillSelect(event: Event): void {
@@ -101,11 +106,11 @@ export class EmployeeAddComponent {
   }
 
   addProject(project: ProjectModel): void {
-    this.projects.push(this.fb.nonNullable.control(project));
+    this.projectsControl.push(this.fb.nonNullable.control(project));
   }
 
   deleteProject(index: number): void {
-    this.projects.removeAt(index);
+    this.projectsControl.removeAt(index);
   }
 
   onProjectSelect(event: Event): void {
@@ -117,9 +122,4 @@ export class EmployeeAddComponent {
       this.addProject(project);
     }
   }
-
-  protected readonly getAvailableSkills = getAvailableSkills;
-  protected readonly isMissing = isMissing;
-  protected readonly isModifiedAndInvalid = isModifiedAndInvalid;
-  protected readonly getAvailableProjects = getAvailableProjects;
 }

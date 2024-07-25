@@ -11,6 +11,11 @@ $skill-padding: 1rem;
 $error-size: 1.2rem;
 $error-color: red;
 
+$skill-border-color: black;
+$skill-empty-bg: lightgray;
+
+$secondary-btn-bg-color: red;
+
 
 .employee {
   display: flex;
@@ -45,15 +50,15 @@ $error-color: red;
   }
 
   &__skill {
-    border: solid 2px black;
+    border: solid 2px $skill-border-color;
     border-radius: $default-radius;
     padding: calc($skill-padding / 2) $skill-padding calc($skill-padding / 2) $skill-padding;
     margin: 0;
-  }
 
-  &__skill--empty {
-    background-color: lightgrey;
-    width: $new-skill-width;
+    &--empty {
+      background-color: $skill-empty-bg;
+      width: $new-skill-width;
+    }
   }
 
   &__projects {
@@ -75,6 +80,6 @@ $error-color: red;
   }
 
   &__button-secondary {
-    background-color: red;
+    background-color: $secondary-btn-bg-color;
   }
 }

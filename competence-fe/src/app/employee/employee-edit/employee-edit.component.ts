@@ -46,9 +46,14 @@ export class EmployeeEditComponent {
   @Output()
   formSubmitted = new EventEmitter<FormGroup>();
 
-  private _employee?: EmployeeModel;
   managers: EmployeeModel[] = MANAGERS;
   employeeForm: FormGroup;
+
+  protected readonly getAvailableSkills = getAvailableSkills;
+  protected readonly isMissing = isMissing;
+  protected readonly getAvailableProjects = getAvailableProjects;
+
+  private _employee?: EmployeeModel;
 
   constructor(private fb: FormBuilder) {
     this.employeeForm = this.fb.nonNullable.group({
@@ -64,44 +69,44 @@ export class EmployeeEditComponent {
     });
   }
 
-  get name() {
+  get nameControl() {
     return this.employeeForm.get('name');
   }
 
-  get surname() {
+  get surnameControl() {
     return this.employeeForm.get('surname');
   }
 
-  get dateOfEmployment() {
+  get dateOfEmploymentControl() {
     return this.employeeForm.get('dateOfEmployment');
   }
 
-  get manager() {
+  get managerControl() {
     return this.employeeForm.get('manager');
   }
 
-  get skills() {
+  get skillsControl() {
     return this.employeeForm.get('skills') as FormArray;
   }
 
-  get projects() {
+  get projectsControl() {
     return this.employeeForm.get('projects') as FormArray;
   }
 
   deleteSkill(index: number): void {
-    this.skills.removeAt(index);
+    this.skillsControl.removeAt(index);
   }
 
   addSkill(skill: string): void {
-    this.skills.push(this.fb.nonNullable.control(skill));
+    this.skillsControl.push(this.fb.nonNullable.control(skill));
   }
 
   deleteProject(index: number): void {
-    this.projects.removeAt(index);
+    this.projectsControl.removeAt(index);
   }
 
   addProject(project: ProjectModel): void {
-    this.projects.push(this.fb.nonNullable.control(project));
+    this.projectsControl.push(this.fb.nonNullable.control(project));
   }
 
   onSubmit(): void {
@@ -150,8 +155,4 @@ export class EmployeeEditComponent {
       this.fb.nonNullable.array(employee.projects)
     );
   }
-
-  protected readonly getAvailableSkills = getAvailableSkills;
-  protected readonly isMissing = isMissing;
-  protected readonly getAvailableProjects = getAvailableProjects;
 }

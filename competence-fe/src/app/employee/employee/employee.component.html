@@ -5,14 +5,14 @@
   @if (employee) {
     <div class="employee__section">
       <label class="employee__section-label" for="name">Imię</label>
-      <p class="employee__section-input" id="name" placeholder="Imię">
+      <p class="employee__section-input" id="name">
         {{ employee.name }}
       </p>
     </div>
 
     <div class="employee__section">
       <label class="employee__section-label" for="surname">Nazwisko</label>
-      <p class="employee__section-input" id="surname" placeholder="Nazwisko">
+      <p class="employee__section-input" id="surname">
         {{ employee.surname }}
       </p>
     </div>
@@ -21,11 +21,7 @@
       <label class="employee__section-label" for="dateOfEmployment">
         Data zatrudnienia
       </label>
-      <p
-        class="employee__section-input"
-        id="dateOfEmployment"
-        name="dateOfEmployment"
-        type="date">
+      <p class="employee__section-input" id="dateOfEmployment" type="date">
         {{ employee.dateOfEmployment | date: 'dd.MM.yyyy' }}
       </p>
     </div>
@@ -34,7 +30,7 @@
       <div class="employee__section">
         <label class="employee__section-label" for="manager">Menedżer</label>
         <p id="manager">
-          {{ employee.manager?.name + ' ' + employee.manager?.surname }}
+          {{ employee.manager.name + ' ' + employee.manager.surname }}
         </p>
       </div>
     }
