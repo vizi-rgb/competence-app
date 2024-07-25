@@ -1,0 +1,130 @@
+<form (ngSubmit)="onSubmit()" [formGroup]="form">
+  <div class="employee content">
+    <h1 class="employee__title">Dodaj pracownika</h1>
+    <div class="employee__section">
+      <label class="employee__section-label" for="name">Imię</label>
+      <input
+        class="employee__section-input"
+        id="name"
+        placeholder="Imię"
+        formControlName="name" />
+      @if (isModifiedAndInvalid(nameControl) && isMissing(nameControl)) {
+        <span class="employee__error-message">Imię jest wymagane</span>
+      }
+    </div>
+
+    <div class="employee__section">
+      <label class="employee__section-label" for="surname">Nazwisko</label>
+      <input
+        class="employee__section-input"
+        id="surname"
+        placeholder="Nazwisko"
+        formControlName="surname" />
+      @if (isModifiedAndInvalid(surnameControl) && isMissing(surnameControl)) {
+        <span class="employee__error-message">Nazwisko jest wymagane</span>
+      }
+    </div>
+
+    <div class="employee__section">
+      <label class="employee__section-label" for="dateOfEmployment">
+        Data zatrudnienia
+      </label>
+      <input
+        class="employee__section-input"
+        id="dateOfEmployment"
+        name="dateOfEmployment"
+        type="date"
+        formControlName="dateOfEmployment" />
+      @if (
+        isModifiedAndInvalid(dateOfEmploymentControl) &&
+        isMissing(dateOfEmploymentControl)
+      ) {
+        <span class="employee__error-message">
+          Data zatrudnienia jest wymagana
+        </span>
+      }
+    </div>
+
+    <div class="employee__section">
+      <label class="employee__section-label" for="manager">Menedżer</label>
+      <select id="manager" formControlName="manager">
+        @for (manager of managers; track manager.id) {
+          <option [ngValue]="manager">
+            {{ manager.name + ' ' + manager.surname }}
+          </option>
+        }
+      </select>
+    </div>
+
+    <div class="employee__section">
+      <label class="employee__section-label" for="skills">Umiejętności</label>
+      <div class="employee__skills-section" id="skills">
+        @for (skill of skillsControl.controls; track $index) {
+          <button
+            type="button"
+            (click)="deleteSkill($index)"
+            class="employee__skill">
+            {{ skill.value }}
+          </button>
+        }
+        <select
+          class="employee__skill employee__skill--empty"
+          title="Dodaj nową umiejętność"
+          formArrayName="skills"
+          (change)="onSkillSelect($event)">
+          <option>Dodaj</option>
+          @for (
+            skill of getAvailableSkills(skillsControl.getRawValue());
+            track skill
+          ) {
+            <option [ngValue]="skill">
+              {{ skill }}
+            </option>
+          }
+        </select>
+      </div>
+    </div>
+
+    <div class="employee__section">
+      <label class="employee__section-label" for="projects">Projekty</label>
+      <select (change)="onProjectSelect($event)">
+        <option></option>
+        @for (
+          project of getAvailableProjects(projectsControl.getRawValue());
+          track project
+        ) {
+          <option [ngValue]="project.title">
+            {{ project.title }}
+          </option>
+        }
+      </select>
+      <div id="projects" class="employee__projects">
+        @for (project of projectsControl.controls; track project) {
+          <app-employee-project
+            [project]="project.value"
+            (click)="deleteProject($index)"></app-employee-project>
+        }
+      </div>
+    </div>
+
+    <div class="employee__button-section">
+      <button
+        type="submit"
+        class="employee__button-primary"
+        [disabled]="form.invalid">
+        Dodaj
+      </button>
+
+      <button
+        class="employee__button-secondary"
+        type="button"
+        (click)="onCancel()">
+        Anuluj
+      </button>
+    </div>
+
+    <div class="employee__button-section">
+      <button type="button" (click)="onClear()">Wyczyść</button>
+    </div>
+  </div>
+</form>

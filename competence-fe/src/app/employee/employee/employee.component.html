@@ -1,55 +1,45 @@
 <div class="employee content">
-  <h1 class="employee__title">Dane pracownika</h1>
+  <h1 class="employee__title">
+    Dane {{ employee?.manager ? 'pracownika' : 'managera' }}
+  </h1>
   @if (employee) {
     <div class="employee__section">
       <label class="employee__section-label" for="name">Imię</label>
-      <input
-        class="employee__section-input"
-        id="name"
-        placeholder="Imię"
-        [(ngModel)]="employee.name" />
+      <p class="employee__section-input" id="name">
+        {{ employee.name }}
+      </p>
     </div>
 
     <div class="employee__section">
       <label class="employee__section-label" for="surname">Nazwisko</label>
-      <input
-        class="employee__section-input"
-        id="surname"
-        placeholder="Nazwisko"
-        [(ngModel)]="employee.surname" />
+      <p class="employee__section-input" id="surname">
+        {{ employee.surname }}
+      </p>
     </div>
 
     <div class="employee__section">
       <label class="employee__section-label" for="dateOfEmployment">
         Data zatrudnienia
       </label>
-      <input
-        class="employee__section-input"
-        id="dateOfEmployment"
-        name="dateOfEmployment"
-        type="date"
-        [ngModel]="employee.dateOfEmployment | date: 'yyyy-MM-dd'"
-        (ngModelChange)="onDateOfEmploymentChange($event)" />
+      <p class="employee__section-input" id="dateOfEmployment" type="date">
+        {{ employee.dateOfEmployment | date: 'dd.MM.yyyy' }}
+      </p>
     </div>
 
-    <div class="employee__section">
-      <label class="employee__section-label" for="manager">Menedżer</label>
-      <select id="manager" [(ngModel)]="employee.manager">
-        @for (manager of managers; track manager.id) {
-          <option [ngValue]="manager">
-            {{ manager.name + ' ' + manager.surname }}
-          </option>
-        }
-      </select>
-    </div>
+    @if (employee.manager) {
+      <div class="employee__section">
+        <label class="employee__section-label" for="manager">Menedżer</label>
+        <p id="manager">
+          {{ employee.manager.name + ' ' + employee.manager.surname }}
+        </p>
+      </div>
+    }
 
     <div class="employee__section">
       <label class="employee__section-label" for="skills">Umiejętności</label>
       <div class="employee__skills-section" id="skills">
-        @for (_ of employee.skills; track $index) {
-          <input
-            class="employee__skill"
-            [(ngModel)]="employee.skills[$index]" />
+        @for (skill of employee.skills; track $index) {
+          <p class="employee__skill">{{ skill }}</p>
         }
       </div>
     </div>
@@ -62,5 +52,7 @@
         }
       </div>
     </div>
+
+    <button (click)="onEditClicked()">Edytuj dane pracownika</button>
   }
 </div>
