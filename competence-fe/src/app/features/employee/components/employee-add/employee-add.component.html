@@ -8,7 +8,7 @@
       <input
         class="employee__section-input"
         id="name"
-        placeholder="Imię"
+        [placeholder]="'employee.label.name' | translate"
         formControlName="name" />
       @if (isModifiedAndInvalid(nameControl) && isMissing(nameControl)) {
         <span class="employee__error-message">
@@ -24,7 +24,7 @@
       <input
         class="employee__section-input"
         id="surname"
-        placeholder="Nazwisko"
+        [placeholder]="'employee.label.surname' | translate"
         formControlName="surname" />
       @if (isModifiedAndInvalid(surnameControl) && isMissing(surnameControl)) {
         <span class="employee__error-message">
