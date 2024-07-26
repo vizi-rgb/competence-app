@@ -1,5 +1,5 @@
-import { ProjectModel } from '../models/project.model';
-import { Technology } from '../constants/technology.enum';
+import { ProjectModel } from '../features/employee/models/project.model';
+import { Technology } from '../core/constants/technology.enum';
 
 export const PROJECTS: ProjectModel[] = [
   {

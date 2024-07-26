@@ -1,7 +1,7 @@
 import { PROJECTS } from './projects.mock';
-import { EmployeeModel } from '../models/employee.model';
-import { Technology } from '../constants/technology.enum';
-import { SoftSkill } from '../constants/soft-skill.enum';
+import { EmployeeModel } from '../features/employee/models/employee.model';
+import { Technology } from '../core/constants/technology.enum';
+import { SoftSkill } from '../core/constants/soft-skill.enum';
 
 export const MANAGERS: EmployeeModel[] = [
   {

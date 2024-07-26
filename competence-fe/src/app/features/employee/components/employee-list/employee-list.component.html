@@ -30,9 +30,11 @@
   @switch (selectedMode) {
     @case (Mode.VIEW) {
       <div class="employee-list__overview">
-        <app-employee
+        <app-employee-details
           [employee]="selectedEmployee"
-          (editEmployeeSelected)="onEditEmployeeSelected()"></app-employee>
+          (editEmployeeSelected)="
+            onEditEmployeeSelected()
+          "></app-employee-details>
       </div>
     }
     @case (Mode.EDIT) {

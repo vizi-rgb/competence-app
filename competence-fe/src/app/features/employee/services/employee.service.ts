@@ -4,7 +4,7 @@ import {
   UpdateEmployeeRequest,
 } from '../dto/employee-dto';
 import { EmployeeModel } from '../models/employee.model';
-import { EMPLOYEES } from '../mocks/employees.mock';
+import { EMPLOYEES } from '../../../mocks/employees.mock';
 
 @Injectable({
   providedIn: 'root',

@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import { EmployeeModel } from '../../models/employee.model';
-import { EMPLOYEES } from '../../mocks/employees.mock';
-import { EmployeeComponent } from '../employee/employee.component';
+import { EmployeeDetailsComponent } from '../employee-details/employee-details.component';
 import { EmployeeEditComponent } from '../employee-edit/employee-edit.component';
-import { EmployeeService } from '../../services/employee.service';
 import { FormGroup } from '@angular/forms';
 import { EmployeeAddComponent } from '../employee-add/employee-add.component';
+import { EmployeeModel } from '../../models/employee.model';
+import { EMPLOYEES } from '../../../../mocks/employees.mock';
+import { EmployeeService } from '../../services/employee.service';
 
 enum Mode {
   VIEW,
@@ -17,7 +17,11 @@ enum Mode {
 @Component({
   selector: 'app-employee-list',
   standalone: true,
-  imports: [EmployeeComponent, EmployeeEditComponent, EmployeeAddComponent],
+  imports: [
+    EmployeeDetailsComponent,
+    EmployeeEditComponent,
+    EmployeeAddComponent,
+  ],
   templateUrl: './employee-list.component.html',
   styleUrl: './employee-list.component.scss',
 })

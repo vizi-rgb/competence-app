@@ -1,6 +1,4 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { EmployeeModel } from '../../models/employee.model';
-import { MANAGERS } from '../../mocks/managers.mock';
 import {
   FormArray,
   FormBuilder,
@@ -11,14 +9,16 @@ import {
 } from '@angular/forms';
 import { formatDate } from '@angular/common';
 import { EmployeeProjectComponent } from '../employee-project/employee-project.component';
+import { EmployeeModel } from '../../models/employee.model';
+import { MANAGERS } from '../../../../mocks/managers.mock';
 import {
   getAvailableProjects,
   getAvailableSkills,
-  getValueFromHtmlSelect,
-  isMissing,
-} from '../../util/employee.util';
+} from '../../../../shared/util/employee.util';
+import { isMissing } from '../../../../shared/util/validation.util';
+import { getValueFromHtmlSelect } from '../../../../shared/util/html-select.util';
 import { ProjectModel } from '../../models/project.model';
-import { PROJECTS } from '../../mocks/projects.mock';
+import { PROJECTS } from '../../../../mocks/projects.mock';
 
 @Component({
   selector: 'app-employee-edit',

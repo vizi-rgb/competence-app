@@ -1,11 +1,11 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { EmployeeModel } from '../../models/employee.model';
 import { DatePipe } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EmployeeProjectComponent } from '../employee-project/employee-project.component';
+import { EmployeeModel } from '../../models/employee.model';
 
 @Component({
-  selector: 'app-employee',
+  selector: 'app-employee-details',
   standalone: true,
   imports: [
     DatePipe,
@@ -13,10 +13,10 @@ import { EmployeeProjectComponent } from '../employee-project/employee-project.c
     EmployeeProjectComponent,
     ReactiveFormsModule,
   ],
-  templateUrl: './employee.component.html',
-  styleUrl: './employee.component.scss',
+  templateUrl: './employee-details.component.html',
+  styleUrl: './employee-details.component.scss',
 })
-export class EmployeeComponent {
+export class EmployeeDetailsComponent {
   @Input()
   employee?: EmployeeModel;
 

@@ -8,17 +8,19 @@ import {
 } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { EmployeeProjectComponent } from '../employee-project/employee-project.component';
+import { ProjectModel } from '../../models/project.model';
 import { EmployeeModel } from '../../models/employee.model';
-import { MANAGERS } from '../../mocks/managers.mock';
+import { MANAGERS } from '../../../../mocks/managers.mock';
+import { getValueFromHtmlSelect } from '../../../../shared/util/html-select.util';
+import { PROJECTS } from '../../../../mocks/projects.mock';
 import {
   getAvailableProjects,
   getAvailableSkills,
-  getValueFromHtmlSelect,
+} from '../../../../shared/util/employee.util';
+import {
   isMissing,
   isModifiedAndInvalid,
-} from '../../util/employee.util';
-import { ProjectModel } from '../../models/project.model';
-import { PROJECTS } from '../../mocks/projects.mock';
+} from '../../../../shared/util/validation.util';
 
 @Component({
   selector: 'app-employee-add',
