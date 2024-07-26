@@ -1,0 +1,68 @@
+{
+  "employee": {
+    "label": {
+      "name": "Imię",
+      "surname": "Nazwisko",
+      "dateOfEmployment": "Data zatrudnienia",
+      "manager": "Menedżer",
+      "skills": "Umiejętności",
+      "projects": "Projekty"
+    },
+    "list": {
+      "title": "Lista pracowników"
+    },
+    "form": {
+      "validation": {
+        "name.required": "Imię jest wymagane",
+        "surname.required": "Nazwisko jest wymagane",
+        "dateOfEmployment.required": "Data zatrudnienia jest wymagana"
+      },
+      "add": {
+        "title": "Dodaj pracownika",
+        "skill": {
+          "help": "Dodaj nową umiejętność",
+          "defaultSelectOption": "Dodaj"
+        },
+        "button": {
+          "add": "Dodaj",
+          "cancel": "Anuluj",
+          "clear": "Wyczyść"
+        }
+      },
+      "edit": {
+        "title": "Dane pracownika",
+        "button": {
+          "confirm": "Zatwierdź zmiany",
+          "cancel": "Anuluj"
+        }
+      }
+    },
+    "details": {
+      "title.manager": "Dane menedżera",
+      "title.employee": "Dane pracownika",
+      "button.edit": "Edytuj dane pracownika"
+    }
+  },
+  "project": {
+    "jungle.description": "System dostarczania owoców tropikalnych",
+    "evo.description": "Oprogramowanie dla księgowych",
+    "cloudsync.description": "Usługa synchronizacji plików w chmurze",
+    "healthhub.description": "Platforma telemedyczna do zdalnej opieki zdrowotnej",
+    "edutrack.description": "System śledzenia wyników uczniów dla szkół",
+    "stockanalyzer.description": "Narzędzie do analizy rynku akcji w czasie rzeczywistym",
+    "fitlife.description": "Aplikacja fitness z personalizowanymi planami treningowymi",
+    "shopmate.description": "Platforma e-commerce dla małych firm",
+    "travelbuddy.description": "Aplikacja do planowania podróży i rezerwacji",
+    "greenthumb.description": "Platforma dla społeczności miejskiego ogrodnictwa",
+    "eventhive.description": "System zarządzania wydarzeniami i sprzedażą biletów",
+    "codecollab.description": "Środowisko do wspólnego kodowania dla programistów",
+    "petcare.description": "Aplikacja do zarządzania zdrowiem i dobrostanem zwierząt domowych",
+    "homecook.description": "Aplikacja do udostępniania przepisów i planowania posiłków",
+    "safedrive.description": "System telematyki pojazdów i monitorowania bezpieczeństwa",
+    "bookclub.description": "Internetowa społeczność miłośników książek",
+    "mindspace.description": "Aplikacja do medytacji i zdrowia psychicznego",
+    "farmfresh.description": "Rynek produktów prosto z farmy",
+    "devdash.description": "Dashboard produktywności i analityki dla programistów",
+    "artshare.description": "Platforma dla artystów do dzielenia się i sprzedaży swoich prac"
+  }
+}
