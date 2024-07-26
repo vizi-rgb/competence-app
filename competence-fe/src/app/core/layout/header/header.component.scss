@@ -1,0 +1,18 @@
+$padding: 3rem;
+$border-color: black;
+$column-gap: 3rem;
+$bg-color: white;
+
+.header {
+  position: sticky;
+  top: 0;
+  background-color: $bg-color;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  column-gap: $column-gap;
+  padding-left: $padding;
+  padding-right: $padding;
+  border-bottom: 1px solid $border-color;
+}
