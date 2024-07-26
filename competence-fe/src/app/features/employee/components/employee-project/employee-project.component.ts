@@ -1,10 +1,12 @@
 import { Component, Input } from '@angular/core';
 import { ProjectModel } from '../../models/project.model';
+import { TranslateModule } from '@ngx-translate/core';
+import { ProjectToDescriptionKeyPipe } from '../../pipes/map-to-description-key.pipe';
 
 @Component({
   selector: 'app-employee-project',
   standalone: true,
-  imports: [],
+  imports: [TranslateModule, ProjectToDescriptionKeyPipe],
   templateUrl: './employee-project.component.html',
   styleUrl: './employee-project.component.scss',
 })

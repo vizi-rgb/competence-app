@@ -1,33 +1,41 @@
 <form (ngSubmit)="onSubmit()" [formGroup]="form">
   <div class="employee content">
-    <h1 class="employee__title">Dodaj pracownika</h1>
+    <h1 class="employee__title">{{ 'employee.form.add.title' | translate }}</h1>
     <div class="employee__section">
-      <label class="employee__section-label" for="name">Imię</label>
+      <label class="employee__section-label" for="name">
+        {{ 'employee.label.name' | translate }}
+      </label>
       <input
         class="employee__section-input"
         id="name"
         placeholder="Imię"
         formControlName="name" />
       @if (isModifiedAndInvalid(nameControl) && isMissing(nameControl)) {
-        <span class="employee__error-message">Imię jest wymagane</span>
+        <span class="employee__error-message">
+          {{ 'employee.form.validation.name.required' | translate }}
+        </span>
       }
     </div>
 
     <div class="employee__section">
-      <label class="employee__section-label" for="surname">Nazwisko</label>
+      <label class="employee__section-label" for="surname">
+        {{ 'employee.label.surname' | translate }}
+      </label>
       <input
         class="employee__section-input"
         id="surname"
         placeholder="Nazwisko"
         formControlName="surname" />
       @if (isModifiedAndInvalid(surnameControl) && isMissing(surnameControl)) {
-        <span class="employee__error-message">Nazwisko jest wymagane</span>
+        <span class="employee__error-message">
+          {{ 'employee.form.validation.surname.required' | translate }}
+        </span>
       }
     </div>
 
     <div class="employee__section">
       <label class="employee__section-label" for="dateOfEmployment">
-        Data zatrudnienia
+        {{ 'employee.label.dateOfEmployment' | translate }}
       </label>
       <input
         class="employee__section-input"
@@ -40,13 +48,15 @@
         isMissing(dateOfEmploymentControl)
       ) {
         <span class="employee__error-message">
-          Data zatrudnienia jest wymagana
+          {{ 'employee.form.validation.dateOfEmployment.required' | translate }}
         </span>
       }
     </div>
 
     <div class="employee__section">
-      <label class="employee__section-label" for="manager">Menedżer</label>
+      <label class="employee__section-label" for="manager">
+        {{ 'employee.label.manager' | translate }}
+      </label>
       <select id="manager" formControlName="manager">
         @for (manager of managers; track manager.id) {
           <option [ngValue]="manager">
@@ -57,7 +67,9 @@
     </div>
 
     <div class="employee__section">
-      <label class="employee__section-label" for="skills">Umiejętności</label>
+      <label class="employee__section-label" for="skills">
+        {{ 'employee.label.skills' | translate }}
+      </label>
       <div class="employee__skills-section" id="skills">
         @for (skill of skillsControl.controls; track $index) {
           <button
@@ -69,10 +81,12 @@
         }
         <select
           class="employee__skill employee__skill--empty"
-          title="Dodaj nową umiejętność"
+          [title]="'employee.form.add.skill.help' | translate"
           formArrayName="skills"
           (change)="onSkillSelect($event)">
-          <option>Dodaj</option>
+          <option>
+            {{ 'employee.form.add.skill.defaultSelectOption' | translate }}
+          </option>
           @for (
             skill of getAvailableSkills(skillsControl.getRawValue());
             track skill
@@ -86,7 +100,9 @@
     </div>
 
     <div class="employee__section">
-      <label class="employee__section-label" for="projects">Projekty</label>
+      <label class="employee__section-label" for="projects">
+        {{ 'employee.label.projects' | translate }}
+      </label>
       <select (change)="onProjectSelect($event)">
         <option></option>
         @for (
@@ -112,19 +128,21 @@
         type="submit"
         class="employee__button-primary"
         [disabled]="form.invalid">
-        Dodaj
+        {{ 'employee.form.add.button.add' | translate }}
       </button>
 
       <button
         class="employee__button-secondary"
         type="button"
         (click)="onCancel()">
-        Anuluj
+        {{ 'employee.form.add.button.cancel' | translate }}
       </button>
     </div>
 
     <div class="employee__button-section">
-      <button type="button" (click)="onClear()">Wyczyść</button>
+      <button type="button" (click)="onClear()">
+        {{ 'employee.form.add.button.clear' | translate }}
+      </button>
     </div>
   </div>
 </form>

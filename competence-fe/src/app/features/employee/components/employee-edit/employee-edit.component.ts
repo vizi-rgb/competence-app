@@ -19,11 +19,17 @@ import { isMissing } from '../../../../shared/util/validation.util';
 import { getValueFromHtmlSelect } from '../../../../shared/util/html-select.util';
 import { ProjectModel } from '../../models/project.model';
 import { PROJECTS } from '../../../../mocks/projects.mock';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-employee-edit',
   standalone: true,
-  imports: [EmployeeProjectComponent, ReactiveFormsModule, FormsModule],
+  imports: [
+    EmployeeProjectComponent,
+    ReactiveFormsModule,
+    FormsModule,
+    TranslateModule,
+  ],
   templateUrl: './employee-edit.component.html',
   styleUrl: './employee-edit.component.scss',
 })

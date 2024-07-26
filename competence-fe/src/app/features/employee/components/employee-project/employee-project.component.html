@@ -1,6 +1,8 @@
 <div class="project">
   <h1 class="project__title">{{ project.title }}</h1>
-  <p class="project__description">{{ project.description }}</p>
+  <p class="project__description">
+    {{ project | projectToDescriptionKey | translate }}
+  </p>
   <div class="project__technologies">
     @for (tech of project.technologies; track tech) {
       <p class="project__technology">

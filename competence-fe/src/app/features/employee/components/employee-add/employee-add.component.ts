@@ -21,11 +21,17 @@ import {
   isMissing,
   isModifiedAndInvalid,
 } from '../../../../shared/util/validation.util';
+import { TranslateModule, TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-employee-add',
   standalone: true,
-  imports: [DatePipe, EmployeeProjectComponent, ReactiveFormsModule],
+  imports: [
+    DatePipe,
+    EmployeeProjectComponent,
+    ReactiveFormsModule,
+    TranslateModule,
+  ],
   templateUrl: './employee-add.component.html',
   styleUrl: './employee-add.component.scss',
 })
@@ -124,4 +130,6 @@ export class EmployeeAddComponent {
       this.addProject(project);
     }
   }
+
+  protected readonly TranslatePipe = TranslatePipe;
 }

@@ -1,17 +1,25 @@
 <div class="employee content">
-  <h1 class="employee__title">
-    Dane {{ employee?.manager ? 'pracownika' : 'managera' }}
-  </h1>
   @if (employee) {
+    <h1 class="employee__title">
+      @if (employee.manager) {
+        {{ 'employee.details.title.employee' | translate }}
+      } @else {
+        {{ 'employee.details.title.manager' | translate }}
+      }
+    </h1>
     <div class="employee__section">
-      <label class="employee__section-label" for="name">Imię</label>
+      <label class="employee__section-label" for="name">
+        {{ 'employee.label.name' | translate }}
+      </label>
       <p class="employee__section-input" id="name">
         {{ employee.name }}
       </p>
     </div>
 
     <div class="employee__section">
-      <label class="employee__section-label" for="surname">Nazwisko</label>
+      <label class="employee__section-label" for="surname">
+        {{ 'employee.label.surname' | translate }}
+      </label>
       <p class="employee__section-input" id="surname">
         {{ employee.surname }}
       </p>
@@ -19,7 +27,7 @@
 
     <div class="employee__section">
       <label class="employee__section-label" for="dateOfEmployment">
-        Data zatrudnienia
+        {{ 'employee.label.dateOfEmployment' | translate }}
       </label>
       <p class="employee__section-input" id="dateOfEmployment" type="date">
         {{ employee.dateOfEmployment | date: 'dd.MM.yyyy' }}
@@ -28,7 +36,9 @@
 
     @if (employee.manager) {
       <div class="employee__section">
-        <label class="employee__section-label" for="manager">Menedżer</label>
+        <label class="employee__section-label" for="manager">
+          {{ 'employee.label.manager' | translate }}
+        </label>
         <p id="manager">
           {{ employee.manager.name + ' ' + employee.manager.surname }}
         </p>
@@ -36,7 +46,9 @@
     }
 
     <div class="employee__section">
-      <label class="employee__section-label" for="skills">Umiejętności</label>
+      <label class="employee__section-label" for="skills">
+        {{ 'employee.label.skills' | translate }}
+      </label>
       <div class="employee__skills-section" id="skills">
         @for (skill of employee.skills; track $index) {
           <p class="employee__skill">{{ skill }}</p>
@@ -45,7 +57,9 @@
     </div>
 
     <div class="employee__section">
-      <label class="employee__section-label" for="projects">Projekty</label>
+      <label class="employee__section-label" for="projects">
+        {{ 'employee.label.projects' | translate }}
+      </label>
       <div id="projects" class="employee__projects">
         @for (project of employee.projects; track $index) {
           <app-employee-project [project]="project"></app-employee-project>
@@ -53,6 +67,8 @@
       </div>
     </div>
 
-    <button (click)="onEditClicked()">Edytuj dane pracownika</button>
+    <button (click)="onEditClicked()">
+      {{ 'employee.details.button.edit' | translate }}
+    </button>
   }
 </div>

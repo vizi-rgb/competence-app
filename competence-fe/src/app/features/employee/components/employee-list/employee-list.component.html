@@ -1,30 +1,30 @@
 <div class="employee-list content">
   <div>
-    <h1 class="employee-list__title">Lista pracowników</h1>
+    <h1 class="employee-list__title">
+      {{ 'employee.list.title' | translate }}
+    </h1>
 
-    <ul>
-      <li class="employee-list__element">
+    <div class="employee-list__element">
+      <button
+        class="employee-list__button employee-list__add-button employee-list__add-button--hover content"
+        (click)="onAddEmployeeSelected()">
+        <span>+</span>
+      </button>
+    </div>
+    @for (employee of employees; track employee.id) {
+      <div class="employee-list__element">
         <button
-          class="employee-list__button employee-list__add-button employee-list__add-button--hover content"
-          (click)="onAddEmployeeSelected()">
-          <span>+</span>
+          class="employee-list__button employee-list__button--hover content"
+          [class.employee-list__button--selected]="
+            employee === selectedEmployee &&
+            (selectedMode === Mode.VIEW || selectedMode === Mode.EDIT)
+          "
+          (click)="onEmployeeSelect(employee)">
+          <span>{{ $index + 1 }}.</span>
+          <span>{{ employee.name + ' ' + employee.surname }}</span>
         </button>
-      </li>
-      @for (employee of employees; track employee.id) {
-        <li class="employee-list__element">
-          <button
-            class="employee-list__button employee-list__button--hover content"
-            [class.employee-list__button--selected]="
-              employee === selectedEmployee &&
-              (selectedMode === Mode.VIEW || selectedMode === Mode.EDIT)
-            "
-            (click)="onEmployeeSelect(employee)">
-            <span>{{ $index + 1 }}.</span>
-            <span>{{ employee.name + ' ' + employee.surname }}</span>
-          </button>
-        </li>
-      }
-    </ul>
+      </div>
+    }
   </div>
 
   @switch (selectedMode) {
