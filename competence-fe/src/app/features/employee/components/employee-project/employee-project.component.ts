@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { ProjectModel } from '../../models/project.model';
 import { TranslateModule } from '@ngx-translate/core';
 import { ProjectToDescriptionKeyPipe } from '../../pipes/project-to-description-key.pipe';
-import { SkillToTranslationKeyPipe } from '../../../../skill-to-translation-key.pipe';
+import { SkillToTranslationKeyPipe } from '../../pipes/skill-to-translation-key.pipe';
 
 @Component({
   selector: 'app-employee-project',

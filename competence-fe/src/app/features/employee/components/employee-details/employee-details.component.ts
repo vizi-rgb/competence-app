@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EmployeeProjectComponent } from '../employee-project/employee-project.component';
 import { EmployeeModel } from '../../models/employee.model';
 import { TranslateModule } from '@ngx-translate/core';
-import { SkillToTranslationKeyPipe } from '../../../../skill-to-translation-key.pipe';
+import { SkillToTranslationKeyPipe } from '../../pipes/skill-to-translation-key.pipe';
 
 @Component({
   selector: 'app-employee-details',

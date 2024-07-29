@@ -48,6 +48,18 @@ export const getSkillsTranslations = (
   return translation;
 };
 
+export const getAvailableSkillsSorted = (
+  employeeSkills: string[],
+  translate: TranslateService
+): SkillTranslation[] => {
+  const availableSkills: string[] = getAvailableSkills(employeeSkills);
+
+  return getSkillsTranslations(availableSkills, translate).sort(
+    (a: SkillTranslation, b: SkillTranslation) =>
+      a.skillValue.localeCompare(b.skillValue)
+  );
+};
+
 export const getAvailableProjects = (
   employeeProjects: ProjectModel[]
 ): ProjectModel[] => {
@@ -56,4 +68,12 @@ export const getAvailableProjects = (
   );
 
   return PROJECTS.filter((project: ProjectModel) => !projectsSet.has(project));
+};
+
+export const getAvailableProjectsSorted = (
+  employeeProjects: ProjectModel[]
+): ProjectModel[] => {
+  return getAvailableProjects(employeeProjects).sort(
+    (a: ProjectModel, b: ProjectModel) => a.title.localeCompare(b.title)
+  );
 };

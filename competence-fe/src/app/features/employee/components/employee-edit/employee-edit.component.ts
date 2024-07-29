@@ -12,9 +12,8 @@ import { EmployeeProjectComponent } from '../employee-project/employee-project.c
 import { EmployeeModel } from '../../models/employee.model';
 import { MANAGERS } from '../../../../mocks/managers.mock';
 import {
-  getAvailableProjects,
-  getAvailableSkills,
-  getSkillsTranslations,
+  getAvailableProjectsSorted,
+  getAvailableSkillsSorted,
   SkillTranslation,
 } from '../../../../shared/util/employee.util';
 import { isMissing } from '../../../../shared/util/validation.util';
@@ -22,7 +21,7 @@ import { getValueFromHtmlSelect } from '../../../../shared/util/html-select.util
 import { ProjectModel } from '../../models/project.model';
 import { PROJECTS } from '../../../../mocks/projects.mock';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { SkillToTranslationKeyPipe } from '../../../../skill-to-translation-key.pipe';
+import { SkillToTranslationKeyPipe } from '../../pipes/skill-to-translation-key.pipe';
 
 @Component({
   selector: 'app-employee-edit',
@@ -145,20 +144,13 @@ export class EmployeeEditComponent {
   }
 
   getAvailableProjectsWrapper(): ProjectModel[] {
-    return getAvailableProjects(this.projectsControl.getRawValue()).sort(
-      (a: ProjectModel, b: ProjectModel) => a.title.localeCompare(b.title)
-    );
+    return getAvailableProjectsSorted(this.projectsControl.getRawValue());
   }
 
   getAvailableSkillsWrapper(): SkillTranslation[] {
-    const availableSkill: string[] = getAvailableSkills(
-      this.skillsControl.getRawValue()
-    );
-
-    const localeSkills = getSkillsTranslations(availableSkill, this.translate);
-
-    return localeSkills.sort((a: SkillTranslation, b: SkillTranslation) =>
-      a.skillValue.localeCompare(b.skillValue)
+    return getAvailableSkillsSorted(
+      this.skillsControl.getRawValue(),
+      this.translate
     );
   }
 

@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { SoftSkill } from './core/constants/soft-skill.enum';
-import { Technology } from './core/constants/technology.enum';
+import { SoftSkill } from '../../../core/constants/soft-skill.enum';
+import { Technology } from '../../../core/constants/technology.enum';
 
 @Pipe({
   name: 'skillToTranslationKey',
