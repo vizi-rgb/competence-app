@@ -21,6 +21,5 @@ export class LangSelectorComponent {
 
   onLangChange(): void {
     this.translate.use(this.selectedLanguage);
-    console.log(this.selectedLanguage);
   }
 }

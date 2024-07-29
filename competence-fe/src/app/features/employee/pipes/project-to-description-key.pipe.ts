@@ -6,8 +6,7 @@ import { ProjectModel } from '../models/project.model';
   standalone: true,
 })
 export class ProjectToDescriptionKeyPipe implements PipeTransform {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  transform(value: ProjectModel, ...args: unknown[]): string {
+  transform(value: ProjectModel): string {
     const projectTitle: string = value.title;
     return this.format(projectTitle.toLowerCase());
   }

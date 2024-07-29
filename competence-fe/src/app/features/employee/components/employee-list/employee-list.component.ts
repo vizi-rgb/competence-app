@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { EmployeeDetailsComponent } from '../employee-details/employee-details.component';
 import { EmployeeEditComponent } from '../employee-edit/employee-edit.component';
 import { FormGroup } from '@angular/forms';
@@ -6,7 +6,7 @@ import { EmployeeAddComponent } from '../employee-add/employee-add.component';
 import { EmployeeModel } from '../../models/employee.model';
 import { EMPLOYEES } from '../../../../mocks/employees.mock';
 import { EmployeeService } from '../../services/employee.service';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateModule } from '@ngx-translate/core';
 import { LangSelectorComponent } from '../../../../shared/components/lang-selector/lang-selector.component';
 
 enum Mode {
@@ -34,17 +34,8 @@ export class EmployeeListComponent {
   selectedEmployee?: EmployeeModel;
   selectedMode: Mode = Mode.NONE;
   protected readonly Mode = Mode;
-  private cnt = 0;
 
-  constructor(
-    private employeeService: EmployeeService,
-    private translate: TranslateService
-  ) {}
-
-  change() {
-    const langs = ['en', 'pl'];
-    this.translate.use(langs[this.cnt++ % 2]);
-  }
+  constructor(private employeeService: EmployeeService) {}
 
   onEmployeeSelect(employee: EmployeeModel): void {
     const isSameEmployee: boolean =
@@ -96,8 +87,4 @@ export class EmployeeListComponent {
     this.employeeService.updateEmployee(this.selectedEmployee.id, formValues);
     this.selectedMode = Mode.VIEW;
   }
-
-  protected readonly inject = inject;
-  protected readonly TranslateModule = TranslateModule;
-  protected readonly TranslateService = TranslateService;
 }

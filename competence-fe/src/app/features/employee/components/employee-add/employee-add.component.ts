@@ -21,7 +21,7 @@ import {
   isMissing,
   isModifiedAndInvalid,
 } from '../../../../shared/util/validation.util';
-import { TranslateModule, TranslatePipe } from '@ngx-translate/core';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-employee-add',
@@ -130,6 +130,4 @@ export class EmployeeAddComponent {
       this.addProject(project);
     }
   }
-
-  protected readonly TranslatePipe = TranslatePipe;
 }
