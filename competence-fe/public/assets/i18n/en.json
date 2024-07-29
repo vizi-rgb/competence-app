@@ -1,68 +1,73 @@
 {
-  "employee": {
-    "label": {
-      "name": "Name",
-      "surname": "Surname",
-      "dateOfEmployment": "Date of employment",
-      "manager": "Manager",
-      "skills": "Skills",
-      "projects": "Projects"
-    },
-    "list": {
-      "title": "Employee list"
-    },
-    "form": {
-      "validation": {
-        "name.required": "Name is required",
-        "surname.required": "Surname is required",
-        "dateOfEmployment.required": "Date of employment is required"
-      },
-      "add": {
-        "title": "Add employee",
-        "skill": {
-          "help": "Add a new skill",
-          "defaultSelectOption": "Add"
-        },
-        "button": {
-          "add": "Add",
-          "cancel": "Cancel",
-          "clear": "Clear"
-        }
-      },
-      "edit": {
-        "title": "Employee data",
-        "button": {
-          "confirm": "Confirm changes",
-          "cancel": "Cancel"
-        }
-      }
-    },
-    "details": {
-      "title.manager": "Manager details",
-      "title.employee": "Employee details",
-      "button.edit": "Edit employee data"
-    }
-  },
-  "project": {
-    "jungle.description": "Tropical fruits delivery system",
-    "evo.description": "Software for accountants",
-    "cloudsync.description": "File synchronization service for cloud storage",
-    "healthhub.description": "Telemedicine platform for remote healthcare",
-    "edutrack.description": "Student performance tracking system for schools",
-    "stockanalyzer.description": "Real-time stock market analysis tool",
-    "fitlife.description": "Fitness app with personalized workout plans",
-    "shopmate.description": "E-commerce platform for small businesses",
-    "travelbuddy.description": "Travel planning and booking application",
-    "greenthumb.description": "Urban gardening community platform",
-    "eventhive.description": "Event management and ticketing system",
-    "codecollab.description": "Collaborative coding environment for developers",
-    "petcare.description": "Pet health and wellness management app",
-    "homecook.description": "Recipe sharing and meal planning app",
-    "safedrive.description": "Vehicle telematics and safety monitoring system",
-    "bookclub.description": "Online community for book enthusiasts",
-    "mindspace.description": "Meditation and mental health app",
-    "farmfresh.description": "Farm-to-table marketplace",
-    "devdash.description": "Developer productivity and analytics dashboard",
-    "artshare.description": "Platform for artists to share and sell their work"
-  }
+	"appTitle": "Competence",
+	"employee": {
+		"details": {
+			"button.edit": "Edit employee data",
+			"title.employee": "Employee details",
+			"title.manager": "Manager details"
+		},
+		"form": {
+			"add": {
+				"button": {
+					"add": "Add",
+					"cancel": "Cancel",
+					"clear": "Clear"
+				},
+				"skill": {
+					"defaultSelectOption": "Add",
+					"help": "Add a new skill"
+				},
+				"title": "Add employee"
+			},
+			"edit": {
+				"button": {
+					"cancel": "Cancel",
+					"confirm": "Confirm changes"
+				},
+				"title": "Employee data"
+			},
+			"validation": {
+				"dateOfEmployment.required": "Date of employment is required",
+				"name.required": "Name is required",
+				"surname.required": "Surname is required"
+			}
+		},
+		"label": {
+			"dateOfEmployment": "Date of employment",
+			"manager": "Manager",
+			"name": "Name",
+			"projects": "Projects",
+			"skills": "Skills",
+			"surname": "Surname"
+		},
+		"list": {
+			"title": "Employee list"
+		}
+	},
+	"project": {
+		"artshare.description": "Platform for artists to share and sell their work",
+		"bookclub.description": "Online community for book enthusiasts",
+		"cloudsync.description": "File synchronization service for cloud storage",
+		"codecollab.description": "Collaborative coding environment for developers",
+		"devdash.description": "Developer productivity and analytics dashboard",
+		"edutrack.description": "Student performance tracking system for schools",
+		"eventhive.description": "Event management and ticketing system",
+		"evo.description": "Software for accountants",
+		"farmfresh.description": "Farm-to-table marketplace",
+		"fitlife.description": "Fitness app with personalized workout plans",
+		"greenthumb.description": "Urban gardening community platform",
+		"healthhub.description": "Telemedicine platform for remote healthcare",
+		"homecook.description": "Recipe sharing and meal planning app",
+		"jungle.description": "Tropical fruits delivery system",
+		"mindspace.description": "Meditation and mental health app",
+		"petcare.description": "Pet health and wellness management app",
+		"safedrive.description": "Vehicle telematics and safety monitoring system",
+		"shopmate.description": "E-commerce platform for small businesses",
+		"stockanalyzer.description": "Real-time stock market analysis tool",
+		"travelbuddy.description": "Travel planning and booking application"
+	},
+	"softSkill": {
+		"interpersonal": "Interpersonal skills",
+		"managing_projects": "Managing projects"
+	}
 }

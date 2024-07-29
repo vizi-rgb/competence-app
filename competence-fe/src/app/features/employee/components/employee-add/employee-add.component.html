@@ -76,7 +76,7 @@
             type="button"
             (click)="deleteSkill($index)"
             class="employee__skill">
-            {{ skill.value }}
+            {{ skill.value | skillToTranslationKey | translate }}
           </button>
         }
         <select
@@ -87,12 +87,9 @@
           <option>
             {{ 'employee.form.add.skill.defaultSelectOption' | translate }}
           </option>
-          @for (
-            skill of getAvailableSkills(skillsControl.getRawValue());
-            track skill
-          ) {
-            <option [ngValue]="skill">
-              {{ skill }}
+          @for (skill of getAvailableSkillWrapper(); track skill.skillKey) {
+            <option [value]="skill.skillKey">
+              {{ skill.skillValue }}
             </option>
           }
         </select>
@@ -105,10 +102,7 @@
       </label>
       <select (change)="onProjectSelect($event)">
         <option></option>
-        @for (
-          project of getAvailableProjects(projectsControl.getRawValue());
-          track project
-        ) {
+        @for (project of getAvailableProjectsWrapper(); track project) {
           <option [ngValue]="project.title">
             {{ project.title }}
           </option>

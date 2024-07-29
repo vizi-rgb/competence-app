@@ -1,68 +1,73 @@
 {
-  "employee": {
-    "label": {
-      "name": "Imię",
-      "surname": "Nazwisko",
-      "dateOfEmployment": "Data zatrudnienia",
-      "manager": "Menedżer",
-      "skills": "Umiejętności",
-      "projects": "Projekty"
-    },
-    "list": {
-      "title": "Lista pracowników"
-    },
-    "form": {
-      "validation": {
-        "name.required": "Imię jest wymagane",
-        "surname.required": "Nazwisko jest wymagane",
-        "dateOfEmployment.required": "Data zatrudnienia jest wymagana"
-      },
-      "add": {
-        "title": "Dodaj pracownika",
-        "skill": {
-          "help": "Dodaj nową umiejętność",
-          "defaultSelectOption": "Dodaj"
-        },
-        "button": {
-          "add": "Dodaj",
-          "cancel": "Anuluj",
-          "clear": "Wyczyść"
-        }
-      },
-      "edit": {
-        "title": "Dane pracownika",
-        "button": {
-          "confirm": "Zatwierdź zmiany",
-          "cancel": "Anuluj"
-        }
-      }
-    },
-    "details": {
-      "title.manager": "Dane menedżera",
-      "title.employee": "Dane pracownika",
-      "button.edit": "Edytuj dane pracownika"
-    }
-  },
-  "project": {
-    "jungle.description": "System dostarczania owoców tropikalnych",
-    "evo.description": "Oprogramowanie dla księgowych",
-    "cloudsync.description": "Usługa synchronizacji plików w chmurze",
-    "healthhub.description": "Platforma telemedyczna do zdalnej opieki zdrowotnej",
-    "edutrack.description": "System śledzenia wyników uczniów dla szkół",
-    "stockanalyzer.description": "Narzędzie do analizy rynku akcji w czasie rzeczywistym",
-    "fitlife.description": "Aplikacja fitness z personalizowanymi planami treningowymi",
-    "shopmate.description": "Platforma e-commerce dla małych firm",
-    "travelbuddy.description": "Aplikacja do planowania podróży i rezerwacji",
-    "greenthumb.description": "Platforma dla społeczności miejskiego ogrodnictwa",
-    "eventhive.description": "System zarządzania wydarzeniami i sprzedażą biletów",
-    "codecollab.description": "Środowisko do wspólnego kodowania dla programistów",
-    "petcare.description": "Aplikacja do zarządzania zdrowiem i dobrostanem zwierząt domowych",
-    "homecook.description": "Aplikacja do udostępniania przepisów i planowania posiłków",
-    "safedrive.description": "System telematyki pojazdów i monitorowania bezpieczeństwa",
-    "bookclub.description": "Internetowa społeczność miłośników książek",
-    "mindspace.description": "Aplikacja do medytacji i zdrowia psychicznego",
-    "farmfresh.description": "Rynek produktów prosto z farmy",
-    "devdash.description": "Dashboard produktywności i analityki dla programistów",
-    "artshare.description": "Platforma dla artystów do dzielenia się i sprzedaży swoich prac"
-  }
+	"appTitle": "Competence",
+	"employee": {
+		"details": {
+			"button.edit": "Edytuj dane pracownika",
+			"title.employee": "Dane pracownika",
+			"title.manager": "Dane menedżera"
+		},
+		"form": {
+			"add": {
+				"button": {
+					"add": "Dodaj",
+					"cancel": "Anuluj",
+					"clear": "Wyczyść"
+				},
+				"skill": {
+					"defaultSelectOption": "Dodaj",
+					"help": "Dodaj nową umiejętność"
+				},
+				"title": "Dodaj pracownika"
+			},
+			"edit": {
+				"button": {
+					"cancel": "Anuluj",
+					"confirm": "Zatwierdź zmiany"
+				},
+				"title": "Dane pracownika"
+			},
+			"validation": {
+				"dateOfEmployment.required": "Data zatrudnienia jest wymagana",
+				"name.required": "Imię jest wymagane",
+				"surname.required": "Nazwisko jest wymagane"
+			}
+		},
+		"label": {
+			"dateOfEmployment": "Data zatrudnienia",
+			"manager": "Menedżer",
+			"name": "Imię",
+			"projects": "Projekty",
+			"skills": "Umiejętności",
+			"surname": "Nazwisko"
+		},
+		"list": {
+			"title": "Lista pracowników"
+		}
+	},
+	"project": {
+		"artshare.description": "Platforma dla artystów do dzielenia się i sprzedaży swoich prac",
+		"bookclub.description": "Internetowa społeczność miłośników książek",
+		"cloudsync.description": "Usługa synchronizacji plików w chmurze",
+		"codecollab.description": "Środowisko do wspólnego kodowania dla programistów",
+		"devdash.description": "Dashboard produktywności i analityki dla programistów",
+		"edutrack.description": "System śledzenia wyników uczniów dla szkół",
+		"eventhive.description": "System zarządzania wydarzeniami i sprzedażą biletów",
+		"evo.description": "Oprogramowanie dla księgowych",
+		"farmfresh.description": "Rynek produktów prosto z farmy",
+		"fitlife.description": "Aplikacja fitness z personalizowanymi planami treningowymi",
+		"greenthumb.description": "Platforma dla społeczności miejskiego ogrodnictwa",
+		"healthhub.description": "Platforma telemedyczna do zdalnej opieki zdrowotnej",
+		"homecook.description": "Aplikacja do udostępniania przepisów i planowania posiłków",
+		"jungle.description": "System dostarczania owoców tropikalnych",
+		"mindspace.description": "Aplikacja do medytacji i zdrowia psychicznego",
+		"petcare.description": "Aplikacja do zarządzania zdrowiem i dobrostanem zwierząt domowych",
+		"safedrive.description": "System telematyki pojazdów i monitorowania bezpieczeństwa",
+		"shopmate.description": "Platforma e-commerce dla małych firm",
+		"stockanalyzer.description": "Narzędzie do analizy rynku akcji w czasie rzeczywistym",
+		"travelbuddy.description": "Aplikacja do planowania podróży i rezerwacji"
+	},
+	"softSkill": {
+		"interpersonal": "Umiejętności interpersonalne",
+		"managing_projects": "Zarządzanie projektami"
+	}
 }

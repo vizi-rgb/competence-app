@@ -1,7 +1,5 @@
 import { PROJECTS } from './projects.mock';
 import { EmployeeModel } from '../features/employee/models/employee.model';
-import { Technology } from '../core/constants/technology.enum';
-import { SoftSkill } from '../core/constants/soft-skill.enum';
 
 export const MANAGERS: EmployeeModel[] = [
   {
@@ -10,7 +8,7 @@ export const MANAGERS: EmployeeModel[] = [
     surname: 'Henry',
     dateOfEmployment: new Date(2000, 6, 1),
     manager: null,
-    skills: [Technology.ANGULAR, SoftSkill.MANAGING_PROJECTS],
+    skills: ['ANGULAR', 'MANAGING_PROJECTS'],
     projects: [PROJECTS[0]!],
   },
   {
@@ -19,7 +17,7 @@ export const MANAGERS: EmployeeModel[] = [
     surname: 'Ronaldo',
     dateOfEmployment: new Date(2003, 6, 1),
     manager: null,
-    skills: [SoftSkill.INTERPERSONAL, SoftSkill.MANAGING_PROJECTS],
+    skills: ['INTERPERSONAL', 'MANAGING_PROJECTS'],
     projects: [PROJECTS[0]!],
   },
 ];

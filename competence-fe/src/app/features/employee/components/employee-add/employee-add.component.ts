@@ -6,7 +6,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { DatePipe } from '@angular/common';
+import { DatePipe, LowerCasePipe } from '@angular/common';
 import { EmployeeProjectComponent } from '../employee-project/employee-project.component';
 import { ProjectModel } from '../../models/project.model';
 import { EmployeeModel } from '../../models/employee.model';
@@ -16,12 +16,15 @@ import { PROJECTS } from '../../../../mocks/projects.mock';
 import {
   getAvailableProjects,
   getAvailableSkills,
+  getSkillsTranslations,
+  SkillTranslation,
 } from '../../../../shared/util/employee.util';
 import {
   isMissing,
   isModifiedAndInvalid,
 } from '../../../../shared/util/validation.util';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { SkillToTranslationKeyPipe } from '../../../../skill-to-translation-key.pipe';
 
 @Component({
   selector: 'app-employee-add',
@@ -31,6 +34,8 @@ import { TranslateModule } from '@ngx-translate/core';
     EmployeeProjectComponent,
     ReactiveFormsModule,
     TranslateModule,
+    LowerCasePipe,
+    SkillToTranslationKeyPipe,
   ],
   templateUrl: './employee-add.component.html',
   styleUrl: './employee-add.component.scss',
@@ -45,12 +50,13 @@ export class EmployeeAddComponent {
   form: FormGroup;
   managers: EmployeeModel[] = MANAGERS;
 
-  protected readonly getAvailableSkills = getAvailableSkills;
   protected readonly isMissing = isMissing;
   protected readonly isModifiedAndInvalid = isModifiedAndInvalid;
-  protected readonly getAvailableProjects = getAvailableProjects;
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+    private translate: TranslateService
+  ) {
     this.form = fb.nonNullable.group({
       name: ['', Validators.required],
       surname: ['', Validators.required],
@@ -129,5 +135,23 @@ export class EmployeeAddComponent {
     if (project) {
       this.addProject(project);
     }
+  }
+
+  getAvailableSkillWrapper(): SkillTranslation[] {
+    const availableSkill: string[] = getAvailableSkills(
+      this.skillsControl.getRawValue()
+    );
+
+    const localeSkills = getSkillsTranslations(availableSkill, this.translate);
+
+    return localeSkills.sort((a: SkillTranslation, b: SkillTranslation) =>
+      a.skillValue.localeCompare(b.skillValue)
+    );
+  }
+
+  getAvailableProjectsWrapper(): ProjectModel[] {
+    return getAvailableProjects(this.projectsControl.getRawValue()).sort(
+      (a: ProjectModel, b: ProjectModel) => a.title.localeCompare(b.title)
+    );
   }
 }

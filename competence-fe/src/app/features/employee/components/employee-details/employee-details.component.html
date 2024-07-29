@@ -51,7 +51,9 @@
       </label>
       <div class="employee__skills-section" id="skills">
         @for (skill of employee.skills; track $index) {
-          <p class="employee__skill">{{ skill }}</p>
+          <p class="employee__skill">
+            {{ skill | skillToTranslationKey | translate }}
+          </p>
         }
       </div>
     </div>

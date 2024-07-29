@@ -14,12 +14,15 @@ import { MANAGERS } from '../../../../mocks/managers.mock';
 import {
   getAvailableProjects,
   getAvailableSkills,
+  getSkillsTranslations,
+  SkillTranslation,
 } from '../../../../shared/util/employee.util';
 import { isMissing } from '../../../../shared/util/validation.util';
 import { getValueFromHtmlSelect } from '../../../../shared/util/html-select.util';
 import { ProjectModel } from '../../models/project.model';
 import { PROJECTS } from '../../../../mocks/projects.mock';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { SkillToTranslationKeyPipe } from '../../../../skill-to-translation-key.pipe';
 
 @Component({
   selector: 'app-employee-edit',
@@ -29,6 +32,7 @@ import { TranslateModule } from '@ngx-translate/core';
     ReactiveFormsModule,
     FormsModule,
     TranslateModule,
+    SkillToTranslationKeyPipe,
   ],
   templateUrl: './employee-edit.component.html',
   styleUrl: './employee-edit.component.scss',
@@ -55,13 +59,14 @@ export class EmployeeEditComponent {
   managers: EmployeeModel[] = MANAGERS;
   employeeForm: FormGroup;
 
-  protected readonly getAvailableSkills = getAvailableSkills;
   protected readonly isMissing = isMissing;
-  protected readonly getAvailableProjects = getAvailableProjects;
 
   private _employee?: EmployeeModel;
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+    private translate: TranslateService
+  ) {
     this.employeeForm = this.fb.nonNullable.group({
       name: ['', Validators.required],
       surname: ['', Validators.required],
@@ -137,6 +142,24 @@ export class EmployeeEditComponent {
     if (project) {
       this.addProject(project);
     }
+  }
+
+  getAvailableProjectsWrapper(): ProjectModel[] {
+    return getAvailableProjects(this.projectsControl.getRawValue()).sort(
+      (a: ProjectModel, b: ProjectModel) => a.title.localeCompare(b.title)
+    );
+  }
+
+  getAvailableSkillsWrapper(): SkillTranslation[] {
+    const availableSkill: string[] = getAvailableSkills(
+      this.skillsControl.getRawValue()
+    );
+
+    const localeSkills = getSkillsTranslations(availableSkill, this.translate);
+
+    return localeSkills.sort((a: SkillTranslation, b: SkillTranslation) =>
+      a.skillValue.localeCompare(b.skillValue)
+    );
   }
 
   private updateForm(employee: EmployeeModel): void {

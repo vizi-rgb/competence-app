@@ -2,18 +2,50 @@ import { Technology } from '../../core/constants/technology.enum';
 import { SoftSkill } from '../../core/constants/soft-skill.enum';
 import { ProjectModel } from '../../features/employee/models/project.model';
 import { PROJECTS } from '../../mocks/projects.mock';
+import { TranslateService } from '@ngx-translate/core';
+
+export interface SkillTranslation {
+  skillKey: string;
+  skillValue: string;
+}
 
 export const getAvailableSkills = (employeeSkills: string[]): string[] => {
   const allSkills: string[] = [
-    ...Object.values(Technology),
-    ...Object.values(SoftSkill),
+    ...Object.keys(Technology),
+    ...Object.keys(SoftSkill),
   ];
 
   const skillsSet: Set<string> = new Set<string>(employeeSkills);
 
-  return allSkills
-    .filter((skill: string) => !skillsSet.has(skill))
-    .sort((a: string, b: string) => a.localeCompare(b));
+  return allSkills.filter((skill: string) => !skillsSet.has(skill));
+};
+
+export const getSkillsTranslations = (
+  skills: string[],
+  translate: TranslateService
+): SkillTranslation[] => {
+  const translation: SkillTranslation[] = [];
+
+  skills
+    .filter((skill: string) => skill in Technology)
+    .forEach((skill: string) =>
+      translation.push({
+        skillKey: skill,
+        skillValue: Technology[skill as keyof typeof Technology],
+      })
+    );
+
+  skills
+    .filter((skill: string) => skill in SoftSkill)
+    .forEach((skillKey: string) =>
+      translate
+        .get(`softSkill.${skillKey.toLowerCase()}`)
+        .subscribe((translatedSkill: string) =>
+          translation.push({ skillKey: skillKey, skillValue: translatedSkill })
+        )
+    );
+
+  return translation;
 };
 
 export const getAvailableProjects = (
@@ -23,7 +55,5 @@ export const getAvailableProjects = (
     employeeProjects
   );
 
-  return PROJECTS.filter(
-    (project: ProjectModel) => !projectsSet.has(project)
-  ).sort((a: ProjectModel, b: ProjectModel) => a.title.localeCompare(b.title));
+  return PROJECTS.filter((project: ProjectModel) => !projectsSet.has(project));
 };

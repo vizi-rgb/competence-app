@@ -6,7 +6,7 @@
   <div class="project__technologies">
     @for (tech of project.technologies; track tech) {
       <p class="project__technology">
-        {{ tech }}
+        {{ tech | skillToTranslationKey | translate }}
       </p>
     }
   </div>
