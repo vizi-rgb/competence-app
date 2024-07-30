@@ -24,7 +24,7 @@
 					"cancel": "Anuluj",
 					"confirm": "Zatwierdź zmiany"
 				},
-				"title": "Dane pracownika"
+				"title": "Edytuj dane pracownika"
 			},
 			"validation": {
 				"dateOfEmployment.required": "Data zatrudnienia jest wymagana",

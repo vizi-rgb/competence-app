@@ -61,3 +61,5 @@ export enum Technology {
   VERCEL = 'Vercel',
   SUPABASE = 'Supabase',
 }
+
+export type TechnologyKey = keyof typeof Technology;

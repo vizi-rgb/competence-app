@@ -5,6 +5,10 @@ import {
 } from '../dto/employee-dto';
 import { EmployeeModel } from '../models/employee.model';
 import { EMPLOYEES } from '../../../mocks/employees.mock';
+import { Observable, of } from 'rxjs';
+import { MANAGERS } from '../../../mocks/managers.mock';
+import { ProjectModel } from '../models/project.model';
+import { PROJECTS } from '../../../mocks/projects.mock';
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +16,19 @@ import { EMPLOYEES } from '../../../mocks/employees.mock';
 export class EmployeeService {
   private employees: EmployeeModel[] = EMPLOYEES;
 
-  updateEmployee(id: string, payload: UpdateEmployeeRequest) {
+  getAllEmployees(): Observable<EmployeeModel[]> {
+    return of(EMPLOYEES);
+  }
+
+  getAllManagers(): Observable<EmployeeModel[]> {
+    return of(MANAGERS);
+  }
+
+  getAllProjects(): Observable<ProjectModel[]> {
+    return of(PROJECTS);
+  }
+
+  updateEmployee(id: string, payload: UpdateEmployeeRequest): void {
     const employee: EmployeeModel | undefined = this.employees.find(
       (employee: EmployeeModel) => employee.id === id
     );
@@ -24,7 +40,7 @@ export class EmployeeService {
     this.doPartialUpdateOnEmployee(employee, payload);
   }
 
-  createEmployee(payload: CreateEmployeeRequest) {
+  createEmployee(payload: CreateEmployeeRequest): void {
     const newEmployee: EmployeeModel = {
       id: crypto.randomUUID(),
       ...payload,

@@ -1,7 +1,9 @@
-import { Technology } from '../../core/constants/technology.enum';
-import { SoftSkill } from '../../core/constants/soft-skill.enum';
+import {
+  Technology,
+  TechnologyKey,
+} from '../../core/constants/technology.enum';
+import { SoftSkill, SoftSkillKey } from '../../core/constants/soft-skill.enum';
 import { ProjectModel } from '../../features/employee/models/project.model';
-import { PROJECTS } from '../../mocks/projects.mock';
 import { TranslateService } from '@ngx-translate/core';
 
 export interface SkillTranslation {
@@ -9,24 +11,22 @@ export interface SkillTranslation {
   skillValue: string;
 }
 
-export const getAvailableSkills = (employeeSkills: string[]): string[] => {
-  const allSkills: string[] = [
-    ...Object.keys(Technology),
-    ...Object.keys(SoftSkill),
-  ];
+export const getAvailableSkills = (
+  allSkillsKeys: (SoftSkillKey | TechnologyKey)[],
+  employeeSkillsKeys: (SoftSkillKey | TechnologyKey)[]
+): (SoftSkillKey | TechnologyKey)[] => {
+  const skillsSet: Set<string> = new Set<string>(employeeSkillsKeys);
 
-  const skillsSet: Set<string> = new Set<string>(employeeSkills);
-
-  return allSkills.filter((skill: string) => !skillsSet.has(skill));
+  return allSkillsKeys.filter((skill: string) => !skillsSet.has(skill));
 };
 
 export const getSkillsTranslations = (
-  skills: string[],
+  skillsKeys: (SoftSkillKey | TechnologyKey)[],
   translate: TranslateService
 ): SkillTranslation[] => {
   const translation: SkillTranslation[] = [];
 
-  skills
+  skillsKeys
     .filter((skill: string) => skill in Technology)
     .forEach((skill: string) =>
       translation.push({
@@ -35,7 +35,7 @@ export const getSkillsTranslations = (
       })
     );
 
-  skills
+  skillsKeys
     .filter((skill: string) => skill in SoftSkill)
     .forEach((skillKey: string) =>
       translate
@@ -49,10 +49,14 @@ export const getSkillsTranslations = (
 };
 
 export const getAvailableSkillsSorted = (
-  employeeSkills: string[],
+  allSkillsKeys: (SoftSkillKey | TechnologyKey)[],
+  employeeSkillsKeys: (SoftSkillKey | TechnologyKey)[],
   translate: TranslateService
 ): SkillTranslation[] => {
-  const availableSkills: string[] = getAvailableSkills(employeeSkills);
+  const availableSkills: (SoftSkillKey | TechnologyKey)[] = getAvailableSkills(
+    allSkillsKeys,
+    employeeSkillsKeys
+  );
 
   return getSkillsTranslations(availableSkills, translate).sort(
     (a: SkillTranslation, b: SkillTranslation) =>
@@ -61,19 +65,23 @@ export const getAvailableSkillsSorted = (
 };
 
 export const getAvailableProjects = (
+  allProjects: ProjectModel[],
   employeeProjects: ProjectModel[]
 ): ProjectModel[] => {
   const projectsSet: Set<ProjectModel> = new Set<ProjectModel>(
     employeeProjects
   );
 
-  return PROJECTS.filter((project: ProjectModel) => !projectsSet.has(project));
+  return allProjects.filter(
+    (project: ProjectModel) => !projectsSet.has(project)
+  );
 };
 
 export const getAvailableProjectsSorted = (
+  allProjects: ProjectModel[],
   employeeProjects: ProjectModel[]
 ): ProjectModel[] => {
-  return getAvailableProjects(employeeProjects).sort(
+  return getAvailableProjects(allProjects, employeeProjects).sort(
     (a: ProjectModel, b: ProjectModel) => a.title.localeCompare(b.title)
   );
 };
