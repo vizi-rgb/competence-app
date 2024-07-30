@@ -1,0 +1,11 @@
+$border-radius: 15px;
+$bg-color: azure;
+
+.selector {
+  border-radius: $border-radius;
+
+  &--hover:hover {
+    background: $bg-color;
+  }
+}
+

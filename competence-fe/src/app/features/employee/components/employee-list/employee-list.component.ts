@@ -6,6 +6,8 @@ import { EmployeeAddComponent } from '../employee-add/employee-add.component';
 import { EmployeeModel } from '../../models/employee.model';
 import { EMPLOYEES } from '../../../../mocks/employees.mock';
 import { EmployeeService } from '../../services/employee.service';
+import { TranslateModule } from '@ngx-translate/core';
+import { LangSelectorComponent } from '../../../../shared/components/lang-selector/lang-selector.component';
 
 enum Mode {
   VIEW,
@@ -21,6 +23,8 @@ enum Mode {
     EmployeeDetailsComponent,
     EmployeeEditComponent,
     EmployeeAddComponent,
+    TranslateModule,
+    LangSelectorComponent,
   ],
   templateUrl: './employee-list.component.html',
   styleUrl: './employee-list.component.scss',

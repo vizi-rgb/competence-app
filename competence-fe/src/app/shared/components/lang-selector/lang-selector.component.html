@@ -1,0 +1,10 @@
+<select
+  [(ngModel)]="selectedLanguage"
+  (change)="onLangChange()"
+  class="selector selector--hover content">
+  @for (language of languages; track $index) {
+    <option [ngValue]="language">
+      {{ language | uppercase }}
+    </option>
+  }
+</select>

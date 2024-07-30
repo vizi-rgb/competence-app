@@ -12,18 +12,27 @@ import { EmployeeProjectComponent } from '../employee-project/employee-project.c
 import { EmployeeModel } from '../../models/employee.model';
 import { MANAGERS } from '../../../../mocks/managers.mock';
 import {
-  getAvailableProjects,
-  getAvailableSkills,
+  getAvailableProjectsSorted,
+  getAvailableSkillsSorted,
+  SkillTranslation,
 } from '../../../../shared/util/employee.util';
 import { isMissing } from '../../../../shared/util/validation.util';
 import { getValueFromHtmlSelect } from '../../../../shared/util/html-select.util';
 import { ProjectModel } from '../../models/project.model';
 import { PROJECTS } from '../../../../mocks/projects.mock';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { SkillToTranslationKeyPipe } from '../../pipes/skill-to-translation-key.pipe';
 
 @Component({
   selector: 'app-employee-edit',
   standalone: true,
-  imports: [EmployeeProjectComponent, ReactiveFormsModule, FormsModule],
+  imports: [
+    EmployeeProjectComponent,
+    ReactiveFormsModule,
+    FormsModule,
+    TranslateModule,
+    SkillToTranslationKeyPipe,
+  ],
   templateUrl: './employee-edit.component.html',
   styleUrl: './employee-edit.component.scss',
 })
@@ -49,13 +58,14 @@ export class EmployeeEditComponent {
   managers: EmployeeModel[] = MANAGERS;
   employeeForm: FormGroup;
 
-  protected readonly getAvailableSkills = getAvailableSkills;
   protected readonly isMissing = isMissing;
-  protected readonly getAvailableProjects = getAvailableProjects;
 
   private _employee?: EmployeeModel;
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+    private translate: TranslateService
+  ) {
     this.employeeForm = this.fb.nonNullable.group({
       name: ['', Validators.required],
       surname: ['', Validators.required],
@@ -131,6 +141,17 @@ export class EmployeeEditComponent {
     if (project) {
       this.addProject(project);
     }
+  }
+
+  getAvailableProjectsWrapper(): ProjectModel[] {
+    return getAvailableProjectsSorted(this.projectsControl.getRawValue());
+  }
+
+  getAvailableSkillsWrapper(): SkillTranslation[] {
+    return getAvailableSkillsSorted(
+      this.skillsControl.getRawValue(),
+      this.translate
+    );
   }
 
   private updateForm(employee: EmployeeModel): void {

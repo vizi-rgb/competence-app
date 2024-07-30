@@ -6,7 +6,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { DatePipe } from '@angular/common';
+import { DatePipe, LowerCasePipe } from '@angular/common';
 import { EmployeeProjectComponent } from '../employee-project/employee-project.component';
 import { ProjectModel } from '../../models/project.model';
 import { EmployeeModel } from '../../models/employee.model';
@@ -14,18 +14,28 @@ import { MANAGERS } from '../../../../mocks/managers.mock';
 import { getValueFromHtmlSelect } from '../../../../shared/util/html-select.util';
 import { PROJECTS } from '../../../../mocks/projects.mock';
 import {
-  getAvailableProjects,
-  getAvailableSkills,
+  getAvailableProjectsSorted,
+  getAvailableSkillsSorted,
+  SkillTranslation,
 } from '../../../../shared/util/employee.util';
 import {
   isMissing,
   isModifiedAndInvalid,
 } from '../../../../shared/util/validation.util';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { SkillToTranslationKeyPipe } from '../../pipes/skill-to-translation-key.pipe';
 
 @Component({
   selector: 'app-employee-add',
   standalone: true,
-  imports: [DatePipe, EmployeeProjectComponent, ReactiveFormsModule],
+  imports: [
+    DatePipe,
+    EmployeeProjectComponent,
+    ReactiveFormsModule,
+    TranslateModule,
+    LowerCasePipe,
+    SkillToTranslationKeyPipe,
+  ],
   templateUrl: './employee-add.component.html',
   styleUrl: './employee-add.component.scss',
 })
@@ -39,12 +49,13 @@ export class EmployeeAddComponent {
   form: FormGroup;
   managers: EmployeeModel[] = MANAGERS;
 
-  protected readonly getAvailableSkills = getAvailableSkills;
   protected readonly isMissing = isMissing;
   protected readonly isModifiedAndInvalid = isModifiedAndInvalid;
-  protected readonly getAvailableProjects = getAvailableProjects;
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+    private translate: TranslateService
+  ) {
     this.form = fb.nonNullable.group({
       name: ['', Validators.required],
       surname: ['', Validators.required],
@@ -123,5 +134,16 @@ export class EmployeeAddComponent {
     if (project) {
       this.addProject(project);
     }
+  }
+
+  getAvailableSkillWrapper(): SkillTranslation[] {
+    return getAvailableSkillsSorted(
+      this.skillsControl.getRawValue(),
+      this.translate
+    );
+  }
+
+  getAvailableProjectsWrapper(): ProjectModel[] {
+    return getAvailableProjectsSorted(this.projectsControl.getRawValue());
   }
 }
