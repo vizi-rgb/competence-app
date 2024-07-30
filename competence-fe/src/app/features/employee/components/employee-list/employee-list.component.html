@@ -11,7 +11,7 @@
         <span>+</span>
       </button>
     </div>
-    @for (employee of employees; track employee.id) {
+    @for (employee of employees$ | async; track employee.id) {
       <div class="employee-list__element">
         <button
           class="employee-list__button employee-list__button--hover content"

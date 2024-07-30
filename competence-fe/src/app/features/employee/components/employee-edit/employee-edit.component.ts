@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  Component,
+  DestroyRef,
+  EventEmitter,
+  inject,
+  Input,
+  Output,
+} from '@angular/core';
 import {
   FormArray,
   FormBuilder,
@@ -7,10 +14,9 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { formatDate } from '@angular/common';
+import { AsyncPipe, formatDate } from '@angular/common';
 import { EmployeeProjectComponent } from '../employee-project/employee-project.component';
 import { EmployeeModel } from '../../models/employee.model';
-import { MANAGERS } from '../../../../mocks/managers.mock';
 import {
   getAvailableProjectsSorted,
   getAvailableSkillsSorted,
@@ -19,9 +25,19 @@ import {
 import { isMissing } from '../../../../shared/util/validation.util';
 import { getValueFromHtmlSelect } from '../../../../shared/util/html-select.util';
 import { ProjectModel } from '../../models/project.model';
-import { PROJECTS } from '../../../../mocks/projects.mock';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { SkillToTranslationKeyPipe } from '../../pipes/skill-to-translation-key.pipe';
+import { Observable } from 'rxjs';
+import { EmployeeService } from '../../services/employee.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import {
+  Technology,
+  TechnologyKey,
+} from '../../../../core/constants/technology.enum';
+import {
+  SoftSkill,
+  SoftSkillKey,
+} from '../../../../core/constants/soft-skill.enum';
 
 @Component({
   selector: 'app-employee-edit',
@@ -32,6 +48,7 @@ import { SkillToTranslationKeyPipe } from '../../pipes/skill-to-translation-key.
     FormsModule,
     TranslateModule,
     SkillToTranslationKeyPipe,
+    AsyncPipe,
   ],
   templateUrl: './employee-edit.component.html',
   styleUrl: './employee-edit.component.scss',
@@ -55,16 +72,19 @@ export class EmployeeEditComponent {
   @Output()
   formSubmitted = new EventEmitter<FormGroup>();
 
-  managers: EmployeeModel[] = MANAGERS;
   employeeForm: FormGroup;
 
+  readonly managers$: Observable<EmployeeModel[]>;
+  readonly allProjects: ProjectModel[];
   protected readonly isMissing = isMissing;
 
   private _employee?: EmployeeModel;
+  private readonly destroyRef: DestroyRef = inject(DestroyRef);
 
   constructor(
     private fb: FormBuilder,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private employeeService: EmployeeService
   ) {
     this.employeeForm = this.fb.nonNullable.group({
       name: ['', Validators.required],
@@ -77,6 +97,9 @@ export class EmployeeEditComponent {
       skills: this.fb.nonNullable.array([]),
       projects: this.fb.nonNullable.array([]),
     });
+
+    this.managers$ = this.employeeService.getAllManagers();
+    this.allProjects = this.getAllProjects();
   }
 
   get nameControl() {
@@ -134,7 +157,7 @@ export class EmployeeEditComponent {
 
   onProjectSelect(event: Event): void {
     const projectTitle: string = getValueFromHtmlSelect(event);
-    const project: ProjectModel | undefined = PROJECTS.find(
+    const project: ProjectModel | undefined = this.allProjects.find(
       (project: ProjectModel) => project.title === projectTitle
     );
 
@@ -144,11 +167,20 @@ export class EmployeeEditComponent {
   }
 
   getAvailableProjectsWrapper(): ProjectModel[] {
-    return getAvailableProjectsSorted(this.projectsControl.getRawValue());
+    return getAvailableProjectsSorted(
+      this.allProjects,
+      this.projectsControl.getRawValue()
+    );
   }
 
   getAvailableSkillsWrapper(): SkillTranslation[] {
+    const allSkills: (SoftSkillKey | TechnologyKey)[] = [
+      ...(Object.keys(Technology) as TechnologyKey[]),
+      ...(Object.keys(SoftSkill) as SoftSkillKey[]),
+    ];
+
     return getAvailableSkillsSorted(
+      allSkills,
       this.skillsControl.getRawValue(),
       this.translate
     );
@@ -175,5 +207,18 @@ export class EmployeeEditComponent {
       'projects',
       this.fb.nonNullable.array(employee.projects)
     );
+  }
+
+  private getAllProjects(): ProjectModel[] {
+    let allProjects: ProjectModel[] = [];
+    this.employeeService
+      .getAllProjects()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (value: ProjectModel[]) => (allProjects = value),
+        error: (err) => console.log(err),
+      });
+
+    return allProjects;
   }
 }

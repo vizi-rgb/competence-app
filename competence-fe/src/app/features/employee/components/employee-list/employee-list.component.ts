@@ -4,10 +4,11 @@ import { EmployeeEditComponent } from '../employee-edit/employee-edit.component'
 import { FormGroup } from '@angular/forms';
 import { EmployeeAddComponent } from '../employee-add/employee-add.component';
 import { EmployeeModel } from '../../models/employee.model';
-import { EMPLOYEES } from '../../../../mocks/employees.mock';
 import { EmployeeService } from '../../services/employee.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { LangSelectorComponent } from '../../../../shared/components/lang-selector/lang-selector.component';
+import { Observable } from 'rxjs';
+import { AsyncPipe } from '@angular/common';
 
 enum Mode {
   VIEW,
@@ -25,17 +26,20 @@ enum Mode {
     EmployeeAddComponent,
     TranslateModule,
     LangSelectorComponent,
+    AsyncPipe,
   ],
   templateUrl: './employee-list.component.html',
   styleUrl: './employee-list.component.scss',
 })
 export class EmployeeListComponent {
-  readonly employees: EmployeeModel[] = EMPLOYEES;
+  readonly employees$: Observable<EmployeeModel[]>;
   selectedEmployee?: EmployeeModel;
   selectedMode: Mode = Mode.NONE;
   protected readonly Mode = Mode;
 
-  constructor(private employeeService: EmployeeService) {}
+  constructor(private employeeService: EmployeeService) {
+    this.employees$ = this.employeeService.getAllEmployees();
+  }
 
   onEmployeeSelect(employee: EmployeeModel): void {
     const isSameEmployee: boolean =

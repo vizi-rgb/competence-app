@@ -58,7 +58,7 @@
         {{ 'employee.label.manager' | translate }}
       </label>
       <select id="manager" formControlName="manager">
-        @for (manager of managers; track manager.id) {
+        @for (manager of managers$ | async; track manager.id) {
           <option [ngValue]="manager">
             {{ manager.name + ' ' + manager.surname }}
           </option>
