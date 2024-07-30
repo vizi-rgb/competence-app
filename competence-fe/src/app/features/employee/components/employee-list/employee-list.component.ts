@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
 import { EmployeeDetailsComponent } from '../employee-details/employee-details.component';
-import { EmployeeEditComponent } from '../employee-edit/employee-edit.component';
+import { EmployeeFormComponent } from '../employee-form/employee-form.component';
 import { FormGroup } from '@angular/forms';
-import { EmployeeAddComponent } from '../employee-add/employee-add.component';
 import { EmployeeModel } from '../../models/employee.model';
 import { EmployeeService } from '../../services/employee.service';
 import { TranslateModule } from '@ngx-translate/core';
@@ -22,8 +21,7 @@ enum Mode {
   standalone: true,
   imports: [
     EmployeeDetailsComponent,
-    EmployeeEditComponent,
-    EmployeeAddComponent,
+    EmployeeFormComponent,
     TranslateModule,
     LangSelectorComponent,
     AsyncPipe,

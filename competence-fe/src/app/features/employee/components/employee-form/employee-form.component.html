@@ -1,6 +1,12 @@
-<form (ngSubmit)="onSubmit()" [formGroup]="form">
+<form (ngSubmit)="onSubmit()" [formGroup]="employeeForm">
   <div class="employee content">
-    <h1 class="employee__title">{{ 'employee.form.add.title' | translate }}</h1>
+    <h1 class="employee__title">
+      {{
+        (employee ? 'employee.form.edit.title' : 'employee.form.add.title')
+          | translate
+      }}
+    </h1>
+
     <div class="employee__section">
       <label class="employee__section-label" for="name">
         {{ 'employee.label.name' | translate }}
@@ -87,7 +93,7 @@
           <option>
             {{ 'employee.form.add.skill.defaultSelectOption' | translate }}
           </option>
-          @for (skill of getAvailableSkillWrapper(); track skill.skillKey) {
+          @for (skill of getAvailableSkillsWrapper(); track skill.skillKey) {
             <option [value]="skill.skillKey">
               {{ skill.skillValue }}
             </option>
@@ -121,22 +127,34 @@
       <button
         type="submit"
         class="employee__button-primary"
-        [disabled]="form.invalid">
-        {{ 'employee.form.add.button.add' | translate }}
+        [disabled]="employeeForm.invalid">
+        {{
+          (employee
+            ? 'employee.form.edit.button.confirm'
+            : 'employee.form.add.button.add'
+          ) | translate
+        }}
       </button>
 
       <button
         class="employee__button-secondary"
         type="button"
-        (click)="onCancel()">
-        {{ 'employee.form.add.button.cancel' | translate }}
+        (click)="onCancelClicked()">
+        {{
+          (employee
+            ? 'employee.form.edit.button.cancel'
+            : 'employee.form.add.button.cancel'
+          ) | translate
+        }}
       </button>
     </div>
 
-    <div class="employee__button-section">
-      <button type="button" (click)="onClear()">
-        {{ 'employee.form.add.button.clear' | translate }}
-      </button>
-    </div>
+    @if (!employee) {
+      <div class="employee__button-section">
+        <button type="button" (click)="onClear()">
+          {{ 'employee.form.add.button.clear' | translate }}
+        </button>
+      </div>
+    }
   </div>
 </form>

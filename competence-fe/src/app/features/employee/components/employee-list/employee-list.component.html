@@ -39,17 +39,17 @@
     }
     @case (Mode.EDIT) {
       <div class="employee-list__overview">
-        <app-employee-edit
+        <app-employee-form
           [employee]="selectedEmployee"
           (editCanceled)="onEditCanceled()"
-          (formSubmitted)="onEditFormSubmitted($event)"></app-employee-edit>
+          (formSubmitted)="onEditFormSubmitted($event)"></app-employee-form>
       </div>
     }
     @case (Mode.ADD) {
       <div class="employee-list__overview">
-        <app-employee-add
-          (submitted)="onAddEmployeeSubmitted($event)"
-          (canceled)="onAddEmployeeCanceled()"></app-employee-add>
+        <app-employee-form
+          (formSubmitted)="onAddEmployeeSubmitted($event)"
+          (editCanceled)="onAddEmployeeCanceled()"></app-employee-form>
       </div>
     }
     @default {}

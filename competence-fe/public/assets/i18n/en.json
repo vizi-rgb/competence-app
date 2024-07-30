@@ -24,7 +24,7 @@
 					"cancel": "Cancel",
 					"confirm": "Confirm changes"
 				},
-				"title": "Employee data"
+				"title": "Modify employee data"
 			},
 			"validation": {
 				"dateOfEmployment.required": "Date of employment is required",

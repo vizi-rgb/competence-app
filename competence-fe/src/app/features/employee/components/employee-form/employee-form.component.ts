@@ -22,7 +22,10 @@ import {
   getAvailableSkillsSorted,
   SkillTranslation,
 } from '../../../../shared/util/employee.util';
-import { isMissing } from '../../../../shared/util/validation.util';
+import {
+  isMissing,
+  isModifiedAndInvalid,
+} from '../../../../shared/util/validation.util';
 import { getValueFromHtmlSelect } from '../../../../shared/util/html-select.util';
 import { ProjectModel } from '../../models/project.model';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -40,7 +43,7 @@ import {
 } from '../../../../core/constants/soft-skill.enum';
 
 @Component({
-  selector: 'app-employee-edit',
+  selector: 'app-employee-form',
   standalone: true,
   imports: [
     EmployeeProjectComponent,
@@ -50,10 +53,10 @@ import {
     SkillToTranslationKeyPipe,
     AsyncPipe,
   ],
-  templateUrl: './employee-edit.component.html',
-  styleUrl: './employee-edit.component.scss',
+  templateUrl: './employee-form.component.html',
+  styleUrl: './employee-form.component.scss',
 })
-export class EmployeeEditComponent {
+export class EmployeeFormComponent {
   @Input()
   set employee(employee: EmployeeModel | undefined) {
     if (!employee) return;
@@ -73,10 +76,12 @@ export class EmployeeEditComponent {
   formSubmitted = new EventEmitter<FormGroup>();
 
   employeeForm: FormGroup;
+  allProjects: ProjectModel[] = [];
 
   readonly managers$: Observable<EmployeeModel[]>;
-  readonly allProjects: ProjectModel[];
+
   protected readonly isMissing = isMissing;
+  protected readonly isModifiedAndInvalid = isModifiedAndInvalid;
 
   private _employee?: EmployeeModel;
   private readonly destroyRef: DestroyRef = inject(DestroyRef);
@@ -89,17 +94,14 @@ export class EmployeeEditComponent {
     this.employeeForm = this.fb.nonNullable.group({
       name: ['', Validators.required],
       surname: ['', Validators.required],
-      dateOfEmployment: [
-        formatDate(Date.now(), 'yyyy-MM-dd', 'en'),
-        Validators.required,
-      ],
+      dateOfEmployment: ['', Validators.required],
       manager: [null],
       skills: this.fb.nonNullable.array([]),
       projects: this.fb.nonNullable.array([]),
     });
 
     this.managers$ = this.employeeService.getAllManagers();
-    this.allProjects = this.getAllProjects();
+    this.getAllProjects();
   }
 
   get nameControl() {
@@ -144,10 +146,17 @@ export class EmployeeEditComponent {
 
   onSubmit(): void {
     this.formSubmitted.emit(this.employeeForm);
+    this.onClear();
   }
 
   onCancelClicked(): void {
     this.editCanceled.emit();
+  }
+
+  onClear(): void {
+    this.employeeForm.reset();
+    this.skillsControl.clear();
+    this.projectsControl.clear();
   }
 
   onSkillSelect(event: Event): void {
@@ -174,13 +183,13 @@ export class EmployeeEditComponent {
   }
 
   getAvailableSkillsWrapper(): SkillTranslation[] {
-    const allSkills: (SoftSkillKey | TechnologyKey)[] = [
-      ...(Object.keys(Technology) as TechnologyKey[]),
-      ...(Object.keys(SoftSkill) as SoftSkillKey[]),
+    const allSkills: string[] = [
+      ...Object.keys(Technology),
+      ...Object.keys(SoftSkill),
     ];
 
     return getAvailableSkillsSorted(
-      allSkills,
+      allSkills as (SoftSkillKey | TechnologyKey)[],
       this.skillsControl.getRawValue(),
       this.translate
     );
@@ -209,16 +218,13 @@ export class EmployeeEditComponent {
     );
   }
 
-  private getAllProjects(): ProjectModel[] {
-    let allProjects: ProjectModel[] = [];
+  private getAllProjects(): void {
     this.employeeService
       .getAllProjects()
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
-        next: (value: ProjectModel[]) => (allProjects = value),
+        next: (value: ProjectModel[]) => (this.allProjects = value),
         error: (err) => console.log(err),
       });
-
-    return allProjects;
   }
 }
