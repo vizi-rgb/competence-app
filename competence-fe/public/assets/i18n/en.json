@@ -44,6 +44,12 @@
 			"title": "Employee list"
 		}
 	},
+	"message": {
+		"button": {
+			"clear": "Clear messages"
+		},
+		"title": "Messages"
+	},
 	"project": {
 		"artshare.description": "Platform for artists to share and sell their work",
 		"bookclub.description": "Online community for book enthusiasts",

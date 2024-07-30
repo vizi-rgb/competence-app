@@ -44,6 +44,12 @@
 			"title": "Lista pracowników"
 		}
 	},
+	"message": {
+		"button": {
+			"clear": "Wyczyść wiadomości"
+		},
+		"title": "Wiadomości"
+	},
 	"project": {
 		"artshare.description": "Platforma dla artystów do dzielenia się i sprzedaży swoich prac",
 		"bookclub.description": "Internetowa społeczność miłośników książek",

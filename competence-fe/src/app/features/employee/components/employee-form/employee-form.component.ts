@@ -41,6 +41,7 @@ import {
   SoftSkill,
   SoftSkillKey,
 } from '../../../../core/constants/soft-skill.enum';
+import { MessageService } from '../../../../core/services/message.service';
 
 @Component({
   selector: 'app-employee-form',
@@ -89,7 +90,8 @@ export class EmployeeFormComponent {
   constructor(
     private fb: FormBuilder,
     private translate: TranslateService,
-    private employeeService: EmployeeService
+    private employeeService: EmployeeService,
+    private messageService: MessageService
   ) {
     this.employeeForm = this.fb.nonNullable.group({
       name: ['', Validators.required],
@@ -224,7 +226,9 @@ export class EmployeeFormComponent {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (value: ProjectModel[]) => (this.allProjects = value),
-        error: (err) => console.log(err),
+        error: (err) =>
+          this.messageService.add(`$Error while fetching projects: ${err}`),
+        complete: () => this.messageService.add('Finished fetching projects'),
       });
   }
 }
