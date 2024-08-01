@@ -1,35 +1,38 @@
-<div class="employee-list content">
+<div class="employee-container">
   <div>
-    <h1 class="employee-list__title">
+    <h5 class="employee-container__title">
       {{ 'employee.list.title' | translate }}
-    </h1>
+    </h5>
 
-    <div class="employee-list__element">
+    <div class="employee-container__list">
       <button
-        class="employee-list__button employee-list__add-button employee-list__add-button--hover content"
-        (click)="onAddEmployeeSelected()">
-        <span>+</span>
+        mat-flat-button
+        (click)="onAddEmployeeSelected()"
+        [class.employee-container__button--selected]="
+          selectedMode === Mode.ADD
+        ">
+        {{ 'employee.list.button.add' | translate }}
       </button>
-    </div>
-    @for (employee of employees$ | async; track employee.id) {
-      <div class="employee-list__element">
+
+      <mat-divider></mat-divider>
+
+      @for (employee of employees$ | async; track employee.id) {
         <button
-          class="employee-list__button employee-list__button--hover content"
-          [class.employee-list__button--selected]="
+          mat-stroked-button
+          (click)="onEmployeeSelect(employee)"
+          [class.employee-container__button--selected]="
             employee === selectedEmployee &&
             (selectedMode === Mode.VIEW || selectedMode === Mode.EDIT)
-          "
-          (click)="onEmployeeSelect(employee)">
-          <span>{{ $index + 1 }}.</span>
-          <span>{{ employee.name + ' ' + employee.surname }}</span>
+          ">
+          {{ employee.name + ' ' + employee.surname }}
         </button>
-      </div>
-    }
+      }
+    </div>
   </div>
 
   @switch (selectedMode) {
     @case (Mode.VIEW) {
-      <div class="employee-list__overview">
+      <div class="employee-container__overview">
         <app-employee-details
           [employee]="selectedEmployee"
           (editEmployeeSelected)="
@@ -38,7 +41,7 @@
       </div>
     }
     @case (Mode.EDIT) {
-      <div class="employee-list__overview">
+      <div>
         <app-employee-form
           [employee]="selectedEmployee"
           (editCanceled)="onEditCanceled()"
@@ -46,7 +49,7 @@
       </div>
     }
     @case (Mode.ADD) {
-      <div class="employee-list__overview">
+      <div>
         <app-employee-form
           (formSubmitted)="onAddEmployeeSubmitted($event)"
           (editCanceled)="onAddEmployeeCanceled()"></app-employee-form>

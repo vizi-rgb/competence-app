@@ -41,7 +41,10 @@
 			"surname": "Nazwisko"
 		},
 		"list": {
-			"title": "Lista pracowników"
+			"title": "Lista pracowników",
+      "button": {
+        "add": "Dodaj"
+      }
 		}
 	},
 	"messageService": {

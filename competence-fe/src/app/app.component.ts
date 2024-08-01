@@ -4,6 +4,7 @@ import { EmployeeListComponent } from './features/employee/components/employee-l
 import { TranslateService } from '@ngx-translate/core';
 import { HeaderComponent } from './core/layout/header/header.component';
 import { MessageComponent } from './shared/components/message/message.component';
+import { MatButton } from '@angular/material/button';
 
 @Component({
   selector: 'app-root',
@@ -13,6 +14,7 @@ import { MessageComponent } from './shared/components/message/message.component'
     EmployeeListComponent,
     HeaderComponent,
     MessageComponent,
+    MatButton,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',

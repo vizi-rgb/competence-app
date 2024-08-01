@@ -5,6 +5,16 @@ import { EmployeeProjectComponent } from '../employee-project/employee-project.c
 import { EmployeeModel } from '../../models/employee.model';
 import { TranslateModule } from '@ngx-translate/core';
 import { SkillToTranslationKeyPipe } from '../../pipes/skill-to-translation-key.pipe';
+import {
+  MatCard,
+  MatCardActions,
+  MatCardContent,
+  MatCardHeader,
+  MatCardTitle,
+} from '@angular/material/card';
+import { MatDivider } from '@angular/material/divider';
+import { MatChip, MatChipSet } from '@angular/material/chips';
+import { MatButton } from '@angular/material/button';
 
 @Component({
   selector: 'app-employee-details',
@@ -16,6 +26,15 @@ import { SkillToTranslationKeyPipe } from '../../pipes/skill-to-translation-key.
     ReactiveFormsModule,
     TranslateModule,
     SkillToTranslationKeyPipe,
+    MatCard,
+    MatCardTitle,
+    MatCardHeader,
+    MatCardContent,
+    MatDivider,
+    MatChipSet,
+    MatChip,
+    MatCardActions,
+    MatButton,
   ],
   templateUrl: './employee-details.component.html',
   styleUrl: './employee-details.component.scss',

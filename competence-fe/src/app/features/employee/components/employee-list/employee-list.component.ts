@@ -8,6 +8,14 @@ import { TranslateModule } from '@ngx-translate/core';
 import { LangSelectorComponent } from '../../../../shared/components/lang-selector/lang-selector.component';
 import { Observable } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
+import {
+  MatButton,
+  MatFabButton,
+  MatIconButton,
+  MatMiniFabButton,
+} from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDivider } from '@angular/material/divider';
 
 enum Mode {
   VIEW,
@@ -25,6 +33,12 @@ enum Mode {
     TranslateModule,
     LangSelectorComponent,
     AsyncPipe,
+    MatFabButton,
+    MatIconModule,
+    MatMiniFabButton,
+    MatButton,
+    MatIconButton,
+    MatDivider,
   ],
   templateUrl: './employee-list.component.html',
   styleUrl: './employee-list.component.scss',

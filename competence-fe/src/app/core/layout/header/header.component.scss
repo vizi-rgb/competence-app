@@ -1,18 +1,23 @@
-$padding: 3rem;
+$x-padding: 3rem;
+$y-padding: 1rem;
 $border-color: black;
 $column-gap: 3rem;
-$bg-color: white;
+$dark-theme-bg-color: #121212;
 
 .header {
   position: sticky;
   top: 0;
-  background-color: $bg-color;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
   column-gap: $column-gap;
-  padding-left: $padding;
-  padding-right: $padding;
+  padding: $y-padding $x-padding;
   border-bottom: 1px solid $border-color;
+  background-color: $dark-theme-bg-color;
+  z-index: 10;
+
+  &__text {
+    margin: 0;
+  }
 }

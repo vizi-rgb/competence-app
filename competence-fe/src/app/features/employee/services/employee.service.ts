@@ -72,10 +72,6 @@ export class EmployeeService {
       employee.dateOfEmployment = payload.dateOfEmployment;
     }
 
-    if (payload.manager) {
-      employee.manager = payload.manager;
-    }
-
     if (payload.skills) {
       employee.skills = payload.skills;
     }
@@ -83,5 +79,7 @@ export class EmployeeService {
     if (payload.projects) {
       employee.projects = payload.projects;
     }
+
+    employee.manager = payload.manager;
   }
 }

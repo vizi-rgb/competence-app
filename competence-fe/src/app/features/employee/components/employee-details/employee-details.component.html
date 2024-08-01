@@ -1,76 +1,85 @@
-<div class="employee content">
+<mat-card appearance="outlined">
   @if (employee) {
-    <h1 class="employee__title">
-      @if (employee.manager) {
-        {{ 'employee.details.title.employee' | translate }}
-      } @else {
-        {{ 'employee.details.title.manager' | translate }}
-      }
-    </h1>
-    <div class="employee__section">
-      <label class="employee__section-label" for="name">
-        {{ 'employee.label.name' | translate }}
-      </label>
-      <p class="employee__section-input" id="name">
-        {{ employee.name }}
-      </p>
-    </div>
-
-    <div class="employee__section">
-      <label class="employee__section-label" for="surname">
-        {{ 'employee.label.surname' | translate }}
-      </label>
-      <p class="employee__section-input" id="surname">
-        {{ employee.surname }}
-      </p>
-    </div>
-
-    <div class="employee__section">
-      <label class="employee__section-label" for="dateOfEmployment">
-        {{ 'employee.label.dateOfEmployment' | translate }}
-      </label>
-      <p class="employee__section-input" id="dateOfEmployment" type="date">
-        {{ employee.dateOfEmployment | date: 'dd.MM.yyyy' }}
-      </p>
-    </div>
-
-    @if (employee.manager) {
-      <div class="employee__section">
-        <label class="employee__section-label" for="manager">
-          {{ 'employee.label.manager' | translate }}
+    <mat-card-header>
+      <mat-card-title>
+        @if (employee.manager) {
+          {{ 'employee.details.title.employee' | translate }}
+        } @else {
+          {{ 'employee.details.title.manager' | translate }}
+        }
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="employee-card__content">
+      <div>
+        <label class="employee-card__label" for="name">
+          {{ 'employee.label.name' | translate }}
         </label>
-        <p id="manager">
-          {{ employee.manager.name + ' ' + employee.manager.surname }}
+        <p id="name">
+          {{ employee.name }}
         </p>
       </div>
-    }
 
-    <div class="employee__section">
-      <label class="employee__section-label" for="skills">
-        {{ 'employee.label.skills' | translate }}
-      </label>
-      <div class="employee__skills-section" id="skills">
-        @for (skill of employee.skills; track $index) {
-          <p class="employee__skill">
-            {{ skill | skillToTranslationKey | translate }}
+      <div>
+        <label for="surname" class="employee-card__label">
+          {{ 'employee.label.surname' | translate }}
+        </label>
+        <p id="surname">
+          {{ employee.surname }}
+        </p>
+      </div>
+
+      <div>
+        <label class="employee-card__label" for="dateOfEmployment">
+          {{ 'employee.label.dateOfEmployment' | translate }}
+        </label>
+        <p id="dateOfEmployment" type="date">
+          {{ employee.dateOfEmployment | date: 'dd.MM.yyyy' }}
+        </p>
+      </div>
+
+      @if (employee.manager) {
+        <div>
+          <label class="employee-card__label" for="manager">
+            {{ 'employee.label.manager' | translate }}
+          </label>
+          <p id="manager">
+            {{ employee.manager.name + ' ' + employee.manager.surname }}
           </p>
-        }
-      </div>
-    </div>
+        </div>
+      }
 
-    <div class="employee__section">
-      <label class="employee__section-label" for="projects">
-        {{ 'employee.label.projects' | translate }}
-      </label>
-      <div id="projects" class="employee__projects">
-        @for (project of employee.projects; track $index) {
-          <app-employee-project [project]="project"></app-employee-project>
-        }
-      </div>
-    </div>
+      <div>
+        <label class="employee-card__label" for="skills">
+          {{ 'employee.label.skills' | translate }}
+        </label>
 
-    <button (click)="onEditClicked()">
-      {{ 'employee.details.button.edit' | translate }}
-    </button>
+        <mat-chip-set>
+          <div class="employee-card__skills-grid">
+            @for (skill of employee.skills; track $index) {
+              <mat-chip>
+                {{ skill | skillToTranslationKey | translate }}
+              </mat-chip>
+            }
+          </div>
+        </mat-chip-set>
+      </div>
+
+      <div>
+        <label class="employee-card__label" for="projects">
+          {{ 'employee.label.projects' | translate }}
+        </label>
+        <div class="employee-card__projects">
+          @for (project of employee.projects; track $index) {
+            <app-employee-project [project]="project"></app-employee-project>
+          }
+        </div>
+      </div>
+    </mat-card-content>
+
+    <mat-card-actions>
+      <button mat-button (click)="onEditClicked()">
+        {{ 'employee.details.button.edit' | translate }}
+      </button>
+    </mat-card-actions>
   }
-</div>
+</mat-card>

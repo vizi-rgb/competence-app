@@ -1,133 +1,106 @@
 <form (ngSubmit)="onSubmit()" [formGroup]="employeeForm">
-  <div class="employee content">
-    <h1 class="employee__title">
+  <div class="employee-form content">
+    <h5>
       {{
         (employee ? 'employee.form.edit.title' : 'employee.form.add.title')
           | translate
       }}
-    </h1>
+    </h5>
 
-    <div class="employee__section">
-      <label class="employee__section-label" for="name">
+    <mat-form-field>
+      <mat-label>
         {{ 'employee.label.name' | translate }}
-      </label>
+      </mat-label>
       <input
-        class="employee__section-input"
-        id="name"
+        matInput
         [placeholder]="'employee.label.name' | translate"
         formControlName="name" />
       @if (isModifiedAndInvalid(nameControl) && isMissing(nameControl)) {
-        <span class="employee__error-message">
+        <mat-error>
           {{ 'employee.form.validation.name.required' | translate }}
-        </span>
+        </mat-error>
       }
-    </div>
+    </mat-form-field>
 
-    <div class="employee__section">
-      <label class="employee__section-label" for="surname">
+    <mat-form-field>
+      <mat-label>
         {{ 'employee.label.surname' | translate }}
-      </label>
+      </mat-label>
       <input
-        class="employee__section-input"
-        id="surname"
+        matInput
         [placeholder]="'employee.label.surname' | translate"
         formControlName="surname" />
       @if (isModifiedAndInvalid(surnameControl) && isMissing(surnameControl)) {
-        <span class="employee__error-message">
+        <mat-error>
           {{ 'employee.form.validation.surname.required' | translate }}
-        </span>
+        </mat-error>
       }
-    </div>
+    </mat-form-field>
 
-    <div class="employee__section">
-      <label class="employee__section-label" for="dateOfEmployment">
+    <mat-form-field>
+      <mat-label>
         {{ 'employee.label.dateOfEmployment' | translate }}
-      </label>
-      <input
-        class="employee__section-input"
-        id="dateOfEmployment"
-        name="dateOfEmployment"
-        type="date"
-        formControlName="dateOfEmployment" />
+      </mat-label>
+      <input matInput type="date" formControlName="dateOfEmployment" />
       @if (
         isModifiedAndInvalid(dateOfEmploymentControl) &&
         isMissing(dateOfEmploymentControl)
       ) {
-        <span class="employee__error-message">
+        <mat-error>
           {{ 'employee.form.validation.dateOfEmployment.required' | translate }}
-        </span>
+        </mat-error>
       }
-    </div>
+    </mat-form-field>
 
-    <div class="employee__section">
-      <label class="employee__section-label" for="manager">
+    <mat-form-field>
+      <mat-label>
         {{ 'employee.label.manager' | translate }}
-      </label>
-      <select id="manager" formControlName="manager">
+      </mat-label>
+      <mat-select formControlName="manager">
+        <mat-option [value]="null"></mat-option>
         @for (manager of managers$ | async; track manager.id) {
-          <option [ngValue]="manager">
+          <mat-option [value]="manager">
             {{ manager.name + ' ' + manager.surname }}
-          </option>
+          </mat-option>
         }
-      </select>
-    </div>
+      </mat-select>
+    </mat-form-field>
 
-    <div class="employee__section">
-      <label class="employee__section-label" for="skills">
-        {{ 'employee.label.skills' | translate }}
-      </label>
-      <div class="employee__skills-section" id="skills">
-        @for (skill of skillsControl.controls; track $index) {
-          <button
-            type="button"
-            (click)="deleteSkill($index)"
-            class="employee__skill">
-            {{ skill.value | skillToTranslationKey | translate }}
-          </button>
-        }
-        <select
-          class="employee__skill employee__skill--empty"
-          [title]="'employee.form.add.skill.help' | translate"
-          formArrayName="skills"
-          (change)="onSkillSelect($event)">
-          <option>
-            {{ 'employee.form.add.skill.defaultSelectOption' | translate }}
-          </option>
-          @for (skill of getAvailableSkillsWrapper(); track skill.skillKey) {
-            <option [value]="skill.skillKey">
-              {{ skill.skillValue }}
-            </option>
-          }
-        </select>
-      </div>
-    </div>
+    <mat-divider></mat-divider>
 
-    <div class="employee__section">
-      <label class="employee__section-label" for="projects">
-        {{ 'employee.label.projects' | translate }}
-      </label>
-      <select (change)="onProjectSelect($event)">
-        <option></option>
-        @for (project of getAvailableProjectsWrapper(); track project) {
-          <option [ngValue]="project.title">
-            {{ project.title }}
-          </option>
-        }
-      </select>
-      <div id="projects" class="employee__projects">
-        @for (project of projectsControl.controls; track project) {
-          <app-employee-project
-            [project]="project.value"
-            (click)="deleteProject($index)"></app-employee-project>
-        }
-      </div>
-    </div>
+    <p class="mat-title-large">
+      {{ 'employee.label.skills' | translate }}
+    </p>
+    <mat-chip-listbox #skillsListbox multiple>
+      @for (skill of getAvailableSkillsWrapper(); track $index) {
+        <mat-chip-option
+          [selected]="isInEmployeeSkills(skill.skillKey)"
+          (selectionChange)="onSkillSelect(skill.skillKey, $event)"
+          [value]="skill.skillKey">
+          {{ skill.skillKey | skillToTranslationKey | translate }}
+        </mat-chip-option>
+      }
+    </mat-chip-listbox>
 
-    <div class="employee__button-section">
-      <button
-        type="submit"
-        class="employee__button-primary"
-        [disabled]="employeeForm.invalid">
+    <mat-divider></mat-divider>
+
+    <p class="mat-title-large">
+      {{ 'employee.label.projects' | translate }}
+    </p>
+
+    <mat-chip-listbox #projectsListbox multiple>
+      @for (project of getAvailableProjectsWrapper(); track $index) {
+        <mat-chip-option
+          [selected]="isInEmployeeProjects(project)"
+          (selectionChange)="onProjectSelect(project, $event)"
+          [value]="project.title">
+          {{ project.title }}
+        </mat-chip-option>
+      }
+    </mat-chip-listbox>
+
+    <div class="employee-form__button-section">
+      <button mat-flat-button type="submit" [disabled]="employeeForm.invalid">
         {{
           (employee
             ? 'employee.form.edit.button.confirm'
@@ -137,7 +110,8 @@
       </button>
 
       <button
-        class="employee__button-secondary"
+        mat-stroked-button
+        class="mat-accent"
         type="button"
         (click)="onCancelClicked()">
         {{
@@ -150,8 +124,8 @@
     </div>
 
     @if (!employee) {
-      <div class="employee__button-section">
-        <button type="button" (click)="onClear()">
+      <div class="employee-form__button-section">
+        <button mat-raised-button type="button" (click)="onClear()">
           {{ 'employee.form.add.button.clear' | translate }}
         </button>
       </div>

@@ -5,11 +5,13 @@ import {
   inject,
   Input,
   Output,
+  ViewChild,
 } from '@angular/core';
 import {
   FormArray,
   FormBuilder,
   FormGroup,
+  FormGroupDirective,
   FormsModule,
   ReactiveFormsModule,
   Validators,
@@ -26,7 +28,6 @@ import {
   isMissing,
   isModifiedAndInvalid,
 } from '../../../../shared/util/validation.util';
-import { getValueFromHtmlSelect } from '../../../../shared/util/html-select.util';
 import { ProjectModel } from '../../models/project.model';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { SkillToTranslationKeyPipe } from '../../pipes/skill-to-translation-key.pipe';
@@ -42,7 +43,35 @@ import {
   SoftSkillKey,
 } from '../../../../core/constants/soft-skill.enum';
 import { MessageService } from '../../../../core/services/message.service';
+import {
+  MatError,
+  MatFormField,
+  MatLabel,
+  MatSuffix,
+} from '@angular/material/form-field';
+import { MatInput } from '@angular/material/input';
+import {
+  MatDatepicker,
+  MatDatepickerInput,
+  MatDatepickerToggle,
+} from '@angular/material/datepicker';
+import { MatOption, MatSelect } from '@angular/material/select';
+import { MatButton } from '@angular/material/button';
+import {
+  MatChipGrid,
+  MatChipListbox,
+  MatChipOption,
+  MatChipRemove,
+  MatChipRow,
+  MatChipSelectionChange,
+} from '@angular/material/chips';
+import { MatIcon } from '@angular/material/icon';
+import {
+  MatAutocomplete,
+  MatAutocompleteTrigger,
+} from '@angular/material/autocomplete';
 import { MessageCodes } from '../../../../core/constants/message-codes.enum';
+import { MatDivider } from '@angular/material/divider';
 
 @Component({
   selector: 'app-employee-form',
@@ -54,6 +83,26 @@ import { MessageCodes } from '../../../../core/constants/message-codes.enum';
     TranslateModule,
     SkillToTranslationKeyPipe,
     AsyncPipe,
+    MatFormField,
+    MatInput,
+    MatLabel,
+    MatError,
+    MatDatepickerInput,
+    MatDatepickerToggle,
+    MatSuffix,
+    MatDatepicker,
+    MatSelect,
+    MatOption,
+    MatButton,
+    MatChipGrid,
+    MatChipRow,
+    MatChipRemove,
+    MatIcon,
+    MatChipListbox,
+    MatAutocomplete,
+    MatAutocompleteTrigger,
+    MatChipOption,
+    MatDivider,
   ],
   templateUrl: './employee-form.component.html',
   styleUrl: './employee-form.component.scss',
@@ -77,8 +126,18 @@ export class EmployeeFormComponent {
   @Output()
   formSubmitted = new EventEmitter<FormGroup>();
 
+  @ViewChild('projectsListbox')
+  projectsListbox!: MatChipListbox;
+
+  @ViewChild('skillsListbox')
+  skillsListbox!: MatChipListbox;
+
+  @ViewChild(FormGroupDirective)
+  formDirective!: FormGroupDirective;
+
   employeeForm: FormGroup;
   allProjects: ProjectModel[] = [];
+  allSkills: string[] = [];
 
   readonly managers$: Observable<EmployeeModel[]>;
 
@@ -105,6 +164,7 @@ export class EmployeeFormComponent {
 
     this.managers$ = this.employeeService.getAllManagers();
     this.getAllProjects();
+    this.getAllSkills();
   }
 
   get nameControl() {
@@ -131,7 +191,8 @@ export class EmployeeFormComponent {
     return this.employeeForm.get('projects') as FormArray;
   }
 
-  deleteSkill(index: number): void {
+  deleteSkill(skillKey: string): void {
+    const index: number = this.skillsControl.getRawValue().indexOf(skillKey);
     this.skillsControl.removeAt(index);
   }
 
@@ -139,7 +200,8 @@ export class EmployeeFormComponent {
     this.skillsControl.push(this.fb.nonNullable.control(skill));
   }
 
-  deleteProject(index: number): void {
+  deleteProject(project: ProjectModel): void {
+    const index: number = this.projectsControl.getRawValue().indexOf(project);
     this.projectsControl.removeAt(index);
   }
 
@@ -149,6 +211,7 @@ export class EmployeeFormComponent {
 
   onSubmit(): void {
     this.formSubmitted.emit(this.employeeForm);
+    console.log(this.employeeForm.getRawValue());
     this.onClear();
   }
 
@@ -158,42 +221,59 @@ export class EmployeeFormComponent {
 
   onClear(): void {
     this.employeeForm.reset();
+    this.formDirective.resetForm();
     this.skillsControl.clear();
     this.projectsControl.clear();
+    this.projectsListbox.writeValue([]);
+    this.skillsListbox.writeValue([]);
   }
 
-  onSkillSelect(event: Event): void {
-    const skill: string = getValueFromHtmlSelect(event);
-    this.addSkill(skill);
+  onSkillSelect(skillKey: string, event: MatChipSelectionChange): void {
+    if (!event.isUserInput) {
+      return;
+    }
+
+    if (event.selected) {
+      this.addSkill(skillKey);
+    } else {
+      this.deleteSkill(skillKey);
+    }
   }
 
-  onProjectSelect(event: Event): void {
-    const projectTitle: string = getValueFromHtmlSelect(event);
-    const project: ProjectModel | undefined = this.allProjects.find(
-      (project: ProjectModel) => project.title === projectTitle
+  isInEmployeeSkills(skillKey: string): boolean {
+    const skillsSet: Set<string> = new Set<string>(this.employee?.skills);
+
+    return skillsSet.has(skillKey);
+  }
+
+  isInEmployeeProjects(project: ProjectModel): boolean {
+    const projectsSet: Set<ProjectModel> = new Set<ProjectModel>(
+      this.employee?.projects
     );
 
-    if (project) {
+    return projectsSet.has(project);
+  }
+
+  onProjectSelect(project: ProjectModel, event: MatChipSelectionChange): void {
+    if (!event.isUserInput) {
+      return;
+    }
+
+    if (event.selected) {
       this.addProject(project);
+    } else {
+      this.deleteProject(project);
     }
   }
 
   getAvailableProjectsWrapper(): ProjectModel[] {
-    return getAvailableProjectsSorted(
-      this.allProjects,
-      this.projectsControl.getRawValue()
-    );
+    return getAvailableProjectsSorted(this.allProjects, []);
   }
 
   getAvailableSkillsWrapper(): SkillTranslation[] {
-    const allSkills: string[] = [
-      ...Object.keys(Technology),
-      ...Object.keys(SoftSkill),
-    ];
-
     return getAvailableSkillsSorted(
-      allSkills as (SoftSkillKey | TechnologyKey)[],
-      this.skillsControl.getRawValue(),
+      this.allSkills as (SoftSkillKey | TechnologyKey)[],
+      [],
       this.translate
     );
   }
@@ -219,6 +299,10 @@ export class EmployeeFormComponent {
       'projects',
       this.fb.nonNullable.array(employee.projects)
     );
+  }
+
+  private getAllSkills(): void {
+    this.allSkills = [...Object.keys(Technology), ...Object.keys(SoftSkill)];
   }
 
   private getAllProjects(): void {
