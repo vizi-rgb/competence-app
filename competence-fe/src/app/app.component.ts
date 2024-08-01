@@ -3,11 +3,17 @@ import { RouterOutlet } from '@angular/router';
 import { EmployeeListComponent } from './features/employee/components/employee-list/employee-list.component';
 import { TranslateService } from '@ngx-translate/core';
 import { HeaderComponent } from './core/layout/header/header.component';
+import { MessageComponent } from './shared/components/message/message.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, EmployeeListComponent, HeaderComponent],
+  imports: [
+    RouterOutlet,
+    EmployeeListComponent,
+    HeaderComponent,
+    MessageComponent,
+  ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })

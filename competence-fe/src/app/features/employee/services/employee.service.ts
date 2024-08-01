@@ -9,6 +9,8 @@ import { Observable, of } from 'rxjs';
 import { MANAGERS } from '../../../mocks/managers.mock';
 import { ProjectModel } from '../models/project.model';
 import { PROJECTS } from '../../../mocks/projects.mock';
+import { MessageService } from '../../../core/services/message.service';
+import { MessageCodes } from '../../../core/constants/message-codes.enum';
 
 @Injectable({
   providedIn: 'root',
@@ -16,15 +18,20 @@ import { PROJECTS } from '../../../mocks/projects.mock';
 export class EmployeeService {
   private employees: EmployeeModel[] = EMPLOYEES;
 
+  constructor(private messageService: MessageService) {}
+
   getAllEmployees(): Observable<EmployeeModel[]> {
+    this.messageService.add(MessageCodes.GET_ALL_EMPLOYEES);
     return of(EMPLOYEES);
   }
 
   getAllManagers(): Observable<EmployeeModel[]> {
+    this.messageService.add(MessageCodes.GET_ALL_MANAGERS);
     return of(MANAGERS);
   }
 
   getAllProjects(): Observable<ProjectModel[]> {
+    this.messageService.add(MessageCodes.GET_ALL_PROJECTS);
     return of(PROJECTS);
   }
 
