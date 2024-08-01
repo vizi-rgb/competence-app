@@ -10,6 +10,7 @@ import { MANAGERS } from '../../../mocks/managers.mock';
 import { ProjectModel } from '../models/project.model';
 import { PROJECTS } from '../../../mocks/projects.mock';
 import { MessageService } from '../../../core/services/message.service';
+import { MessageCodes } from '../../../core/constants/message-codes.enum';
 
 @Injectable({
   providedIn: 'root',
@@ -20,17 +21,17 @@ export class EmployeeService {
   constructor(private messageService: MessageService) {}
 
   getAllEmployees(): Observable<EmployeeModel[]> {
-    this.messageService.add('EmployeeService: returning all employees');
+    this.messageService.add(MessageCodes.GET_ALL_EMPLOYEES);
     return of(EMPLOYEES);
   }
 
   getAllManagers(): Observable<EmployeeModel[]> {
-    this.messageService.add('EmployeeService: returning all managers');
+    this.messageService.add(MessageCodes.GET_ALL_MANAGERS);
     return of(MANAGERS);
   }
 
   getAllProjects(): Observable<ProjectModel[]> {
-    this.messageService.add('EmployeeService: returning all projects');
+    this.messageService.add(MessageCodes.GET_ALL_PROJECTS);
     return of(PROJECTS);
   }
 

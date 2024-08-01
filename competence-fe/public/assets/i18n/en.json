@@ -44,9 +44,18 @@
 			"title": "Employee list"
 		}
 	},
-	"message": {
+	"messageService": {
 		"button": {
 			"clear": "Clear messages"
+		},
+		"message": {
+			"getAllEmployees": "Returning all employees",
+			"getAllManagers": "Returning all managers",
+			"project": {
+				"fetchingError": "Error while fetching projects",
+				"getAllProjects": "Returning all projects",
+				"onComplete": "Successfully fetched all projects"
+			}
 		},
 		"title": "Messages"
 	},

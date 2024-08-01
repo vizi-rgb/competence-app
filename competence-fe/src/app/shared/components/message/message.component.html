@@ -1,11 +1,11 @@
 @if (messageService.getMessages().length) {
   <div>
-    <h2>{{ 'message.title' | translate }}</h2>
+    <h2>{{ 'messageService.title' | translate }}</h2>
     <button type="button" class="clear" (click)="messageService.clear()">
-      {{ 'message.button.clear' | translate }}
+      {{ 'messageService.button.clear' | translate }}
     </button>
     @for (message of messageService.getMessages(); track $index) {
-      <div>{{ message }}</div>
+      <div>{{ message | translate }}</div>
     }
   </div>
 }

@@ -42,6 +42,7 @@ import {
   SoftSkillKey,
 } from '../../../../core/constants/soft-skill.enum';
 import { MessageService } from '../../../../core/services/message.service';
+import { MessageCodes } from '../../../../core/constants/message-codes.enum';
 
 @Component({
   selector: 'app-employee-form',
@@ -226,9 +227,12 @@ export class EmployeeFormComponent {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (value: ProjectModel[]) => (this.allProjects = value),
-        error: (err) =>
-          this.messageService.add(`$Error while fetching projects: ${err}`),
-        complete: () => this.messageService.add('Finished fetching projects'),
+        error: (err) => {
+          this.messageService.add(MessageCodes.GET_ALL_PROJECTS_ERROR);
+          console.log(err);
+        },
+        complete: () =>
+          this.messageService.add(MessageCodes.GET_ALL_PROJECTS_SUCCESS),
       });
   }
 }

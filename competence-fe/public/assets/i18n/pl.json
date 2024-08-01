@@ -44,9 +44,18 @@
 			"title": "Lista pracowników"
 		}
 	},
-	"message": {
+	"messageService": {
 		"button": {
 			"clear": "Wyczyść wiadomości"
+		},
+		"message": {
+			"getAllEmployees": "Zwracanie wszystkich pracowników",
+			"getAllManagers": "Zwracanie wszystkich managerów",
+			"project": {
+				"fetchingError": "Błąd podczas pobierania projektów",
+				"getAllProjects": "Zwracanie wszystkich projektów",
+				"onComplete": "Pomyślnie pobrano wszystkie projekty"
+			}
 		},
 		"title": "Wiadomości"
 	},
