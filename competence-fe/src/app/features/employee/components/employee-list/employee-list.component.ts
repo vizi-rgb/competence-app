@@ -83,6 +83,7 @@ export class EmployeeListComponent {
   onAddEmployeeSubmitted(form: FormGroup): void {
     const values = form.getRawValue();
     this.employeeService.createEmployee(values);
+    this.selectedMode = Mode.VIEW;
   }
 
   onEditEmployeeSelected(): void {

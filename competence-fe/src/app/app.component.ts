@@ -5,6 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { HeaderComponent } from './core/layout/header/header.component';
 import { MessageComponent } from './shared/components/message/message.component';
 import { MatButton } from '@angular/material/button';
+import { provideMomentDateAdapter } from '@angular/material-moment-adapter';
 
 @Component({
   selector: 'app-root',
@@ -16,6 +17,7 @@ import { MatButton } from '@angular/material/button';
     MessageComponent,
     MatButton,
   ],
+  providers: [provideMomentDateAdapter()],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })

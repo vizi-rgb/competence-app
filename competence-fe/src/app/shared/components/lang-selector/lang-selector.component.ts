@@ -3,6 +3,9 @@ import { TranslateService } from '@ngx-translate/core';
 import { UpperCasePipe } from '@angular/common';
 import { MatButton } from '@angular/material/button';
 import { MatMenu, MatMenuItem, MatMenuTrigger } from '@angular/material/menu';
+import { DateAdapter } from '@angular/material/core';
+
+import 'moment/locale/pl.js';
 
 @Component({
   selector: 'app-lang-selector',
@@ -15,9 +18,13 @@ export class LangSelectorComponent {
   languages: string[];
   selectedLanguage: string;
 
-  constructor(private translate: TranslateService) {
+  constructor(
+    private translate: TranslateService,
+    private dateAdapter: DateAdapter<unknown>
+  ) {
     this.languages = this.translate.getLangs();
     this.selectedLanguage = this.translate.currentLang;
+    this.dateAdapter.setLocale(this.selectedLanguage);
   }
 
   onLangChange(language: string): void {
@@ -26,5 +33,6 @@ export class LangSelectorComponent {
     }
 
     this.translate.use(this.selectedLanguage);
+    this.dateAdapter.setLocale(this.selectedLanguage);
   }
 }

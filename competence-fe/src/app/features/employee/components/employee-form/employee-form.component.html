@@ -41,7 +41,14 @@
       <mat-label>
         {{ 'employee.label.dateOfEmployment' | translate }}
       </mat-label>
-      <input matInput type="date" formControlName="dateOfEmployment" />
+      <input
+        matInput
+        [matDatepicker]="picker"
+        formControlName="dateOfEmployment" />
+      <mat-datepicker-toggle
+        matIconSuffix
+        [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
       @if (
         isModifiedAndInvalid(dateOfEmploymentControl) &&
         isMissing(dateOfEmploymentControl)

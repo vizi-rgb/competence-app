@@ -11,12 +11,11 @@ import {
   FormArray,
   FormBuilder,
   FormGroup,
-  FormGroupDirective,
   FormsModule,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { AsyncPipe, formatDate } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { EmployeeProjectComponent } from '../employee-project/employee-project.component';
 import { EmployeeModel } from '../../models/employee.model';
 import {
@@ -72,6 +71,7 @@ import {
 } from '@angular/material/autocomplete';
 import { MessageCodes } from '../../../../core/constants/message-codes.enum';
 import { MatDivider } from '@angular/material/divider';
+import { isMoment, Moment } from 'moment';
 
 @Component({
   selector: 'app-employee-form',
@@ -131,9 +131,6 @@ export class EmployeeFormComponent {
 
   @ViewChild('skillsListbox')
   skillsListbox!: MatChipListbox;
-
-  @ViewChild(FormGroupDirective)
-  formDirective!: FormGroupDirective;
 
   employeeForm: FormGroup;
   allProjects: ProjectModel[] = [];
@@ -210,9 +207,16 @@ export class EmployeeFormComponent {
   }
 
   onSubmit(): void {
+    const dateValue: unknown = this.dateOfEmploymentControl?.value;
+    const date: Date | null = this.convertMomentToDate(dateValue);
+    if (!date) {
+      return;
+    }
+
+    this.employeeForm.patchValue({
+      dateOfEmployment: date,
+    });
     this.formSubmitted.emit(this.employeeForm);
-    console.log(this.employeeForm.getRawValue());
-    this.onClear();
   }
 
   onCancelClicked(): void {
@@ -221,7 +225,6 @@ export class EmployeeFormComponent {
 
   onClear(): void {
     this.employeeForm.reset();
-    this.formDirective.resetForm();
     this.skillsControl.clear();
     this.projectsControl.clear();
     this.projectsListbox.writeValue([]);
@@ -282,11 +285,7 @@ export class EmployeeFormComponent {
     this.employeeForm.patchValue({
       name: employee.name,
       surname: employee.surname,
-      dateOfEmployment: formatDate(
-        employee.dateOfEmployment,
-        'yyyy-MM-dd',
-        'en'
-      ),
+      dateOfEmployment: employee.dateOfEmployment,
       manager: employee.manager,
     });
 
@@ -318,5 +317,13 @@ export class EmployeeFormComponent {
         complete: () =>
           this.messageService.add(MessageCodes.GET_ALL_PROJECTS_SUCCESS),
       });
+  }
+
+  private convertMomentToDate(value: unknown): Date | null {
+    if (isMoment(value)) {
+      return (value as Moment).toDate();
+    }
+
+    return null;
   }
 }
