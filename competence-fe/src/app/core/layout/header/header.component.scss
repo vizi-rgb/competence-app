@@ -17,6 +17,13 @@ $dark-theme-bg-color: #121212;
   background-color: $dark-theme-bg-color;
   z-index: 10;
 
+  &__section {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    column-gap: $column-gap;
+  }
+
   &__text {
     margin: 0;
   }

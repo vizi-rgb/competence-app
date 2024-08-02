@@ -1,11 +1,29 @@
-@if (messageService.getMessages().length) {
-  <div>
-    <h2>{{ 'messageService.title' | translate }}</h2>
-    <button type="button" class="clear" (click)="messageService.clear()">
+<button
+  [matTooltip]="'messageService.title' | translate"
+  mat-icon-button
+  [matBadge]="unreadMessages"
+  [matBadgeHidden]="!unreadMessages"
+  [matMenuTriggerFor]="menu">
+  <mat-icon>
+    mail
+    <span class="cdk-visually-hidden">Unread log messages</span>
+  </mat-icon>
+</button>
+
+<mat-menu #menu="matMenu">
+  <button
+    mat-menu-item
+    [disabled]="messageService.isEmpty()"
+    (click)="messageService.clear()">
+    <mat-icon>delete_forever</mat-icon>
+    <span>
       {{ 'messageService.button.clear' | translate }}
-    </button>
-    @for (message of messageService.getMessages(); track $index) {
-      <div>{{ message | translate }}</div>
+    </span>
+  </button>
+  @if (!messageService.isEmpty()) {
+    <mat-divider></mat-divider>
+    @for (message of messageService.getMessages() | async; track $index) {
+      <div mat-menu-item>{{ message | translate }}</div>
     }
-  </div>
-}
+  }
+</mat-menu>
