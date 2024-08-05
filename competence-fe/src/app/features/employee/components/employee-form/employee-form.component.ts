@@ -153,7 +153,7 @@ export class EmployeeFormComponent {
     this.employeeForm = this.fb.nonNullable.group({
       name: ['', Validators.required],
       surname: ['', Validators.required],
-      dateOfEmployment: ['', Validators.required],
+      dateOfEmployment: [new Date(), Validators.required],
       manager: [null],
       skills: this.fb.nonNullable.array([]),
       projects: this.fb.nonNullable.array([]),
@@ -207,7 +207,7 @@ export class EmployeeFormComponent {
   }
 
   onSubmit(): void {
-    const dateValue: unknown = this.dateOfEmploymentControl?.value;
+    const dateValue: Date = this.dateOfEmploymentControl?.value;
     const date: Date | null = this.convertMomentToDate(dateValue);
     if (!date) {
       return;
