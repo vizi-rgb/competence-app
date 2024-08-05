@@ -1,13 +1,18 @@
-<div class="project">
-  <h1 class="project__title">{{ project.title }}</h1>
-  <p class="project__description">
-    {{ project | projectToDescriptionKey | translate }}
-  </p>
-  <div class="project__technologies">
-    @for (tech of project.technologies; track tech) {
-      <p class="project__technology">
-        {{ tech | skillToTranslationKey | translate }}
-      </p>
-    }
-  </div>
-</div>
+<mat-card appearance="outlined">
+  <mat-card-header>
+    <mat-card-title>{{ project.title }}</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <p>
+      {{ project | projectToDescriptionKey | translate }}
+    </p>
+
+    <mat-chip-set>
+      @for (tech of project.technologies; track tech) {
+        <mat-chip>
+          {{ tech | skillToTranslationKey | translate }}
+        </mat-chip>
+      }
+    </mat-chip-set>
+  </mat-card-content>
+</mat-card>

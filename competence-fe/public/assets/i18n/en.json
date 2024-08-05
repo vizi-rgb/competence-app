@@ -41,6 +41,9 @@
 			"surname": "Surname"
 		},
 		"list": {
+			"button": {
+				"add": "Add"
+			},
 			"title": "Employee list"
 		}
 	},

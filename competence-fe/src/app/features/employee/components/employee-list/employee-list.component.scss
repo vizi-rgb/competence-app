@@ -1,63 +1,32 @@
-$button-border-radius: 7px;
+$row-gap: 0.5rem;
+$padding: 2rem;
+$main-flex-gap: 4rem;
 
-$add-button-size: 3rem;
-
-$column-gap: 3rem;
-$button-height: 2rem;
-$list-padding: 0.5rem;
-$button-flex-gap: 1rem;
-$button-bg-color: azure;
-$title-size: 2rem;
-
-.employee-list {
+.employee-container {
+  padding: 2rem;
   display: flex;
   flex-direction: row;
-  column-gap: $column-gap;
-
-  &__overview {
-    border-left: black 1px dashed;
-    padding-left: $column-gap;
-  }
-
-  &__button {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    column-gap: $button-flex-gap;
-    min-height: $button-height;
-    background-color: $button-bg-color;
-    border-radius: $button-border-radius;
-
-    &--hover:hover {
-      transform: translateX(1rem);
-      transition-duration: 300ms;
-      transition-timing-function: ease-in-out;
-    }
-
-    &--selected {
-      transform: translateX(1rem);
-    }
-  }
-
-  &__element {
-    padding: $list-padding;
-  }
+  gap: $main-flex-gap;
 
   &__title {
-    font-size: $title-size;
+    padding-bottom: $padding;
   }
 
-  &__add-button {
-    width: $add-button-size;
-    height: $add-button-size;
+  &__list {
     display: flex;
-    justify-content: center;
-
-    &--hover:hover {
-      width: calc(2 * $add-button-size);
-      transition-duration: 200ms;
-      transition-timing-function: ease-in-out;
-    }
+    flex-direction: column;
+    row-gap: $row-gap;
+    width: max-content;
   }
 
+  &__overview {
+
+  }
+
+  &__button--selected {
+    transition: all;
+    transition-duration: 100ms;
+    transition-timing-function: ease-in;
+    transform: translateX(1rem);
+  }
 }
