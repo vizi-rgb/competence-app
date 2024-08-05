@@ -1,4 +1,10 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+} from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EmployeeProjectComponent } from '../employee-project/employee-project.component';
@@ -38,6 +44,7 @@ import { MatButton } from '@angular/material/button';
   ],
   templateUrl: './employee-details.component.html',
   styleUrl: './employee-details.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EmployeeDetailsComponent {
   @Input()

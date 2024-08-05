@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ProjectModel } from '../../models/project.model';
 import { TranslateModule } from '@ngx-translate/core';
 import { ProjectToDescriptionKeyPipe } from '../../pipes/project-to-description-key.pipe';
@@ -27,6 +27,7 @@ import { MatChip, MatChipSet } from '@angular/material/chips';
   ],
   templateUrl: './employee-project.component.html',
   styleUrl: './employee-project.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EmployeeProjectComponent {
   @Input({ required: true })

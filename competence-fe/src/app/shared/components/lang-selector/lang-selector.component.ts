@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { UpperCasePipe } from '@angular/common';
 import { MatButton } from '@angular/material/button';
@@ -13,6 +13,7 @@ import 'moment/locale/pl.js';
   imports: [UpperCasePipe, MatButton, MatMenuTrigger, MatMenu, MatMenuItem],
   templateUrl: './lang-selector.component.html',
   styleUrl: './lang-selector.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LangSelectorComponent {
   languages: string[];

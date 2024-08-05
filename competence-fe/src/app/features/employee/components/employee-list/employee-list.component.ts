@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { EmployeeDetailsComponent } from '../employee-details/employee-details.component';
 import { EmployeeFormComponent } from '../employee-form/employee-form.component';
 import { FormGroup } from '@angular/forms';
@@ -42,6 +42,7 @@ enum Mode {
   ],
   templateUrl: './employee-list.component.html',
   styleUrl: './employee-list.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EmployeeListComponent {
   readonly employees$: Observable<EmployeeModel[]>;
