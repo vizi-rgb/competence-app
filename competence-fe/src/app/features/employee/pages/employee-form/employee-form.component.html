@@ -1,3 +1,6 @@
+<button mat-stroked-button (click)="goBack()">
+  {{ 'employee.button.back' | translate }}
+</button>
 <form (ngSubmit)="onSubmit()" [formGroup]="employeeForm">
   <div class="employee-form content">
     <h5>

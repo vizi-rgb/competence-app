@@ -1,6 +1,14 @@
 <div class="header">
-  <h3 class="header__text">{{ 'appTitle' | translate }}</h3>
+  <h3 routerLink="/" class="header__text header__text--hover">
+    {{ 'appTitle' | translate }}
+  </h3>
   <div class="header__section">
+    <a mat-raised-button [routerLink]="['/', EMPLOYEE_ROUTE.DASHBOARD]">
+      {{ 'header.button.dashboard' | translate }}
+    </a>
+    <a mat-raised-button [routerLink]="['/', EMPLOYEE_ROUTE.LIST]">
+      {{ 'header.button.employees' | translate }}
+    </a>
     <app-message></app-message>
     <app-lang-selector></app-lang-selector>
   </div>

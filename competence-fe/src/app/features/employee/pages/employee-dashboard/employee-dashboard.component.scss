@@ -1,0 +1,16 @@
+$padding: 2rem;
+$border-radius: 5px;
+
+.dashboard {
+  padding: $padding;
+
+  &__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+
+    &-element {
+      padding: $padding;
+      border-radius: $border-radius;
+    }
+  }
+}

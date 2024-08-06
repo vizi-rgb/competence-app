@@ -1,4 +1,4 @@
-export enum MessageCodes {
+export enum MessageCode {
   GET_ALL_EMPLOYEES = 'messageService.message.getAllEmployees',
   GET_ALL_MANAGERS = 'messageService.message.getAllManagers',
   GET_ALL_PROJECTS = 'messageService.message.project.getAllProjects',

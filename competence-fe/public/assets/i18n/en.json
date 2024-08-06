@@ -1,6 +1,9 @@
 {
 	"appTitle": "Competence",
 	"employee": {
+    "button": {
+      "back": "Back"
+    },
 		"details": {
 			"button.edit": "Edit employee data",
 			"title.employee": "Employee details",
@@ -45,7 +48,13 @@
 				"add": "Add"
 			},
 			"title": "Employee list"
-		}
+		},
+    "dashboard": {
+      "title": "The newest employees",
+      "button": {
+        "list": "See the list of all employees"
+      }
+    }
 	},
 	"messageService": {
 		"button": {
@@ -87,5 +96,11 @@
 	"softSkill": {
 		"interpersonal": "Interpersonal skills",
 		"managing_projects": "Managing projects"
-	}
+	},
+  "header": {
+    "button": {
+      "dashboard": "Dashboard",
+      "employees": "Employees"
+    }
+  }
 }

@@ -1,4 +1,7 @@
 <mat-card appearance="outlined">
+  <button mat-stroked-button (click)="goBack()">
+    {{ 'employee.button.back' | translate }}
+  </button>
   @if (employee) {
     <mat-card-header>
       <mat-card-title>
@@ -77,7 +80,7 @@
     </mat-card-content>
 
     <mat-card-actions>
-      <button mat-button (click)="onEditClicked()">
+      <button mat-button [routerLink]="['/' + EDIT, employee.id]">
         {{ 'employee.details.button.edit' | translate }}
       </button>
     </mat-card-actions>

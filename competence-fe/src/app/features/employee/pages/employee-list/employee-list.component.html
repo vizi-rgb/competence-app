@@ -1,0 +1,21 @@
+<div class="employee-container">
+  <div>
+    <h5 class="employee-container__title">
+      {{ 'employee.list.title' | translate }}
+    </h5>
+
+    <div class="employee-container__list">
+      <button mat-flat-button [routerLink]="['/' + EMPLOYEE_ROUTE.ADD]">
+        {{ 'employee.list.button.add' | translate }}
+      </button>
+
+      <mat-divider></mat-divider>
+
+      @for (employee of employees$ | async; track employee.id) {
+        <button mat-stroked-button [routerLink]="[employee.id]">
+          {{ employee.name + ' ' + employee.surname }}
+        </button>
+      }
+    </div>
+  </div>
+</div>
