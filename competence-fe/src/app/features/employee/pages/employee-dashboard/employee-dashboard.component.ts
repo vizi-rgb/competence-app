@@ -1,10 +1,4 @@
-import {
-  Component,
-  DestroyRef,
-  inject,
-  LOCALE_ID,
-  OnInit,
-} from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { EmployeeService } from '../../services/employee.service';
 import { EmployeeModel } from '../../models/employee.model';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -31,6 +25,8 @@ export class EmployeeDashboardComponent implements OnInit {
   constructor(private employeeService: EmployeeService) {}
 
   ngOnInit(): void {
+    const nNewestEmployees = 6;
+
     this.employeeService
       .getAllEmployees()
       .pipe(takeUntilDestroyed(this.destroyRef))
@@ -42,9 +38,7 @@ export class EmployeeDashboardComponent implements OnInit {
                 a.dateOfEmployment.valueOf() - b.dateOfEmployment.valueOf()
             )
             .reverse()
-            .slice(0, 6))
+            .slice(0, nNewestEmployees))
       );
   }
-
-  protected readonly LOCALE_ID = LOCALE_ID;
 }
