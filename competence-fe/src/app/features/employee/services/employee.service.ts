@@ -10,7 +10,7 @@ import { MANAGERS } from '../../../mocks/managers.mock';
 import { ProjectModel } from '../models/project.model';
 import { PROJECTS } from '../../../mocks/projects.mock';
 import { MessageService } from '../../../core/services/message.service';
-import { MessageCodes } from '../../../core/constants/message-codes.enum';
+import { MessageCode } from '../../../core/constants/message-code.enum';
 
 @Injectable({
   providedIn: 'root',
@@ -21,17 +21,24 @@ export class EmployeeService {
   constructor(private messageService: MessageService) {}
 
   getAllEmployees(): Observable<EmployeeModel[]> {
-    this.messageService.add(MessageCodes.GET_ALL_EMPLOYEES);
+    this.messageService.add(MessageCode.GET_ALL_EMPLOYEES);
     return of(EMPLOYEES);
   }
 
+  getEmployeeById(id: string): Observable<EmployeeModel | undefined> {
+    const employee: EmployeeModel | undefined = EMPLOYEES.find(
+      (employee: EmployeeModel) => employee.id === id
+    );
+    return of(employee);
+  }
+
   getAllManagers(): Observable<EmployeeModel[]> {
-    this.messageService.add(MessageCodes.GET_ALL_MANAGERS);
+    this.messageService.add(MessageCode.GET_ALL_MANAGERS);
     return of(MANAGERS);
   }
 
   getAllProjects(): Observable<ProjectModel[]> {
-    this.messageService.add(MessageCodes.GET_ALL_PROJECTS);
+    this.messageService.add(MessageCode.GET_ALL_PROJECTS);
     return of(PROJECTS);
   }
 

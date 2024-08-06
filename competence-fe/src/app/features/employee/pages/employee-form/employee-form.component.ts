@@ -2,10 +2,8 @@ import {
   ChangeDetectionStrategy,
   Component,
   DestroyRef,
-  EventEmitter,
   inject,
-  Input,
-  Output,
+  OnInit,
   ViewChild,
 } from '@angular/core';
 import {
@@ -16,8 +14,8 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { AsyncPipe } from '@angular/common';
-import { EmployeeProjectComponent } from '../employee-project/employee-project.component';
+import { AsyncPipe, Location } from '@angular/common';
+import { EmployeeProjectComponent } from '../../components/employee-project/employee-project.component';
 import { EmployeeModel } from '../../models/employee.model';
 import {
   getAvailableProjectsSorted,
@@ -70,9 +68,10 @@ import {
   MatAutocomplete,
   MatAutocompleteTrigger,
 } from '@angular/material/autocomplete';
-import { MessageCodes } from '../../../../core/constants/message-codes.enum';
+import { MessageCode } from '../../../../core/constants/message-code.enum';
 import { MatDivider } from '@angular/material/divider';
 import { isMoment, Moment } from 'moment';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-employee-form',
@@ -109,8 +108,7 @@ import { isMoment, Moment } from 'moment';
   styleUrl: './employee-form.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class EmployeeFormComponent {
-  @Input()
+export class EmployeeFormComponent implements OnInit {
   set employee(employee: EmployeeModel | undefined) {
     if (!employee) return;
 
@@ -121,12 +119,6 @@ export class EmployeeFormComponent {
   get employee() {
     return this._employee;
   }
-
-  @Output()
-  editCanceled = new EventEmitter<void>();
-
-  @Output()
-  formSubmitted = new EventEmitter<FormGroup>();
 
   @ViewChild('projectsListbox')
   projectsListbox!: MatChipListbox;
@@ -150,7 +142,9 @@ export class EmployeeFormComponent {
     private fb: FormBuilder,
     private translate: TranslateService,
     private employeeService: EmployeeService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private location: Location,
+    private route: ActivatedRoute
   ) {
     this.employeeForm = this.fb.nonNullable.group({
       name: ['', Validators.required],
@@ -164,6 +158,14 @@ export class EmployeeFormComponent {
     this.managers$ = this.employeeService.getAllManagers();
     this.getAllProjects();
     this.getAllSkills();
+  }
+
+  ngOnInit(): void {
+    const id: string | null = this.route.snapshot.paramMap.get('id');
+
+    if (id) {
+      this.getEmployee(id);
+    }
   }
 
   get nameControl() {
@@ -188,6 +190,15 @@ export class EmployeeFormComponent {
 
   get projectsControl() {
     return this.employeeForm.get('projects') as FormArray;
+  }
+
+  getEmployee(id: string): void {
+    this.employeeService
+      .getEmployeeById(id)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(
+        (employee: EmployeeModel | undefined) => (this.employee = employee)
+      );
   }
 
   deleteSkill(skillKey: string): void {
@@ -215,11 +226,20 @@ export class EmployeeFormComponent {
     this.employeeForm.patchValue({
       dateOfEmployment: date,
     });
-    this.formSubmitted.emit(this.employeeForm);
+
+    if (this.employee) {
+      this.employeeService.updateEmployee(
+        this.employee.id,
+        this.employeeForm.getRawValue()
+      );
+    } else {
+      this.employeeService.createEmployee(this.employeeForm.getRawValue());
+    }
+    this.goBack();
   }
 
   onCancelClicked(): void {
-    this.editCanceled.emit();
+    this.goBack();
   }
 
   onClear(): void {
@@ -280,6 +300,10 @@ export class EmployeeFormComponent {
     );
   }
 
+  goBack(): void {
+    this.location.back();
+  }
+
   private updateForm(employee: EmployeeModel): void {
     this.employeeForm.patchValue({
       name: employee.name,
@@ -310,11 +334,11 @@ export class EmployeeFormComponent {
       .subscribe({
         next: (value: ProjectModel[]) => (this.allProjects = value),
         error: (err) => {
-          this.messageService.add(MessageCodes.GET_ALL_PROJECTS_ERROR);
+          this.messageService.add(MessageCode.GET_ALL_PROJECTS_ERROR);
           console.log(err);
         },
         complete: () =>
-          this.messageService.add(MessageCodes.GET_ALL_PROJECTS_SUCCESS),
+          this.messageService.add(MessageCode.GET_ALL_PROJECTS_SUCCESS),
       });
   }
 
