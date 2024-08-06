@@ -1,27 +1,36 @@
 import { Routes } from '@angular/router';
-import { EmployeeDetailsComponent } from './features/employee/pages/employee-details/employee-details.component';
-import { EmployeeListComponent } from './features/employee/pages/employee-list/employee-list.component';
 import { EmployeeDashboardComponent } from './features/employee/pages/employee-dashboard/employee-dashboard.component';
 import * as EMPLOYEE_ROUTE from './core/constants/employee-route';
-import { EmployeeFormComponent } from './features/employee/pages/employee-form/employee-form.component';
 
 export const routes: Routes = [
   { path: EMPLOYEE_ROUTE.DASHBOARD, component: EmployeeDashboardComponent },
   {
     path: EMPLOYEE_ROUTE.LIST,
-    component: EmployeeListComponent,
+    loadComponent: () =>
+      import(
+        './features/employee/pages/employee-list/employee-list.component'
+      ).then((m) => m.EmployeeListComponent),
   },
   {
     path: EMPLOYEE_ROUTE.ADD,
-    component: EmployeeFormComponent,
+    loadComponent: () =>
+      import(
+        './features/employee/pages/employee-form/employee-form.component'
+      ).then((m) => m.EmployeeFormComponent),
   },
   {
     path: EMPLOYEE_ROUTE.DETAILS + '/:id',
-    component: EmployeeDetailsComponent,
+    loadComponent: () =>
+      import(
+        './features/employee/pages/employee-details/employee-details.component'
+      ).then((m) => m.EmployeeDetailsComponent),
   },
   {
     path: EMPLOYEE_ROUTE.EDIT + '/:id',
-    component: EmployeeFormComponent,
+    loadComponent: () =>
+      import(
+        './features/employee/pages/employee-form/employee-form.component'
+      ).then((m) => m.EmployeeFormComponent),
   },
   { path: '', pathMatch: 'full', redirectTo: EMPLOYEE_ROUTE.DASHBOARD },
 ];
