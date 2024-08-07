@@ -1,0 +1,7 @@
+$row-gap: 0.5rem;
+
+.search {
+  display: flex;
+  flex-direction: column;
+  row-gap: $row-gap;
+}
