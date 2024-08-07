@@ -1,10 +1,6 @@
 import { Injectable } from '@angular/core';
-import {
-  CreateEmployeeRequest,
-  UpdateEmployeeRequest,
-} from '../dto/employee-dto';
+import { CreateEmployeeRequest } from '../dto/employee-dto';
 import { EmployeeModel } from '../models/employee.model';
-import { EMPLOYEES } from '../../../mocks/employees.mock';
 import { Observable } from 'rxjs';
 import { ProjectModel } from '../models/project.model';
 import { MessageService } from '../../../core/services/message.service';
@@ -16,8 +12,6 @@ import { EmployeeEndpoints } from './employee.endpoints';
   providedIn: 'root',
 })
 export class EmployeeService {
-  private employees: EmployeeModel[] = EMPLOYEES;
-
   constructor(
     private http: HttpClient,
     private messageService: MessageService
@@ -34,6 +28,11 @@ export class EmployeeService {
     );
   }
 
+  deleteEmployee(employee: EmployeeModel): Observable<object> {
+    const url = `${EmployeeEndpoints.GET_EMPLOYEES}/${employee.id}`;
+    return this.http.delete(url);
+  }
+
   getAllManagers(): Observable<EmployeeModel[]> {
     this.messageService.add(MessageCode.GET_ALL_MANAGERS);
     return this.http.get<EmployeeModel[]>(EmployeeEndpoints.GET_MANAGERS);
@@ -44,51 +43,16 @@ export class EmployeeService {
     return this.http.get<ProjectModel[]>(EmployeeEndpoints.GET_PROJECTS);
   }
 
-  updateEmployee(id: string, payload: UpdateEmployeeRequest): void {
-    const employee: EmployeeModel | undefined = this.employees.find(
-      (employee: EmployeeModel): boolean => employee.id === id
-    );
-
-    if (!employee) {
-      throw new Error('Employee not found');
-    }
-
-    this.doPartialUpdateOnEmployee(employee, payload);
+  updateEmployee(id: string, employee: EmployeeModel): Observable<object> {
+    return this.http.put(`${EmployeeEndpoints.GET_EMPLOYEES}/${id}`, employee);
   }
 
-  createEmployee(payload: CreateEmployeeRequest): void {
+  createEmployee(payload: CreateEmployeeRequest): Observable<object> {
     const newEmployee: EmployeeModel = {
       id: crypto.randomUUID(),
       ...payload,
     };
 
-    EMPLOYEES.push(newEmployee);
-  }
-
-  private doPartialUpdateOnEmployee(
-    employee: EmployeeModel,
-    payload: UpdateEmployeeRequest
-  ): void {
-    if (payload.name) {
-      employee.name = payload.name;
-    }
-
-    if (payload.surname) {
-      employee.surname = payload.surname;
-    }
-
-    if (payload.dateOfEmployment) {
-      employee.dateOfEmployment = payload.dateOfEmployment;
-    }
-
-    if (payload.skills) {
-      employee.skills = payload.skills;
-    }
-
-    if (payload.projects) {
-      employee.projects = payload.projects;
-    }
-
-    employee.manager = payload.manager;
+    return this.http.post(`${EmployeeEndpoints.GET_EMPLOYEES}`, newEmployee);
   }
 }

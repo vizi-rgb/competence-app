@@ -5,7 +5,18 @@
       "back": "Powrót"
     },
 		"details": {
-			"button.edit": "Edytuj dane pracownika",
+			"button": {
+        "edit": "Edytuj dane pracownika",
+        "delete": "Usuń pracownika"
+      },
+      "dialog": {
+        "title": "Usuwanie pracownika",
+        "question": "Czy jesteś pewny, że chcesz usunąć",
+        "button": {
+          "confirm": "Usuń",
+          "cancel": "Anuluj"
+        }
+      },
 			"title.employee": "Dane pracownika",
 			"title.manager": "Dane menedżera"
 		},
@@ -36,6 +47,7 @@
 			}
 		},
 		"label": {
+      "id": "ID",
 			"dateOfEmployment": "Data zatrudnienia",
 			"manager": "Menedżer",
 			"name": "Imię",

@@ -227,12 +227,20 @@ export class EmployeeFormComponent implements OnInit {
     });
 
     if (this.employee) {
-      this.employeeService.updateEmployee(
-        this.employee.id,
-        this.employeeForm.getRawValue()
-      );
+      const employee: EmployeeModel = {
+        id: this.employee.id,
+        ...this.employeeForm.getRawValue(),
+      };
+
+      this.employeeService
+        .updateEmployee(this.employee.id, employee)
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe();
     } else {
-      this.employeeService.createEmployee(this.employeeForm.getRawValue());
+      this.employeeService
+        .createEmployee(this.employeeForm.getRawValue())
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe();
     }
 
     this.goBack();
@@ -304,8 +312,8 @@ export class EmployeeFormComponent implements OnInit {
     this.location.back();
   }
 
-  managersCompareFn(a: EmployeeModel, b: EmployeeModel): boolean {
-    return a.id === b.id;
+  managersCompareFn(a: EmployeeModel | null, b: EmployeeModel | null): boolean {
+    return a?.id === b?.id;
   }
 
   private updateForm(employee: EmployeeModel): void {

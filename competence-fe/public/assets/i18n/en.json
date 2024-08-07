@@ -5,7 +5,18 @@
       "back": "Back"
     },
 		"details": {
-			"button.edit": "Edit employee data",
+			"button": {
+        "edit": "Edit employee data",
+        "delete": "Delete employee"
+      },
+      "dialog": {
+        "title": "Deleting an employee",
+        "question": "Are you sure you want to delete",
+        "button": {
+          "confirm": "Delete",
+          "cancel": "Cancel"
+        }
+      },
 			"title.employee": "Employee details",
 			"title.manager": "Manager details"
 		},
@@ -36,6 +47,7 @@
 			}
 		},
 		"label": {
+      "id": "ID",
 			"dateOfEmployment": "Date of employment",
 			"manager": "Manager",
 			"name": "Name",

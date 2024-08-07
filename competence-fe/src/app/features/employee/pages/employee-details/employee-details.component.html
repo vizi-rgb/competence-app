@@ -16,6 +16,14 @@
     </mat-card-header>
     <mat-card-content class="employee-card__content">
       <div>
+        <label class="employee-card__label" for="uuid">
+          {{ 'employee.label.id' | translate }}
+        </label>
+        <p id="uuid">
+          {{ employee.id }}
+        </p>
+      </div>
+      <div>
         <label class="employee-card__label" for="name">
           {{ 'employee.label.name' | translate }}
         </label>
@@ -58,7 +66,7 @@
           {{ 'employee.label.skills' | translate }}
         </label>
 
-        <mat-chip-set>
+        <mat-chip-set id="skills">
           <div class="employee-card__skills-grid">
             @for (skill of employee.skills; track $index) {
               <mat-chip>
@@ -73,7 +81,7 @@
         <label class="employee-card__label" for="projects">
           {{ 'employee.label.projects' | translate }}
         </label>
-        <div class="employee-card__projects">
+        <div class="employee-card__projects" id="projects">
           @for (project of employee.projects; track $index) {
             <app-employee-project [project]="project"></app-employee-project>
           }
@@ -82,9 +90,33 @@
     </mat-card-content>
 
     <mat-card-actions>
-      <button mat-button [routerLink]="['/' + EDIT, employee.id]">
+      <button
+        mat-button
+        [routerLink]="['/' + EMPLOYEE_ROUTE.EDIT, employee.id]">
         {{ 'employee.details.button.edit' | translate }}
+      </button>
+
+      <button mat-button class="mat-warn" (click)="onDeleteClicked()">
+        {{ 'employee.details.button.delete' | translate }}
       </button>
     </mat-card-actions>
   }
 </mat-card>
+
+<ng-template #dialog>
+  @if (employee) {
+    <h2 mat-dialog-title>{{ 'employee.details.dialog.title' | translate }}</h2>
+    <mat-dialog-content>
+      {{ 'employee.details.dialog.question' | translate }}
+      {{ employee.name + ' ' + employee.surname + '?' }}
+    </mat-dialog-content>
+    <mat-dialog-actions>
+      <button mat-button mat-dialog-close (click)="deleteEmployee(employee)">
+        {{ 'employee.details.dialog.button.confirm' | translate }}
+      </button>
+      <button mat-button mat-dialog-close>
+        {{ 'employee.details.dialog.button.cancel' | translate }}
+      </button>
+    </mat-dialog-actions>
+  }
+</ng-template>

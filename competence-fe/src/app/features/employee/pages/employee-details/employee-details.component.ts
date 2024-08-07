@@ -1,4 +1,11 @@
-import { Component, DestroyRef, inject, OnInit } from '@angular/core';
+import {
+  Component,
+  DestroyRef,
+  inject,
+  OnInit,
+  TemplateRef,
+  ViewChild,
+} from '@angular/core';
 import { AsyncPipe, DatePipe, Location } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EmployeeProjectComponent } from '../../components/employee-project/employee-project.component';
@@ -16,10 +23,17 @@ import { MatDivider } from '@angular/material/divider';
 import { MatChip, MatChipSet } from '@angular/material/chips';
 import { MatButton } from '@angular/material/button';
 import { EmployeeService } from '../../services/employee.service';
-import { ActivatedRoute, RouterLink } from '@angular/router';
-import { EDIT } from '../../../../core/constants/employee-route';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import * as EMPLOYEE_ROUTE from '../../../../core/constants/employee-route';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import {
+  MatDialog,
+  MatDialogActions,
+  MatDialogClose,
+  MatDialogContent,
+  MatDialogTitle,
+} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-employee-details',
@@ -43,6 +57,10 @@ import { MatProgressSpinner } from '@angular/material/progress-spinner';
     RouterLink,
     AsyncPipe,
     MatProgressSpinner,
+    MatDialogActions,
+    MatDialogContent,
+    MatDialogTitle,
+    MatDialogClose,
   ],
   templateUrl: './employee-details.component.html',
   styleUrl: './employee-details.component.scss',
@@ -50,14 +68,18 @@ import { MatProgressSpinner } from '@angular/material/progress-spinner';
 export class EmployeeDetailsComponent implements OnInit {
   employee?: EmployeeModel;
 
-  protected readonly EDIT = EDIT;
+  @ViewChild('dialog')
+  matDialog!: TemplateRef<MatDialog>;
 
+  protected readonly EMPLOYEE_ROUTE = EMPLOYEE_ROUTE;
   private readonly destroyRef: DestroyRef = inject(DestroyRef);
 
   constructor(
     private route: ActivatedRoute,
     private employeeService: EmployeeService,
-    private location: Location
+    private location: Location,
+    private dialog: MatDialog,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -74,6 +96,17 @@ export class EmployeeDetailsComponent implements OnInit {
       .subscribe((employee: EmployeeModel | undefined) => {
         this.employee = employee;
       });
+  }
+
+  onDeleteClicked(): void {
+    this.dialog.open(this.matDialog);
+  }
+
+  deleteEmployee(employee: EmployeeModel): void {
+    this.employeeService.deleteEmployee(employee).subscribe({
+      complete: () => this.router.navigate(['/', EMPLOYEE_ROUTE.LIST]),
+      error: (err) => console.log(err),
+    });
   }
 
   goBack(): void {
