@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CreateEmployeeRequest } from '../dto/employee-dto';
 import { EmployeeModel } from '../models/employee.model';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { ProjectModel } from '../models/project.model';
 import { MessageService } from '../../../core/services/message.service';
 import { MessageCode } from '../../../core/constants/message-code.enum';
@@ -31,6 +31,16 @@ export class EmployeeService {
   deleteEmployee(employee: EmployeeModel): Observable<object> {
     const url = `${EmployeeEndpoints.GET_EMPLOYEES}/${employee.id}`;
     return this.http.delete(url);
+  }
+
+  searchEmployees(term: string): Observable<EmployeeModel[]> {
+    if (!term.trim()) {
+      return of([]);
+    }
+
+    return this.http.get<EmployeeModel[]>(
+      `${EmployeeEndpoints.GET_EMPLOYEES}/?surname=${term}`
+    );
   }
 
   getAllManagers(): Observable<EmployeeModel[]> {

@@ -14,6 +14,9 @@ import {
 } from '@ngx-translate/core';
 import { map } from 'rxjs';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { EmployeeSearchComponent } from '../../components/employee-search/employee-search.component';
+import { MessageService } from '../../../../core/services/message.service';
+import { MessageCode } from '../../../../core/constants/message-code.enum';
 
 @Component({
   selector: 'app-employee-dashboard',
@@ -25,6 +28,7 @@ import { MatProgressSpinner } from '@angular/material/progress-spinner';
     DatePipe,
     TranslateModule,
     MatProgressSpinner,
+    EmployeeSearchComponent,
   ],
   templateUrl: './employee-dashboard.component.html',
   styleUrl: './employee-dashboard.component.scss',
@@ -32,12 +36,14 @@ import { MatProgressSpinner } from '@angular/material/progress-spinner';
 export class EmployeeDashboardComponent implements OnInit {
   employees!: EmployeeModel[];
   locale!: string;
+  isLoading = true;
 
   protected readonly EMPLOYEE_ROUTE = EMPLOYEE_ROUTE;
   private readonly destroyRef: DestroyRef = inject(DestroyRef);
 
   constructor(
     private employeeService: EmployeeService,
+    private messageService: MessageService,
     private translate: TranslateService
   ) {}
 
@@ -47,15 +53,23 @@ export class EmployeeDashboardComponent implements OnInit {
     this.employeeService
       .getAllEmployees()
       .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((allEmployees: EmployeeModel[]) => {
-        this.employees = allEmployees
-          .sort(
-            (a: EmployeeModel, b: EmployeeModel) =>
-              new Date(a.dateOfEmployment).valueOf() -
-              new Date(b.dateOfEmployment).valueOf()
-          )
-          .reverse()
-          .slice(0, nNewestEmployees);
+      .subscribe({
+        next: (allEmployees: EmployeeModel[]) => {
+          this.employees = allEmployees
+            .sort(
+              (a: EmployeeModel, b: EmployeeModel) =>
+                new Date(a.dateOfEmployment).valueOf() -
+                new Date(b.dateOfEmployment).valueOf()
+            )
+            .reverse()
+            .slice(0, nNewestEmployees);
+        },
+        complete: () => (this.isLoading = false),
+        error: (err) => {
+          this.messageService.add(MessageCode.GET_ALL_EMPLOYEES_ERROR);
+          console.log(err);
+          this.isLoading = false;
+        },
       });
 
     this.translate.onLangChange

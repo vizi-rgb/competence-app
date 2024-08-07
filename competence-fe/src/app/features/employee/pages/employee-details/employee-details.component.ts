@@ -34,6 +34,8 @@ import {
   MatDialogContent,
   MatDialogTitle,
 } from '@angular/material/dialog';
+import { MessageService } from '../../../../core/services/message.service';
+import { MessageCode } from '../../../../core/constants/message-code.enum';
 
 @Component({
   selector: 'app-employee-details',
@@ -67,6 +69,7 @@ import {
 })
 export class EmployeeDetailsComponent implements OnInit {
   employee?: EmployeeModel;
+  isLoading = true;
 
   @ViewChild('dialog')
   matDialog!: TemplateRef<MatDialog>;
@@ -77,6 +80,7 @@ export class EmployeeDetailsComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private employeeService: EmployeeService,
+    private messageService: MessageService,
     private location: Location,
     private dialog: MatDialog,
     private router: Router
@@ -93,8 +97,15 @@ export class EmployeeDetailsComponent implements OnInit {
     this.employeeService
       .getEmployeeById(id)
       .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((employee: EmployeeModel | undefined) => {
-        this.employee = employee;
+      .subscribe({
+        next: (employee: EmployeeModel | undefined) =>
+          (this.employee = employee),
+        complete: () => (this.isLoading = false),
+        error: (err) => {
+          this.messageService.add(MessageCode.GET_EMPLOYEE_BY_ID_ERROR);
+          console.error(err);
+          this.isLoading = false;
+        },
       });
   }
 
@@ -105,7 +116,10 @@ export class EmployeeDetailsComponent implements OnInit {
   deleteEmployee(employee: EmployeeModel): void {
     this.employeeService.deleteEmployee(employee).subscribe({
       complete: () => this.router.navigate(['/', EMPLOYEE_ROUTE.LIST]),
-      error: (err) => console.log(err),
+      error: (err) => {
+        this.messageService.add(MessageCode.DELETE_EMPLOYEE_ERROR);
+        console.error(err);
+      },
     });
   }
 

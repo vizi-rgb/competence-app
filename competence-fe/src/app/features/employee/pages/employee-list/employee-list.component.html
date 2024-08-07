@@ -15,7 +15,9 @@
         <button mat-stroked-button [routerLink]="[employee.id]">
           {{ employee.name + ' ' + employee.surname }}
         </button>
-      } @empty {
+      }
+
+      @if (isLoading) {
         <mat-spinner></mat-spinner>
       }
     </div>

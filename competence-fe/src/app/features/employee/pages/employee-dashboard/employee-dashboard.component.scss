@@ -1,8 +1,13 @@
 $padding: 2rem;
+$row-gap: 2rem;
 $border-radius: 5px;
+$max-width: 30rem;
 
 .dashboard {
   padding: $padding;
+  display: flex;
+  flex-direction: column;
+  row-gap: $row-gap;
 
   &__grid {
     display: grid;
@@ -12,5 +17,9 @@ $border-radius: 5px;
       padding: $padding;
       border-radius: $border-radius;
     }
+  }
+
+  &__search {
+    max-width: $max-width;
   }
 }

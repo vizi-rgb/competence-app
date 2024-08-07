@@ -195,8 +195,14 @@ export class EmployeeFormComponent implements OnInit {
     this.employeeService
       .getEmployeeById(id)
       .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((employee: EmployeeModel | undefined) => {
-        this.employee = employee;
+      .subscribe({
+        next: (employee: EmployeeModel | undefined) => {
+          this.employee = employee;
+        },
+        error: (err) => {
+          this.messageService.add(MessageCode.GET_EMPLOYEE_BY_ID_ERROR);
+          console.error(err);
+        },
       });
   }
 
@@ -235,12 +241,22 @@ export class EmployeeFormComponent implements OnInit {
       this.employeeService
         .updateEmployee(this.employee.id, employee)
         .pipe(takeUntilDestroyed(this.destroyRef))
-        .subscribe();
+        .subscribe({
+          error: (err) => {
+            this.messageService.add(MessageCode.PUT_EMPLOYEE_ERROR);
+            console.error(err);
+          },
+        });
     } else {
       this.employeeService
         .createEmployee(this.employeeForm.getRawValue())
         .pipe(takeUntilDestroyed(this.destroyRef))
-        .subscribe();
+        .subscribe({
+          error: (err) => {
+            this.messageService.add(MessageCode.POST_EMPLOYEE_ERROR);
+            console.error(err);
+          },
+        });
     }
 
     this.goBack();

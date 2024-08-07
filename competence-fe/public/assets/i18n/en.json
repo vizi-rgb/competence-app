@@ -1,6 +1,9 @@
 {
 	"appTitle": "Competence",
 	"employee": {
+    "search": {
+      "found": "Found"
+    },
     "button": {
       "back": "Back"
     },
@@ -53,7 +56,8 @@
 			"name": "Name",
 			"projects": "Projects",
 			"skills": "Skills",
-			"surname": "Surname"
+			"surname": "Surname",
+      "search": "Search"
 		},
 		"list": {
 			"button": {
@@ -73,7 +77,14 @@
 			"clear": "Clear messages"
 		},
 		"message": {
-			"getAllEmployees": "Returning all employees",
+      "employee": {
+        "getAllEmployees": "Returning all employees",
+        "fetchingError": "Error while fetching employees",
+        "creatingError": "Error while creating a new employee",
+        "deletingError": "Error while trying to delete the employee",
+        "updatingError": "Error while trying to update the employee",
+        "getByIdError": "Error while trying to obtain employee's info"
+      },
 			"getAllManagers": "Returning all managers",
 			"project": {
 				"fetchingError": "Error while fetching projects",
