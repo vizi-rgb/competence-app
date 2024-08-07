@@ -5,12 +5,12 @@ import {
 } from '../dto/employee-dto';
 import { EmployeeModel } from '../models/employee.model';
 import { EMPLOYEES } from '../../../mocks/employees.mock';
-import { Observable, of } from 'rxjs';
-import { MANAGERS } from '../../../mocks/managers.mock';
+import { Observable } from 'rxjs';
 import { ProjectModel } from '../models/project.model';
-import { PROJECTS } from '../../../mocks/projects.mock';
 import { MessageService } from '../../../core/services/message.service';
 import { MessageCode } from '../../../core/constants/message-code.enum';
+import { HttpClient } from '@angular/common/http';
+import { EmployeeEndpoints } from './employee.endpoints';
 
 @Injectable({
   providedIn: 'root',
@@ -18,33 +18,35 @@ import { MessageCode } from '../../../core/constants/message-code.enum';
 export class EmployeeService {
   private employees: EmployeeModel[] = EMPLOYEES;
 
-  constructor(private messageService: MessageService) {}
+  constructor(
+    private http: HttpClient,
+    private messageService: MessageService
+  ) {}
 
   getAllEmployees(): Observable<EmployeeModel[]> {
     this.messageService.add(MessageCode.GET_ALL_EMPLOYEES);
-    return of(EMPLOYEES);
+    return this.http.get<EmployeeModel[]>(EmployeeEndpoints.GET_EMPLOYEES);
   }
 
   getEmployeeById(id: string): Observable<EmployeeModel | undefined> {
-    const employee: EmployeeModel | undefined = EMPLOYEES.find(
-      (employee: EmployeeModel) => employee.id === id
+    return this.http.get<EmployeeModel>(
+      `${EmployeeEndpoints.GET_EMPLOYEES}/${id}`
     );
-    return of(employee);
   }
 
   getAllManagers(): Observable<EmployeeModel[]> {
     this.messageService.add(MessageCode.GET_ALL_MANAGERS);
-    return of(MANAGERS);
+    return this.http.get<EmployeeModel[]>(EmployeeEndpoints.GET_MANAGERS);
   }
 
   getAllProjects(): Observable<ProjectModel[]> {
     this.messageService.add(MessageCode.GET_ALL_PROJECTS);
-    return of(PROJECTS);
+    return this.http.get<ProjectModel[]>(EmployeeEndpoints.GET_PROJECTS);
   }
 
   updateEmployee(id: string, payload: UpdateEmployeeRequest): void {
     const employee: EmployeeModel | undefined = this.employees.find(
-      (employee: EmployeeModel) => employee.id === id
+      (employee: EmployeeModel): boolean => employee.id === id
     );
 
     if (!employee) {

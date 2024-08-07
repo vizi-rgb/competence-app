@@ -1,5 +1,4 @@
 import {
-  ChangeDetectionStrategy,
   Component,
   DestroyRef,
   inject,
@@ -72,6 +71,7 @@ import { MessageCode } from '../../../../core/constants/message-code.enum';
 import { MatDivider } from '@angular/material/divider';
 import { isMoment, Moment } from 'moment';
 import { ActivatedRoute } from '@angular/router';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-employee-form',
@@ -103,10 +103,10 @@ import { ActivatedRoute } from '@angular/router';
     MatAutocompleteTrigger,
     MatChipOption,
     MatDivider,
+    MatProgressSpinner,
   ],
   templateUrl: './employee-form.component.html',
   styleUrl: './employee-form.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EmployeeFormComponent implements OnInit {
   set employee(employee: EmployeeModel | undefined) {
@@ -129,8 +129,7 @@ export class EmployeeFormComponent implements OnInit {
   employeeForm: FormGroup;
   allProjects: ProjectModel[] = [];
   allSkills: string[] = [];
-
-  readonly managers$: Observable<EmployeeModel[]>;
+  managers$!: Observable<EmployeeModel[]>;
 
   protected readonly isMissing = isMissing;
   protected readonly isModifiedAndInvalid = isModifiedAndInvalid;
@@ -154,10 +153,6 @@ export class EmployeeFormComponent implements OnInit {
       skills: this.fb.nonNullable.array([]),
       projects: this.fb.nonNullable.array([]),
     });
-
-    this.managers$ = this.employeeService.getAllManagers();
-    this.getAllProjects();
-    this.getAllSkills();
   }
 
   ngOnInit(): void {
@@ -166,6 +161,10 @@ export class EmployeeFormComponent implements OnInit {
     if (id) {
       this.getEmployee(id);
     }
+
+    this.managers$ = this.employeeService.getAllManagers();
+    this.getAllProjects();
+    this.getAllSkills();
   }
 
   get nameControl() {
@@ -196,9 +195,9 @@ export class EmployeeFormComponent implements OnInit {
     this.employeeService
       .getEmployeeById(id)
       .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(
-        (employee: EmployeeModel | undefined) => (this.employee = employee)
-      );
+      .subscribe((employee: EmployeeModel | undefined) => {
+        this.employee = employee;
+      });
   }
 
   deleteSkill(skillKey: string): void {
@@ -235,6 +234,7 @@ export class EmployeeFormComponent implements OnInit {
     } else {
       this.employeeService.createEmployee(this.employeeForm.getRawValue());
     }
+
     this.goBack();
   }
 
@@ -268,12 +268,12 @@ export class EmployeeFormComponent implements OnInit {
     return skillsSet.has(skillKey);
   }
 
-  isInEmployeeProjects(project: ProjectModel): boolean {
-    const projectsSet: Set<ProjectModel> = new Set<ProjectModel>(
-      this.employee?.projects
+  isInEmployeeProjects(projectTitle: string): boolean {
+    const projectsSet: Set<string> = new Set<string>(
+      this.employee?.projects.map((project: ProjectModel) => project.title)
     );
 
-    return projectsSet.has(project);
+    return projectsSet.has(projectTitle);
   }
 
   onProjectSelect(project: ProjectModel, event: MatChipSelectionChange): void {
@@ -302,6 +302,10 @@ export class EmployeeFormComponent implements OnInit {
 
   goBack(): void {
     this.location.back();
+  }
+
+  managersCompareFn(a: EmployeeModel, b: EmployeeModel): boolean {
+    return a.id === b.id;
   }
 
   private updateForm(employee: EmployeeModel): void {

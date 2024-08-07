@@ -17,6 +17,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDivider } from '@angular/material/divider';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import * as EMPLOYEE_ROUTE from '../../../../core/constants/employee-route';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-employee-list',
@@ -35,6 +36,7 @@ import * as EMPLOYEE_ROUTE from '../../../../core/constants/employee-route';
     MatDivider,
     RouterOutlet,
     RouterLink,
+    MatProgressSpinner,
   ],
   templateUrl: './employee-list.component.html',
   styleUrl: './employee-list.component.scss',

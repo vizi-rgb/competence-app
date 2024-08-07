@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { DatePipe, Location } from '@angular/common';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { AsyncPipe, DatePipe, Location } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EmployeeProjectComponent } from '../../components/employee-project/employee-project.component';
 import { EmployeeModel } from '../../models/employee.model';
@@ -18,6 +18,8 @@ import { MatButton } from '@angular/material/button';
 import { EmployeeService } from '../../services/employee.service';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { EDIT } from '../../../../core/constants/employee-route';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-employee-details',
@@ -39,15 +41,18 @@ import { EDIT } from '../../../../core/constants/employee-route';
     MatCardActions,
     MatButton,
     RouterLink,
+    AsyncPipe,
+    MatProgressSpinner,
   ],
   templateUrl: './employee-details.component.html',
   styleUrl: './employee-details.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EmployeeDetailsComponent implements OnInit {
   employee?: EmployeeModel;
 
   protected readonly EDIT = EDIT;
+
+  private readonly destroyRef: DestroyRef = inject(DestroyRef);
 
   constructor(
     private route: ActivatedRoute,
@@ -65,9 +70,10 @@ export class EmployeeDetailsComponent implements OnInit {
   getEmployee(id: string): void {
     this.employeeService
       .getEmployeeById(id)
-      .subscribe(
-        (employee: EmployeeModel | undefined) => (this.employee = employee)
-      );
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((employee: EmployeeModel | undefined) => {
+        this.employee = employee;
+      });
   }
 
   goBack(): void {

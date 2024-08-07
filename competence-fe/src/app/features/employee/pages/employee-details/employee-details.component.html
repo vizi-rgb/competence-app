@@ -2,7 +2,9 @@
   <button mat-stroked-button (click)="goBack()">
     {{ 'employee.button.back' | translate }}
   </button>
-  @if (employee) {
+  @if (!employee) {
+    <mat-spinner></mat-spinner>
+  } @else {
     <mat-card-header>
       <mat-card-title>
         @if (employee.manager) {
