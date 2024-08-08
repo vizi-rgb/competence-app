@@ -199,9 +199,8 @@ export class EmployeeFormComponent implements OnInit {
         next: (employee: EmployeeModel | undefined) => {
           this.employee = employee;
         },
-        error: (err) => {
+        error: () => {
           this.messageService.add(MessageCode.GET_EMPLOYEE_BY_ID_ERROR);
-          console.error(err);
         },
       });
   }
@@ -242,9 +241,8 @@ export class EmployeeFormComponent implements OnInit {
         .updateEmployee(this.employee.id, employee)
         .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe({
-          error: (err) => {
+          error: () => {
             this.messageService.add(MessageCode.PUT_EMPLOYEE_ERROR);
-            console.error(err);
           },
         });
     } else {
@@ -252,9 +250,8 @@ export class EmployeeFormComponent implements OnInit {
         .createEmployee(this.employeeForm.getRawValue())
         .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe({
-          error: (err) => {
+          error: () => {
             this.messageService.add(MessageCode.POST_EMPLOYEE_ERROR);
-            console.error(err);
           },
         });
     }
@@ -361,9 +358,8 @@ export class EmployeeFormComponent implements OnInit {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (value: ProjectModel[]) => (this.allProjects = value),
-        error: (err) => {
+        error: () => {
           this.messageService.add(MessageCode.GET_ALL_PROJECTS_ERROR);
-          console.log(err);
         },
         complete: () =>
           this.messageService.add(MessageCode.GET_ALL_PROJECTS_SUCCESS),

@@ -101,9 +101,8 @@ export class EmployeeDetailsComponent implements OnInit {
         next: (employee: EmployeeModel | undefined) =>
           (this.employee = employee),
         complete: () => (this.isLoading = false),
-        error: (err) => {
+        error: () => {
           this.messageService.add(MessageCode.GET_EMPLOYEE_BY_ID_ERROR);
-          console.error(err);
           this.isLoading = false;
         },
       });
@@ -116,9 +115,8 @@ export class EmployeeDetailsComponent implements OnInit {
   deleteEmployee(employee: EmployeeModel): void {
     this.employeeService.deleteEmployee(employee).subscribe({
       complete: () => this.router.navigate(['/', EMPLOYEE_ROUTE.LIST]),
-      error: (err) => {
+      error: () => {
         this.messageService.add(MessageCode.DELETE_EMPLOYEE_ERROR);
-        console.error(err);
       },
     });
   }

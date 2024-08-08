@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import {
   debounceTime,
   distinctUntilChanged,
+  EMPTY,
   Observable,
   Subject,
   switchMap,
@@ -35,7 +36,7 @@ import * as EMPLOYEE_ROUTES from '../../../../core/constants/employee-route';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EmployeeSearchComponent implements OnInit {
-  employees$!: Observable<EmployeeModel[]>;
+  employees$: Observable<EmployeeModel[]> = EMPTY;
   protected readonly EMPLOYEE_ROUTES = EMPLOYEE_ROUTES;
   private searchTerms: Subject<string> = new Subject<string>();
 

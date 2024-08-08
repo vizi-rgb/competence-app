@@ -1,7 +1,9 @@
-const apiPrefix = 'api';
+import { environment } from '../../../../environments/environment.development';
 
-export enum EmployeeEndpoints {
-  GET_EMPLOYEES = `${apiPrefix}/employees`,
-  GET_PROJECTS = `${apiPrefix}/projects`,
-  GET_MANAGERS = `${apiPrefix}/managers`,
-}
+const apiPrefix: string = environment.apiUrl;
+
+export const EmployeeEndpoints = {
+  GET_EMPLOYEES: `${apiPrefix}/employees`,
+  GET_PROJECTS: `${apiPrefix}/projects`,
+  GET_MANAGERS: `${apiPrefix}/managers`,
+};

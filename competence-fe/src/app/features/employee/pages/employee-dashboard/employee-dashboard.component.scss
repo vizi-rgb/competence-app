@@ -1,7 +1,9 @@
+@import "colors";
+
 $padding: 2rem;
 $row-gap: 2rem;
-$border-radius: 5px;
-$max-width: 30rem;
+$border-radius: 0.5rem;
+$search-bar-max-width: 30rem;
 
 .dashboard {
   padding: $padding;
@@ -16,10 +18,14 @@ $max-width: 30rem;
     &-element {
       padding: $padding;
       border-radius: $border-radius;
+
+      &--hover:hover {
+        background-color: $bg-on-hover;
+      }
     }
   }
 
   &__search {
-    max-width: $max-width;
+    max-width: $search-bar-max-width;
   }
 }

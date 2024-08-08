@@ -34,9 +34,9 @@ import { MessageCode } from '../../../../core/constants/message-code.enum';
   styleUrl: './employee-dashboard.component.scss',
 })
 export class EmployeeDashboardComponent implements OnInit {
-  employees!: EmployeeModel[];
-  locale!: string;
-  isLoading = true;
+  employees: EmployeeModel[];
+  locale: string;
+  isLoading: boolean;
 
   protected readonly EMPLOYEE_ROUTE = EMPLOYEE_ROUTE;
   private readonly destroyRef: DestroyRef = inject(DestroyRef);
@@ -45,7 +45,11 @@ export class EmployeeDashboardComponent implements OnInit {
     private employeeService: EmployeeService,
     private messageService: MessageService,
     private translate: TranslateService
-  ) {}
+  ) {
+    this.employees = [];
+    this.locale = '';
+    this.isLoading = true;
+  }
 
   ngOnInit(): void {
     const nNewestEmployees = 6;
@@ -65,9 +69,8 @@ export class EmployeeDashboardComponent implements OnInit {
             .slice(0, nNewestEmployees);
         },
         complete: () => (this.isLoading = false),
-        error: (err) => {
+        error: () => {
           this.messageService.add(MessageCode.GET_ALL_EMPLOYEES_ERROR);
-          console.log(err);
           this.isLoading = false;
         },
       });
