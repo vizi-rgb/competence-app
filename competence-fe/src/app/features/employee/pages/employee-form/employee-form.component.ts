@@ -28,17 +28,11 @@ import {
 import { ProjectModel } from '../../models/project.model';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { SkillToTranslationKeyPipe } from '../../pipes/skill-to-translation-key.pipe';
-import { Observable } from 'rxjs';
+import { EMPTY, finalize, Observable } from 'rxjs';
 import { EmployeeService } from '../../services/employee.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import {
-  Technology,
-  TechnologyKey,
-} from '../../../../core/constants/technology.enum';
-import {
-  SoftSkill,
-  SoftSkillKey,
-} from '../../../../core/constants/soft-skill.enum';
+import { TechnologyKey } from '../../../../core/constants/technology.enum';
+import { SoftSkillKey } from '../../../../core/constants/soft-skill.enum';
 import { MessageService } from '../../../../core/services/message.service';
 import {
   MatError,
@@ -72,6 +66,7 @@ import { MatDivider } from '@angular/material/divider';
 import { isMoment, Moment } from 'moment';
 import { ActivatedRoute } from '@angular/router';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { MatProgressBar } from '@angular/material/progress-bar';
 
 @Component({
   selector: 'app-employee-form',
@@ -104,6 +99,7 @@ import { MatProgressSpinner } from '@angular/material/progress-spinner';
     MatChipOption,
     MatDivider,
     MatProgressSpinner,
+    MatProgressBar,
   ],
   templateUrl: './employee-form.component.html',
   styleUrl: './employee-form.component.scss',
@@ -129,7 +125,10 @@ export class EmployeeFormComponent implements OnInit {
   employeeForm: FormGroup;
   allProjects: ProjectModel[] = [];
   allSkills: string[] = [];
-  managers$!: Observable<EmployeeModel[]>;
+  managers$: Observable<EmployeeModel[]> = EMPTY;
+
+  areSkillsLoading: boolean = true;
+  areProjectsLoading: boolean = true;
 
   protected readonly isMissing = isMissing;
   protected readonly isModifiedAndInvalid = isModifiedAndInvalid;
@@ -349,13 +348,27 @@ export class EmployeeFormComponent implements OnInit {
   }
 
   private getAllSkills(): void {
-    this.allSkills = [...Object.keys(Technology), ...Object.keys(SoftSkill)];
+    this.employeeService
+      .getAllSkills()
+      .pipe(
+        finalize(() => (this.areSkillsLoading = false)),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe({
+        next: (skills: string[]) => (this.allSkills = skills),
+        error: () => this.messageService.add(MessageCode.GET_ALL_SKILLS_ERROR),
+        complete: () =>
+          this.messageService.add(MessageCode.GET_ALL_SKILLS_SUCCESS),
+      });
   }
 
   private getAllProjects(): void {
     this.employeeService
       .getAllProjects()
-      .pipe(takeUntilDestroyed(this.destroyRef))
+      .pipe(
+        finalize(() => (this.areProjectsLoading = false)),
+        takeUntilDestroyed(this.destroyRef)
+      )
       .subscribe({
         next: (value: ProjectModel[]) => (this.allProjects = value),
         error: () => {

@@ -6,4 +6,5 @@ export const EmployeeEndpoints = {
   GET_EMPLOYEES: `${apiPrefix}/employees`,
   GET_PROJECTS: `${apiPrefix}/projects`,
   GET_MANAGERS: `${apiPrefix}/managers`,
+  GET_SKILLS: `${apiPrefix}/skills`,
 };

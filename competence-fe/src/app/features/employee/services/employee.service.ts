@@ -53,6 +53,10 @@ export class EmployeeService {
     return this.http.get<ProjectModel[]>(EmployeeEndpoints.GET_PROJECTS);
   }
 
+  getAllSkills(): Observable<string[]> {
+    return this.http.get<string[]>(EmployeeEndpoints.GET_SKILLS);
+  }
+
   updateEmployee(id: string, employee: EmployeeModel): Observable<object> {
     return this.http.put(`${EmployeeEndpoints.GET_EMPLOYEES}/${id}`, employee);
   }

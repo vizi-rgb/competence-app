@@ -90,6 +90,10 @@
         "fetchingError": "Błąd podczas pobierania projektów",
         "getAllProjects": "Zwracanie wszystkich projektów",
         "onComplete": "Pomyślnie pobrano wszystkie projekty"
+      },
+      "skill": {
+        "fetchingError": "Błąd podczas pobierania umiejętności",
+        "onComplete": "Pomyślnie pobrano wszystkie umiejętności"
       }
     },
     "title": "Wiadomości"

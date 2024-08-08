@@ -5,7 +5,7 @@ import { EmployeeModel } from '../../models/employee.model';
 import { EmployeeService } from '../../services/employee.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { LangSelectorComponent } from '../../../../shared/components/lang-selector/lang-selector.component';
-import { Observable, tap } from 'rxjs';
+import { finalize, Observable } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
 import {
   MatButton,
@@ -46,16 +46,14 @@ import { EmployeeSearchComponent } from '../../components/employee-search/employ
 })
 export class EmployeeListComponent implements OnInit {
   employees$!: Observable<EmployeeModel[]>;
-  isLoading = true;
+  isLoading: boolean = true;
   protected readonly EMPLOYEE_ROUTE = EMPLOYEE_ROUTE;
 
   constructor(private employeeService: EmployeeService) {}
 
   ngOnInit(): void {
-    this.employees$ = this.employeeService.getAllEmployees().pipe(
-      tap({
-        complete: () => (this.isLoading = false),
-      })
-    );
+    this.employees$ = this.employeeService
+      .getAllEmployees()
+      .pipe(finalize(() => (this.isLoading = false)));
   }
 }
