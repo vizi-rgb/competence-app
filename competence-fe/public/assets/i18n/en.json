@@ -1,102 +1,125 @@
 {
-	"appTitle": "Competence",
-	"employee": {
+  "appTitle": "Competence",
+  "employee": {
+    "search": {
+      "found": "Found"
+    },
     "button": {
       "back": "Back"
     },
-		"details": {
-			"button.edit": "Edit employee data",
-			"title.employee": "Employee details",
-			"title.manager": "Manager details"
-		},
-		"form": {
-			"add": {
-				"button": {
-					"add": "Add",
-					"cancel": "Cancel",
-					"clear": "Clear"
-				},
-				"skill": {
-					"defaultSelectOption": "Add",
-					"help": "Add a new skill"
-				},
-				"title": "Add employee"
-			},
-			"edit": {
-				"button": {
-					"cancel": "Cancel",
-					"confirm": "Confirm changes"
-				},
-				"title": "Modify employee data"
-			},
-			"validation": {
-				"dateOfEmployment.required": "Date of employment is required",
-				"name.required": "Name is required",
-				"surname.required": "Surname is required"
-			}
-		},
-		"label": {
-			"dateOfEmployment": "Date of employment",
-			"manager": "Manager",
-			"name": "Name",
-			"projects": "Projects",
-			"skills": "Skills",
-			"surname": "Surname"
-		},
-		"list": {
-			"button": {
-				"add": "Add"
-			},
-			"title": "Employee list"
-		},
+    "details": {
+      "button": {
+        "edit": "Edit employee data",
+        "delete": "Delete employee"
+      },
+      "dialog": {
+        "title": "Deleting an employee",
+        "question": "Are you sure you want to delete",
+        "button": {
+          "confirm": "Delete",
+          "cancel": "Cancel"
+        }
+      },
+      "title.employee": "Employee details",
+      "title.manager": "Manager details"
+    },
+    "form": {
+      "add": {
+        "button": {
+          "add": "Add",
+          "cancel": "Cancel",
+          "clear": "Clear"
+        },
+        "skill": {
+          "defaultSelectOption": "Add",
+          "help": "Add a new skill"
+        },
+        "title": "Add employee"
+      },
+      "edit": {
+        "button": {
+          "cancel": "Cancel",
+          "confirm": "Confirm changes"
+        },
+        "title": "Modify employee data"
+      },
+      "validation": {
+        "dateOfEmployment.required": "Date of employment is required",
+        "name.required": "Name is required",
+        "surname.required": "Surname is required"
+      }
+    },
+    "label": {
+      "id": "ID",
+      "dateOfEmployment": "Date of employment",
+      "manager": "Manager",
+      "name": "Name",
+      "projects": "Projects",
+      "skills": "Skills",
+      "surname": "Surname",
+      "search": "Search"
+    },
+    "list": {
+      "button": {
+        "add": "Add"
+      },
+      "title": "Employee list"
+    },
     "dashboard": {
       "title": "The newest employees",
       "button": {
         "list": "See the list of all employees"
       }
     }
-	},
-	"messageService": {
-		"button": {
-			"clear": "Clear messages"
-		},
-		"message": {
-			"getAllEmployees": "Returning all employees",
-			"getAllManagers": "Returning all managers",
-			"project": {
-				"fetchingError": "Error while fetching projects",
-				"getAllProjects": "Returning all projects",
-				"onComplete": "Successfully fetched all projects"
-			}
-		},
-		"title": "Messages"
-	},
-	"project": {
-		"artshare.description": "Platform for artists to share and sell their work",
-		"bookclub.description": "Online community for book enthusiasts",
-		"cloudsync.description": "File synchronization service for cloud storage",
-		"codecollab.description": "Collaborative coding environment for developers",
-		"devdash.description": "Developer productivity and analytics dashboard",
-		"edutrack.description": "Student performance tracking system for schools",
-		"eventhive.description": "Event management and ticketing system",
-		"evo.description": "Software for accountants",
-		"farmfresh.description": "Farm-to-table marketplace",
-		"fitlife.description": "Fitness app with personalized workout plans",
-		"greenthumb.description": "Urban gardening community platform",
-		"healthhub.description": "Telemedicine platform for remote healthcare",
-		"homecook.description": "Recipe sharing and meal planning app",
-		"jungle.description": "Tropical fruits delivery system",
-		"mindspace.description": "Meditation and mental health app",
-		"petcare.description": "Pet health and wellness management app",
-		"safedrive.description": "Vehicle telematics and safety monitoring system",
-		"shopmate.description": "E-commerce platform for small businesses",
-		"stockanalyzer.description": "Real-time stock market analysis tool",
-		"travelbuddy.description": "Travel planning and booking application"
-	},
-	"softSkill": {
-		"interpersonal": "Interpersonal skills",
-		"managing_projects": "Managing projects"
-	},
+  },
+  "messageService": {
+    "button": {
+      "clear": "Clear messages"
+    },
+    "message": {
+      "employee": {
+        "getAllEmployees": "Returning all employees",
+        "fetchingError": "Error while fetching employees",
+        "creatingError": "Error while creating a new employee",
+        "deletingError": "Error while trying to delete the employee",
+        "updatingError": "Error while trying to update the employee",
+        "getByIdError": "Error while trying to obtain employee's info"
+      },
+      "getAllManagers": "Returning all managers",
+      "project": {
+        "fetchingError": "Error while fetching projects",
+        "getAllProjects": "Returning all projects",
+        "onComplete": "Successfully fetched all projects"
+      }
+    },
+    "title": "Messages"
+  },
+  "project": {
+    "artshare.description": "Platform for artists to share and sell their work",
+    "bookclub.description": "Online community for book enthusiasts",
+    "cloudsync.description": "File synchronization service for cloud storage",
+    "codecollab.description": "Collaborative coding environment for developers",
+    "devdash.description": "Developer productivity and analytics dashboard",
+    "edutrack.description": "Student performance tracking system for schools",
+    "eventhive.description": "Event management and ticketing system",
+    "evo.description": "Software for accountants",
+    "farmfresh.description": "Farm-to-table marketplace",
+    "fitlife.description": "Fitness app with personalized workout plans",
+    "greenthumb.description": "Urban gardening community platform",
+    "healthhub.description": "Telemedicine platform for remote healthcare",
+    "homecook.description": "Recipe sharing and meal planning app",
+    "jungle.description": "Tropical fruits delivery system",
+    "mindspace.description": "Meditation and mental health app",
+    "petcare.description": "Pet health and wellness management app",
+    "safedrive.description": "Vehicle telematics and safety monitoring system",
+    "shopmate.description": "E-commerce platform for small businesses",
+    "stockanalyzer.description": "Real-time stock market analysis tool",
+    "travelbuddy.description": "Travel planning and booking application"
+  },
+  "softSkill": {
+    "interpersonal": "Interpersonal skills",
+    "managing_projects": "Managing projects"
+  },
   "header": {
     "button": {
       "dashboard": "Dashboard",

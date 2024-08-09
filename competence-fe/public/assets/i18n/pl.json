@@ -1,102 +1,125 @@
 {
-	"appTitle": "Competence",
-	"employee": {
+  "appTitle": "Competence",
+  "employee": {
+    "search": {
+      "found": "Znaleziono"
+    },
     "button": {
       "back": "Powrót"
     },
-		"details": {
-			"button.edit": "Edytuj dane pracownika",
-			"title.employee": "Dane pracownika",
-			"title.manager": "Dane menedżera"
-		},
-		"form": {
-			"add": {
-				"button": {
-					"add": "Dodaj",
-					"cancel": "Anuluj",
-					"clear": "Wyczyść"
-				},
-				"skill": {
-					"defaultSelectOption": "Dodaj",
-					"help": "Dodaj nową umiejętność"
-				},
-				"title": "Dodaj pracownika"
-			},
-			"edit": {
-				"button": {
-					"cancel": "Anuluj",
-					"confirm": "Zatwierdź zmiany"
-				},
-				"title": "Edytuj dane pracownika"
-			},
-			"validation": {
-				"dateOfEmployment.required": "Data zatrudnienia jest wymagana",
-				"name.required": "Imię jest wymagane",
-				"surname.required": "Nazwisko jest wymagane"
-			}
-		},
-		"label": {
-			"dateOfEmployment": "Data zatrudnienia",
-			"manager": "Menedżer",
-			"name": "Imię",
-			"projects": "Projekty",
-			"skills": "Umiejętności",
-			"surname": "Nazwisko"
-		},
-		"list": {
-			"button": {
-				"add": "Dodaj"
-			},
-			"title": "Lista pracowników"
-		},
+    "details": {
+      "button": {
+        "edit": "Edytuj dane pracownika",
+        "delete": "Usuń pracownika"
+      },
+      "dialog": {
+        "title": "Usuwanie pracownika",
+        "question": "Czy jesteś pewny, że chcesz usunąć",
+        "button": {
+          "confirm": "Usuń",
+          "cancel": "Anuluj"
+        }
+      },
+      "title.employee": "Dane pracownika",
+      "title.manager": "Dane menedżera"
+    },
+    "form": {
+      "add": {
+        "button": {
+          "add": "Dodaj",
+          "cancel": "Anuluj",
+          "clear": "Wyczyść"
+        },
+        "skill": {
+          "defaultSelectOption": "Dodaj",
+          "help": "Dodaj nową umiejętność"
+        },
+        "title": "Dodaj pracownika"
+      },
+      "edit": {
+        "button": {
+          "cancel": "Anuluj",
+          "confirm": "Zatwierdź zmiany"
+        },
+        "title": "Edytuj dane pracownika"
+      },
+      "validation": {
+        "dateOfEmployment.required": "Data zatrudnienia jest wymagana",
+        "name.required": "Imię jest wymagane",
+        "surname.required": "Nazwisko jest wymagane"
+      }
+    },
+    "label": {
+      "id": "ID",
+      "dateOfEmployment": "Data zatrudnienia",
+      "manager": "Menedżer",
+      "name": "Imię",
+      "projects": "Projekty",
+      "skills": "Umiejętności",
+      "surname": "Nazwisko",
+      "search": "Wyszukaj"
+    },
+    "list": {
+      "button": {
+        "add": "Dodaj"
+      },
+      "title": "Lista pracowników"
+    },
     "dashboard": {
       "title": "Najnowsi pracownicy",
       "button": {
         "list": "Zobacz listę wszystkich pracowników"
       }
     }
-	},
-	"messageService": {
-		"button": {
-			"clear": "Wyczyść wiadomości"
-		},
-		"message": {
-			"getAllEmployees": "Zwracanie wszystkich pracowników",
-			"getAllManagers": "Zwracanie wszystkich managerów",
-			"project": {
-				"fetchingError": "Błąd podczas pobierania projektów",
-				"getAllProjects": "Zwracanie wszystkich projektów",
-				"onComplete": "Pomyślnie pobrano wszystkie projekty"
-			}
-		},
-		"title": "Wiadomości"
-	},
-	"project": {
-		"artshare.description": "Platforma dla artystów do dzielenia się i sprzedaży swoich prac",
-		"bookclub.description": "Internetowa społeczność miłośników książek",
-		"cloudsync.description": "Usługa synchronizacji plików w chmurze",
-		"codecollab.description": "Środowisko do wspólnego kodowania dla programistów",
-		"devdash.description": "Dashboard produktywności i analityki dla programistów",
-		"edutrack.description": "System śledzenia wyników uczniów dla szkół",
-		"eventhive.description": "System zarządzania wydarzeniami i sprzedażą biletów",
-		"evo.description": "Oprogramowanie dla księgowych",
-		"farmfresh.description": "Rynek produktów prosto z farmy",
-		"fitlife.description": "Aplikacja fitness z personalizowanymi planami treningowymi",
-		"greenthumb.description": "Platforma dla społeczności miejskiego ogrodnictwa",
-		"healthhub.description": "Platforma telemedyczna do zdalnej opieki zdrowotnej",
-		"homecook.description": "Aplikacja do udostępniania przepisów i planowania posiłków",
-		"jungle.description": "System dostarczania owoców tropikalnych",
-		"mindspace.description": "Aplikacja do medytacji i zdrowia psychicznego",
-		"petcare.description": "Aplikacja do zarządzania zdrowiem i dobrostanem zwierząt domowych",
-		"safedrive.description": "System telematyki pojazdów i monitorowania bezpieczeństwa",
-		"shopmate.description": "Platforma e-commerce dla małych firm",
-		"stockanalyzer.description": "Narzędzie do analizy rynku akcji w czasie rzeczywistym",
-		"travelbuddy.description": "Aplikacja do planowania podróży i rezerwacji"
-	},
-	"softSkill": {
-		"interpersonal": "Umiejętności interpersonalne",
-		"managing_projects": "Zarządzanie projektami"
-	},
+  },
+  "messageService": {
+    "button": {
+      "clear": "Wyczyść wiadomości"
+    },
+    "message": {
+      "employee": {
+        "getAllEmployees": "Zwracanie wszystkich pracowników",
+        "fetchingError": "Błąd podczas pobierania pracowników",
+        "creatingError": "Błąd podczas tworzenia nowego pracownika",
+        "deletingError": "Błąd podczas próby usunięcia pracownika",
+        "updatingError": "Błąd podczas próby zaaktualizowania pracownika",
+        "getByIdError": "Błąd podczas próby uzyskania danych pracownika"
+      },
+      "getAllManagers": "Zwracanie wszystkich managerów",
+      "project": {
+        "fetchingError": "Błąd podczas pobierania projektów",
+        "getAllProjects": "Zwracanie wszystkich projektów",
+        "onComplete": "Pomyślnie pobrano wszystkie projekty"
+      }
+    },
+    "title": "Wiadomości"
+  },
+  "project": {
+    "artshare.description": "Platforma dla artystów do dzielenia się i sprzedaży swoich prac",
+    "bookclub.description": "Internetowa społeczność miłośników książek",
+    "cloudsync.description": "Usługa synchronizacji plików w chmurze",
+    "codecollab.description": "Środowisko do wspólnego kodowania dla programistów",
+    "devdash.description": "Dashboard produktywności i analityki dla programistów",
+    "edutrack.description": "System śledzenia wyników uczniów dla szkół",
+    "eventhive.description": "System zarządzania wydarzeniami i sprzedażą biletów",
+    "evo.description": "Oprogramowanie dla księgowych",
+    "farmfresh.description": "Rynek produktów prosto z farmy",
+    "fitlife.description": "Aplikacja fitness z personalizowanymi planami treningowymi",
+    "greenthumb.description": "Platforma dla społeczności miejskiego ogrodnictwa",
+    "healthhub.description": "Platforma telemedyczna do zdalnej opieki zdrowotnej",
+    "homecook.description": "Aplikacja do udostępniania przepisów i planowania posiłków",
+    "jungle.description": "System dostarczania owoców tropikalnych",
+    "mindspace.description": "Aplikacja do medytacji i zdrowia psychicznego",
+    "petcare.description": "Aplikacja do zarządzania zdrowiem i dobrostanem zwierząt domowych",
+    "safedrive.description": "System telematyki pojazdów i monitorowania bezpieczeństwa",
+    "shopmate.description": "Platforma e-commerce dla małych firm",
+    "stockanalyzer.description": "Narzędzie do analizy rynku akcji w czasie rzeczywistym",
+    "travelbuddy.description": "Aplikacja do planowania podróży i rezerwacji"
+  },
+  "softSkill": {
+    "interpersonal": "Umiejętności interpersonalne",
+    "managing_projects": "Zarządzanie projektami"
+  },
   "header": {
     "button": {
       "dashboard": "Dashboard",

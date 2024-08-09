@@ -5,7 +5,7 @@ import { EmployeeModel } from '../../models/employee.model';
 import { EmployeeService } from '../../services/employee.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { LangSelectorComponent } from '../../../../shared/components/lang-selector/lang-selector.component';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
 import {
   MatButton,
@@ -17,6 +17,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDivider } from '@angular/material/divider';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import * as EMPLOYEE_ROUTE from '../../../../core/constants/employee-route';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { EmployeeSearchComponent } from '../../components/employee-search/employee-search.component';
 
 @Component({
   selector: 'app-employee-list',
@@ -35,6 +37,8 @@ import * as EMPLOYEE_ROUTE from '../../../../core/constants/employee-route';
     MatDivider,
     RouterOutlet,
     RouterLink,
+    MatProgressSpinner,
+    EmployeeSearchComponent,
   ],
   templateUrl: './employee-list.component.html',
   styleUrl: './employee-list.component.scss',
@@ -42,11 +46,16 @@ import * as EMPLOYEE_ROUTE from '../../../../core/constants/employee-route';
 })
 export class EmployeeListComponent implements OnInit {
   employees$!: Observable<EmployeeModel[]>;
+  isLoading = true;
   protected readonly EMPLOYEE_ROUTE = EMPLOYEE_ROUTE;
 
   constructor(private employeeService: EmployeeService) {}
 
   ngOnInit(): void {
-    this.employees$ = this.employeeService.getAllEmployees();
+    this.employees$ = this.employeeService.getAllEmployees().pipe(
+      tap({
+        complete: () => (this.isLoading = false),
+      })
+    );
   }
 }

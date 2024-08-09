@@ -7,22 +7,49 @@ import { MatButton } from '@angular/material/button';
 import { MatRipple } from '@angular/material/core';
 import { DatePipe } from '@angular/common';
 import * as EMPLOYEE_ROUTE from '../../../../core/constants/employee-route';
-import { TranslateModule } from '@ngx-translate/core';
+import {
+  LangChangeEvent,
+  TranslateModule,
+  TranslateService,
+} from '@ngx-translate/core';
+import { map } from 'rxjs';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { EmployeeSearchComponent } from '../../components/employee-search/employee-search.component';
+import { MessageService } from '../../../../core/services/message.service';
+import { MessageCode } from '../../../../core/constants/message-code.enum';
 
 @Component({
   selector: 'app-employee-dashboard',
   standalone: true,
-  imports: [RouterLink, MatButton, MatRipple, DatePipe, TranslateModule],
+  imports: [
+    RouterLink,
+    MatButton,
+    MatRipple,
+    DatePipe,
+    TranslateModule,
+    MatProgressSpinner,
+    EmployeeSearchComponent,
+  ],
   templateUrl: './employee-dashboard.component.html',
   styleUrl: './employee-dashboard.component.scss',
 })
 export class EmployeeDashboardComponent implements OnInit {
-  employees!: EmployeeModel[];
+  employees: EmployeeModel[];
+  locale: string;
+  isLoading: boolean;
 
   protected readonly EMPLOYEE_ROUTE = EMPLOYEE_ROUTE;
   private readonly destroyRef: DestroyRef = inject(DestroyRef);
 
-  constructor(private employeeService: EmployeeService) {}
+  constructor(
+    private employeeService: EmployeeService,
+    private messageService: MessageService,
+    private translate: TranslateService
+  ) {
+    this.employees = [];
+    this.locale = '';
+    this.isLoading = true;
+  }
 
   ngOnInit(): void {
     const nNewestEmployees = 6;
@@ -30,15 +57,29 @@ export class EmployeeDashboardComponent implements OnInit {
     this.employeeService
       .getAllEmployees()
       .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(
-        (allEmployees: EmployeeModel[]) =>
-          (this.employees = allEmployees
+      .subscribe({
+        next: (allEmployees: EmployeeModel[]) => {
+          this.employees = allEmployees
             .sort(
               (a: EmployeeModel, b: EmployeeModel) =>
-                a.dateOfEmployment.valueOf() - b.dateOfEmployment.valueOf()
+                new Date(a.dateOfEmployment).valueOf() -
+                new Date(b.dateOfEmployment).valueOf()
             )
             .reverse()
-            .slice(0, nNewestEmployees))
-      );
+            .slice(0, nNewestEmployees);
+        },
+        complete: () => (this.isLoading = false),
+        error: () => {
+          this.messageService.add(MessageCode.GET_ALL_EMPLOYEES_ERROR);
+          this.isLoading = false;
+        },
+      });
+
+    this.translate.onLangChange
+      .pipe(
+        map((event: LangChangeEvent) => event.lang),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe((lang: string) => (this.locale = lang));
   }
 }

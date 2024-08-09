@@ -6,6 +6,10 @@ import { HeaderComponent } from './core/layout/header/header.component';
 import { MessageComponent } from './shared/components/message/message.component';
 import { MatButton } from '@angular/material/button';
 import { provideMomentDateAdapter } from '@angular/material-moment-adapter';
+import { registerLocaleData } from '@angular/common';
+import localePl from '@angular/common/locales/pl';
+
+registerLocaleData(localePl);
 
 @Component({
   selector: 'app-root',

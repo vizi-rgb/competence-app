@@ -1,5 +1,12 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { DatePipe, Location } from '@angular/common';
+import {
+  Component,
+  DestroyRef,
+  inject,
+  OnInit,
+  TemplateRef,
+  ViewChild,
+} from '@angular/core';
+import { AsyncPipe, DatePipe, Location } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EmployeeProjectComponent } from '../../components/employee-project/employee-project.component';
 import { EmployeeModel } from '../../models/employee.model';
@@ -16,8 +23,19 @@ import { MatDivider } from '@angular/material/divider';
 import { MatChip, MatChipSet } from '@angular/material/chips';
 import { MatButton } from '@angular/material/button';
 import { EmployeeService } from '../../services/employee.service';
-import { ActivatedRoute, RouterLink } from '@angular/router';
-import { EDIT } from '../../../../core/constants/employee-route';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import * as EMPLOYEE_ROUTE from '../../../../core/constants/employee-route';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import {
+  MatDialog,
+  MatDialogActions,
+  MatDialogClose,
+  MatDialogContent,
+  MatDialogTitle,
+} from '@angular/material/dialog';
+import { MessageService } from '../../../../core/services/message.service';
+import { MessageCode } from '../../../../core/constants/message-code.enum';
 
 @Component({
   selector: 'app-employee-details',
@@ -39,20 +57,33 @@ import { EDIT } from '../../../../core/constants/employee-route';
     MatCardActions,
     MatButton,
     RouterLink,
+    AsyncPipe,
+    MatProgressSpinner,
+    MatDialogActions,
+    MatDialogContent,
+    MatDialogTitle,
+    MatDialogClose,
   ],
   templateUrl: './employee-details.component.html',
   styleUrl: './employee-details.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EmployeeDetailsComponent implements OnInit {
   employee?: EmployeeModel;
+  isLoading = true;
 
-  protected readonly EDIT = EDIT;
+  @ViewChild('dialog')
+  matDialog!: TemplateRef<MatDialog>;
+
+  protected readonly EMPLOYEE_ROUTE = EMPLOYEE_ROUTE;
+  private readonly destroyRef: DestroyRef = inject(DestroyRef);
 
   constructor(
     private route: ActivatedRoute,
     private employeeService: EmployeeService,
-    private location: Location
+    private messageService: MessageService,
+    private location: Location,
+    private dialog: MatDialog,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -65,9 +96,29 @@ export class EmployeeDetailsComponent implements OnInit {
   getEmployee(id: string): void {
     this.employeeService
       .getEmployeeById(id)
-      .subscribe(
-        (employee: EmployeeModel | undefined) => (this.employee = employee)
-      );
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (employee: EmployeeModel | undefined) =>
+          (this.employee = employee),
+        complete: () => (this.isLoading = false),
+        error: () => {
+          this.messageService.add(MessageCode.GET_EMPLOYEE_BY_ID_ERROR);
+          this.isLoading = false;
+        },
+      });
+  }
+
+  onDeleteClicked(): void {
+    this.dialog.open(this.matDialog);
+  }
+
+  deleteEmployee(employee: EmployeeModel): void {
+    this.employeeService.deleteEmployee(employee).subscribe({
+      complete: () => this.router.navigate(['/', EMPLOYEE_ROUTE.LIST]),
+      error: () => {
+        this.messageService.add(MessageCode.DELETE_EMPLOYEE_ERROR);
+      },
+    });
   }
 
   goBack(): void {

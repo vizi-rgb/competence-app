@@ -1,0 +1,17 @@
+<div class="search">
+  <mat-form-field>
+    <mat-label>{{ 'employee.label.search' | translate }}</mat-label>
+    <input matInput #searchBox (input)="search(searchBox.value)" />
+  </mat-form-field>
+
+  @for (employee of employees$ | async; track $index) {
+    @if ($first) {
+      <p>{{ ('employee.search.found' | translate) + ':' }}</p>
+    }
+    <button
+      mat-stroked-button
+      [routerLink]="['/' + EMPLOYEE_ROUTES.DETAILS, employee.id]">
+      {{ employee.name + ' ' + employee.surname }}
+    </button>
+  }
+</div>
