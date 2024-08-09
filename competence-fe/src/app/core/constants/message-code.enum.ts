@@ -9,4 +9,6 @@ export enum MessageCode {
   GET_ALL_PROJECTS = 'messageService.message.project.getAllProjects',
   GET_ALL_PROJECTS_SUCCESS = 'messageService.message.project.onComplete',
   GET_ALL_PROJECTS_ERROR = 'messageService.message.project.fetchingError',
+  GET_ALL_SKILLS_ERROR = 'messageService.message.skill.fetchingError',
+  GET_ALL_SKILLS_SUCCESS = 'messageService.message.skill.onComplete',
 }

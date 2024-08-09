@@ -83,13 +83,17 @@
       {{ 'employee.label.skills' | translate }}
     </p>
     <mat-chip-listbox #skillsListbox multiple>
-      @for (skill of getAvailableSkillsWrapper(); track $index) {
-        <mat-chip-option
-          [selected]="isInEmployeeSkills(skill.skillKey)"
-          (selectionChange)="onSkillSelect(skill.skillKey, $event)"
-          [value]="skill.skillKey">
-          {{ skill.skillKey | skillToTranslationKey | translate }}
-        </mat-chip-option>
+      @if (areSkillsLoading) {
+        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+      } @else {
+        @for (skill of getAvailableSkillsWrapper(); track $index) {
+          <mat-chip-option
+            [selected]="isInEmployeeSkills(skill.skillKey)"
+            (selectionChange)="onSkillSelect(skill.skillKey, $event)"
+            [value]="skill.skillKey">
+            {{ skill.skillKey | skillToTranslationKey | translate }}
+          </mat-chip-option>
+        }
       }
     </mat-chip-listbox>
 
@@ -100,13 +104,17 @@
     </p>
 
     <mat-chip-listbox #projectsListbox multiple>
-      @for (project of getAvailableProjectsWrapper(); track $index) {
-        <mat-chip-option
-          [selected]="isInEmployeeProjects(project.title)"
-          (selectionChange)="onProjectSelect(project, $event)"
-          [value]="project.title">
-          {{ project.title }}
-        </mat-chip-option>
+      @if (areProjectsLoading) {
+        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+      } @else {
+        @for (project of getAvailableProjectsWrapper(); track $index) {
+          <mat-chip-option
+            [selected]="isInEmployeeProjects(project.title)"
+            (selectionChange)="onProjectSelect(project, $event)"
+            [value]="project.title">
+            {{ project.title }}
+          </mat-chip-option>
+        }
       }
     </mat-chip-listbox>
 

@@ -36,6 +36,7 @@ import {
 } from '@angular/material/dialog';
 import { MessageService } from '../../../../core/services/message.service';
 import { MessageCode } from '../../../../core/constants/message-code.enum';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-employee-details',
@@ -69,7 +70,7 @@ import { MessageCode } from '../../../../core/constants/message-code.enum';
 })
 export class EmployeeDetailsComponent implements OnInit {
   employee?: EmployeeModel;
-  isLoading = true;
+  isLoading: boolean = true;
 
   @ViewChild('dialog')
   matDialog!: TemplateRef<MatDialog>;
@@ -96,15 +97,15 @@ export class EmployeeDetailsComponent implements OnInit {
   getEmployee(id: string): void {
     this.employeeService
       .getEmployeeById(id)
-      .pipe(takeUntilDestroyed(this.destroyRef))
+      .pipe(
+        finalize(() => (this.isLoading = false)),
+        takeUntilDestroyed(this.destroyRef)
+      )
       .subscribe({
         next: (employee: EmployeeModel | undefined) =>
           (this.employee = employee),
-        complete: () => (this.isLoading = false),
-        error: () => {
-          this.messageService.add(MessageCode.GET_EMPLOYEE_BY_ID_ERROR);
-          this.isLoading = false;
-        },
+        error: () =>
+          this.messageService.add(MessageCode.GET_EMPLOYEE_BY_ID_ERROR),
       });
   }
 

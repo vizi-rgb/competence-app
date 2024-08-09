@@ -12,7 +12,7 @@ import {
   TranslateModule,
   TranslateService,
 } from '@ngx-translate/core';
-import { map } from 'rxjs';
+import { finalize, map } from 'rxjs';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { EmployeeSearchComponent } from '../../components/employee-search/employee-search.component';
 import { MessageService } from '../../../../core/services/message.service';
@@ -34,9 +34,9 @@ import { MessageCode } from '../../../../core/constants/message-code.enum';
   styleUrl: './employee-dashboard.component.scss',
 })
 export class EmployeeDashboardComponent implements OnInit {
-  employees: EmployeeModel[];
+  employees: EmployeeModel[] = [];
   locale: string;
-  isLoading: boolean;
+  isLoading: boolean = true;
 
   protected readonly EMPLOYEE_ROUTE = EMPLOYEE_ROUTE;
   private readonly destroyRef: DestroyRef = inject(DestroyRef);
@@ -46,9 +46,7 @@ export class EmployeeDashboardComponent implements OnInit {
     private messageService: MessageService,
     private translate: TranslateService
   ) {
-    this.employees = [];
-    this.locale = '';
-    this.isLoading = true;
+    this.locale = translate.currentLang;
   }
 
   ngOnInit(): void {
@@ -56,7 +54,10 @@ export class EmployeeDashboardComponent implements OnInit {
 
     this.employeeService
       .getAllEmployees()
-      .pipe(takeUntilDestroyed(this.destroyRef))
+      .pipe(
+        finalize(() => (this.isLoading = false)),
+        takeUntilDestroyed(this.destroyRef)
+      )
       .subscribe({
         next: (allEmployees: EmployeeModel[]) => {
           this.employees = allEmployees
@@ -68,10 +69,8 @@ export class EmployeeDashboardComponent implements OnInit {
             .reverse()
             .slice(0, nNewestEmployees);
         },
-        complete: () => (this.isLoading = false),
         error: () => {
           this.messageService.add(MessageCode.GET_ALL_EMPLOYEES_ERROR);
-          this.isLoading = false;
         },
       });
 
