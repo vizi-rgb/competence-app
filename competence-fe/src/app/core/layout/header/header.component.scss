@@ -1,4 +1,5 @@
 @import "colors";
+@import "screen-sizes";
 
 $x-padding: 3rem;
 $y-padding: 1rem;
@@ -23,6 +24,10 @@ $column-gap: 3rem;
     flex-direction: row;
     align-items: center;
     column-gap: $column-gap;
+
+    &-mobile {
+      display: none;
+    }
   }
 
   &__text {
@@ -31,5 +36,17 @@ $column-gap: 3rem;
     &--hover:hover {
       text-decoration: underline;
     }
+  }
+}
+
+@media only screen and (max-width: $small-screen) {
+  .header__section-mobile {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .header__section {
+    display: none;
   }
 }

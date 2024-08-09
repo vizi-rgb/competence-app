@@ -1,8 +1,19 @@
+@import "screen-sizes";
+
+$container-padding: 2rem;
 $top-padding: 1.5rem;
 $row-gap: 1rem;
 $projects-gap: 0.5rem;
 
 .employee-card {
+  padding: $container-padding;
+  display: flex;
+  flex-direction: column;
+  row-gap: $row-gap;
+
+  &__back-button {
+    width: 6rem;
+  }
 
   &__content {
     padding-top: $top-padding;
@@ -23,5 +34,11 @@ $projects-gap: 0.5rem;
     display: flex;
     flex-direction: column;
     row-gap: $projects-gap;
+  }
+}
+
+@media only screen and (max-width: $small-screen) {
+  .employee-card__skills-grid {
+    grid-template-columns: repeat(3, auto);
   }
 }
