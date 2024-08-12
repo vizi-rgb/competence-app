@@ -1,4 +1,5 @@
 @import "colors";
+@import "screen-sizes";
 
 $padding: 2rem;
 $row-gap: 2rem;
@@ -15,6 +16,10 @@ $search-bar-max-width: 30rem;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
 
+    @media only screen and (max-width: $small-screen) {
+      grid-template-columns: 1fr 1fr;
+    }
+
     &-element {
       padding: $padding;
       border-radius: $border-radius;
@@ -29,3 +34,4 @@ $search-bar-max-width: 30rem;
     max-width: $search-bar-max-width;
   }
 }
+
