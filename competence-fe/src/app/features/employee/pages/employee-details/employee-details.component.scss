@@ -29,16 +29,16 @@ $projects-gap: 0.5rem;
     padding-bottom: $row-gap;
   }
 
+  @media only screen and (max-width: $small-screen) {
+    &__skills-grid {
+      grid-template-columns: repeat(3, auto);
+    }
+  }
+
   &__projects {
     padding-top: $projects-gap;
     display: flex;
     flex-direction: column;
     row-gap: $projects-gap;
-  }
-}
-
-@media only screen and (max-width: $small-screen) {
-  .employee-card__skills-grid {
-    grid-template-columns: repeat(3, auto);
   }
 }

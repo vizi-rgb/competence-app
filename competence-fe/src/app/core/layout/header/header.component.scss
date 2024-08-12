@@ -30,23 +30,24 @@ $column-gap: 3rem;
     }
   }
 
+  @media only screen and (max-width: $small-screen) {
+    &__section{
+      display: none;
+
+      &-mobile {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+      }
+    }
+
+  }
+
   &__text {
     margin: 0;
 
     &--hover:hover {
       text-decoration: underline;
     }
-  }
-}
-
-@media only screen and (max-width: $small-screen) {
-  .header__section-mobile {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-  }
-
-  .header__section {
-    display: none;
   }
 }
