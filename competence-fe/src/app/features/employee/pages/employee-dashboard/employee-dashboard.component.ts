@@ -2,7 +2,7 @@ import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { EmployeeService } from '../../services/employee.service';
 import { EmployeeModel } from '../../models/employee.model';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { RouterLink } from '@angular/router';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 import { MatButton } from '@angular/material/button';
 import { MatRipple } from '@angular/material/core';
 import { DatePipe } from '@angular/common';
@@ -29,6 +29,7 @@ import { MessageCode } from '../../../../core/constants/message-code.enum';
     TranslateModule,
     MatProgressSpinner,
     EmployeeSearchComponent,
+    RouterLinkActive,
   ],
   templateUrl: './employee-dashboard.component.html',
   styleUrl: './employee-dashboard.component.scss',

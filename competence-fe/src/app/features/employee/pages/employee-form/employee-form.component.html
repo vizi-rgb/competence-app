@@ -1,153 +1,162 @@
-<button mat-stroked-button (click)="goBack()">
-  {{ 'employee.button.back' | translate }}
-</button>
+<div class="employee-form">
+  <button
+    class="employee-form__back-button"
+    mat-stroked-button
+    (click)="goBack()">
+    {{ 'employee.button.back' | translate }}
+  </button>
 
-<form (ngSubmit)="onSubmit()" [formGroup]="employeeForm">
-  <div class="employee-form content">
-    <h5>
-      {{
-        (employee ? 'employee.form.edit.title' : 'employee.form.add.title')
-          | translate
-      }}
-    </h5>
-
-    <mat-form-field>
-      <mat-label>
-        {{ 'employee.label.name' | translate }}
-      </mat-label>
-      <input
-        matInput
-        [placeholder]="'employee.label.name' | translate"
-        formControlName="name" />
-      @if (isModifiedAndInvalid(nameControl) && isMissing(nameControl)) {
-        <mat-error>
-          {{ 'employee.form.validation.name.required' | translate }}
-        </mat-error>
-      }
-    </mat-form-field>
-
-    <mat-form-field>
-      <mat-label>
-        {{ 'employee.label.surname' | translate }}
-      </mat-label>
-      <input
-        matInput
-        [placeholder]="'employee.label.surname' | translate"
-        formControlName="surname" />
-      @if (isModifiedAndInvalid(surnameControl) && isMissing(surnameControl)) {
-        <mat-error>
-          {{ 'employee.form.validation.surname.required' | translate }}
-        </mat-error>
-      }
-    </mat-form-field>
-
-    <mat-form-field>
-      <mat-label>
-        {{ 'employee.label.dateOfEmployment' | translate }}
-      </mat-label>
-      <input
-        matInput
-        [matDatepicker]="picker"
-        formControlName="dateOfEmployment" />
-      <mat-datepicker-toggle
-        matIconSuffix
-        [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
-      @if (
-        isModifiedAndInvalid(dateOfEmploymentControl) &&
-        isMissing(dateOfEmploymentControl)
-      ) {
-        <mat-error>
-          {{ 'employee.form.validation.dateOfEmployment.required' | translate }}
-        </mat-error>
-      }
-    </mat-form-field>
-
-    <mat-form-field>
-      <mat-label>
-        {{ 'employee.label.manager' | translate }}
-      </mat-label>
-      <mat-select formControlName="manager" [compareWith]="managersCompareFn">
-        <mat-option [value]="null"></mat-option>
-        @for (manager of managers$ | async; track manager.id) {
-          <mat-option [value]="manager">
-            {{ manager.name + ' ' + manager.surname }}
-          </mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
-
-    <mat-divider></mat-divider>
-
-    <p class="mat-title-large">
-      {{ 'employee.label.skills' | translate }}
-    </p>
-    <mat-chip-listbox #skillsListbox multiple>
-      @if (areSkillsLoading) {
-        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-      } @else {
-        @for (skill of getAvailableSkillsWrapper(); track $index) {
-          <mat-chip-option
-            [selected]="isInEmployeeSkills(skill.skillKey)"
-            (selectionChange)="onSkillSelect(skill.skillKey, $event)"
-            [value]="skill.skillKey">
-            {{ skill.skillKey | skillToTranslationKey | translate }}
-          </mat-chip-option>
-        }
-      }
-    </mat-chip-listbox>
-
-    <mat-divider></mat-divider>
-
-    <p class="mat-title-large">
-      {{ 'employee.label.projects' | translate }}
-    </p>
-
-    <mat-chip-listbox #projectsListbox multiple>
-      @if (areProjectsLoading) {
-        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-      } @else {
-        @for (project of getAvailableProjectsWrapper(); track $index) {
-          <mat-chip-option
-            [selected]="isInEmployeeProjects(project.title)"
-            (selectionChange)="onProjectSelect(project, $event)"
-            [value]="project.title">
-            {{ project.title }}
-          </mat-chip-option>
-        }
-      }
-    </mat-chip-listbox>
-
-    <div class="employee-form__button-section">
-      <button mat-flat-button type="submit" [disabled]="employeeForm.invalid">
+  <form (ngSubmit)="onSubmit()" [formGroup]="employeeForm">
+    <div class="employee-form__fields content">
+      <h5>
         {{
-          (employee
-            ? 'employee.form.edit.button.confirm'
-            : 'employee.form.add.button.add'
-          ) | translate
+          (employee ? 'employee.form.edit.title' : 'employee.form.add.title')
+            | translate
         }}
-      </button>
+      </h5>
 
-      <button
-        mat-stroked-button
-        class="mat-accent"
-        type="button"
-        (click)="onCancelClicked()">
-        {{
-          (employee
-            ? 'employee.form.edit.button.cancel'
-            : 'employee.form.add.button.cancel'
-          ) | translate
-        }}
-      </button>
-    </div>
+      <mat-form-field>
+        <mat-label>
+          {{ 'employee.label.name' | translate }}
+        </mat-label>
+        <input
+          matInput
+          [placeholder]="'employee.label.name' | translate"
+          formControlName="name" />
+        @if (isModifiedAndInvalid(nameControl) && isMissing(nameControl)) {
+          <mat-error>
+            {{ 'employee.form.validation.name.required' | translate }}
+          </mat-error>
+        }
+      </mat-form-field>
 
-    @if (!employee) {
+      <mat-form-field>
+        <mat-label>
+          {{ 'employee.label.surname' | translate }}
+        </mat-label>
+        <input
+          matInput
+          [placeholder]="'employee.label.surname' | translate"
+          formControlName="surname" />
+        @if (
+          isModifiedAndInvalid(surnameControl) && isMissing(surnameControl)
+        ) {
+          <mat-error>
+            {{ 'employee.form.validation.surname.required' | translate }}
+          </mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>
+          {{ 'employee.label.dateOfEmployment' | translate }}
+        </mat-label>
+        <input
+          matInput
+          [matDatepicker]="picker"
+          formControlName="dateOfEmployment" />
+        <mat-datepicker-toggle
+          matIconSuffix
+          [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+        @if (
+          isModifiedAndInvalid(dateOfEmploymentControl) &&
+          isMissing(dateOfEmploymentControl)
+        ) {
+          <mat-error>
+            {{
+              'employee.form.validation.dateOfEmployment.required' | translate
+            }}
+          </mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>
+          {{ 'employee.label.manager' | translate }}
+        </mat-label>
+        <mat-select formControlName="manager" [compareWith]="managersCompareFn">
+          <mat-option [value]="null"></mat-option>
+          @for (manager of managers$ | async; track manager.id) {
+            <mat-option [value]="manager">
+              {{ manager.name + ' ' + manager.surname }}
+            </mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-divider></mat-divider>
+
+      <p class="mat-title-large">
+        {{ 'employee.label.skills' | translate }}
+      </p>
+      <mat-chip-listbox #skillsListbox multiple>
+        @if (areSkillsLoading) {
+          <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+        } @else {
+          @for (skill of getAvailableSkillsWrapper(); track $index) {
+            <mat-chip-option
+              [selected]="isInEmployeeSkills(skill.skillKey)"
+              (selectionChange)="onSkillSelect(skill.skillKey, $event)"
+              [value]="skill.skillKey">
+              {{ skill.skillKey | skillToTranslationKey | translate }}
+            </mat-chip-option>
+          }
+        }
+      </mat-chip-listbox>
+
+      <mat-divider></mat-divider>
+
+      <p class="mat-title-large">
+        {{ 'employee.label.projects' | translate }}
+      </p>
+
+      <mat-chip-listbox #projectsListbox multiple>
+        @if (areProjectsLoading) {
+          <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+        } @else {
+          @for (project of getAvailableProjectsWrapper(); track $index) {
+            <mat-chip-option
+              [selected]="isInEmployeeProjects(project.title)"
+              (selectionChange)="onProjectSelect(project, $event)"
+              [value]="project.title">
+              {{ project.title }}
+            </mat-chip-option>
+          }
+        }
+      </mat-chip-listbox>
+
       <div class="employee-form__button-section">
-        <button mat-raised-button type="button" (click)="onClear()">
-          {{ 'employee.form.add.button.clear' | translate }}
+        <button mat-flat-button type="submit" [disabled]="employeeForm.invalid">
+          {{
+            (employee
+              ? 'employee.form.edit.button.confirm'
+              : 'employee.form.add.button.add'
+            ) | translate
+          }}
+        </button>
+
+        <button
+          mat-stroked-button
+          class="mat-accent"
+          type="button"
+          (click)="onCancelClicked()">
+          {{
+            (employee
+              ? 'employee.form.edit.button.cancel'
+              : 'employee.form.add.button.cancel'
+            ) | translate
+          }}
         </button>
       </div>
-    }
-  </div>
-</form>
+
+      @if (!employee) {
+        <div class="employee-form__button-section">
+          <button mat-raised-button type="button" (click)="onClear()">
+            {{ 'employee.form.add.button.clear' | translate }}
+          </button>
+        </div>
+      }
+    </div>
+  </form>
+</div>
