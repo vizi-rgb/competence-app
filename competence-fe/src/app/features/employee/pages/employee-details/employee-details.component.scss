@@ -27,10 +27,8 @@ $projects-gap: 0.5rem;
     display: grid;
     grid-template-columns: repeat(5, auto);
     padding-bottom: $row-gap;
-  }
 
-  @media only screen and (max-width: $small-screen) {
-    &__skills-grid {
+    @media only screen and (max-width: $small-screen) {
       grid-template-columns: repeat(3, auto);
     }
   }

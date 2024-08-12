@@ -16,6 +16,10 @@ $search-bar-max-width: 30rem;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
 
+    @media only screen and (max-width: $small-screen) {
+      grid-template-columns: 1fr 1fr;
+    }
+
     &-element {
       padding: $padding;
       border-radius: $border-radius;
@@ -23,12 +27,6 @@ $search-bar-max-width: 30rem;
       &--hover:hover {
         background-color: $bg-on-hover;
       }
-    }
-  }
-
-  @media only screen and (max-width: $small-screen) {
-    &__grid {
-      grid-template-columns: 1fr 1fr;
     }
   }
 

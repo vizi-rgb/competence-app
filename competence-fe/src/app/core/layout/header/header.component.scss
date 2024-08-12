@@ -25,22 +25,19 @@ $column-gap: 3rem;
     align-items: center;
     column-gap: $column-gap;
 
-    &-mobile {
+    @media only screen and (max-width: $small-screen) {
       display: none;
     }
-  }
 
-  @media only screen and (max-width: $small-screen) {
-    &__section{
+    &-mobile {
       display: none;
 
-      &-mobile {
+      @media only screen and (max-width: $small-screen) {
         display: flex;
         flex-direction: row;
         align-items: center;
       }
     }
-
   }
 
   &__text {
