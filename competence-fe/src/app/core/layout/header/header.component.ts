@@ -3,8 +3,9 @@ import { LangSelectorComponent } from '../../../shared/components/lang-selector/
 import { TranslateModule } from '@ngx-translate/core';
 import { MessageComponent } from '../../../shared/components/message/message.component';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import { MatAnchor, MatButton } from '@angular/material/button';
+import { MatAnchor, MatButton, MatIconButton } from '@angular/material/button';
 import * as EMPLOYEE_ROUTE from '../../constants/employee-route';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'app-header',
@@ -17,6 +18,8 @@ import * as EMPLOYEE_ROUTE from '../../constants/employee-route';
     MatButton,
     MatAnchor,
     RouterLinkActive,
+    MatIconButton,
+    MatIcon,
   ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',

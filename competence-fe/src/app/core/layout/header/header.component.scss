@@ -1,4 +1,5 @@
 @import "colors";
+@import "screen-sizes";
 
 $x-padding: 3rem;
 $y-padding: 1rem;
@@ -23,6 +24,20 @@ $column-gap: 3rem;
     flex-direction: row;
     align-items: center;
     column-gap: $column-gap;
+
+    @media only screen and (max-width: $small-screen) {
+      display: none;
+    }
+
+    &-mobile {
+      display: none;
+
+      @media only screen and (max-width: $small-screen) {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+      }
+    }
   }
 
   &__text {
