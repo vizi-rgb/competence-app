@@ -50,13 +50,9 @@ describe('MessageService', () => {
     // given
     service.add(message);
 
-    // when
-    let messages: string[] | undefined;
-    service
-      .getMessages()
-      .subscribe((messages2: string[]) => (messages = messages2));
-
-    // then
-    expect(messages).toEqual([message]);
+    // when then
+    service.getMessages().subscribe((messages: string[]) => {
+      expect(messages).toEqual([message]);
+    });
   });
 });
