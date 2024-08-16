@@ -1,3 +1,11 @@
 spring:
   application:
     name: Competence
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+springdoc:
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
