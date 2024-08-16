@@ -1,0 +1,214 @@
+openapi: 3.0.3
+info:
+  title: Competence API - OpenAPI 3.0
+  description: API to provide employees' data to the frontend service.
+  termsOfService: http://swagger.io/terms/
+  contact:
+    email: wiktor.nasierowski@gmail.com
+  version: '1.0'
+tags:
+  - name: Employee
+    description: Employees' data
+  - name: Projects
+    description: Projects' data
+  - name: Skills
+    description: Skills' data
+paths:
+  /employees:
+    summary: Employees' info
+    get:
+      summary: Return all employees from a company
+      description: It returns all employees from a company
+      operationId: getEmployees
+      responses:
+        '200':
+            description: Success
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Employee'
+      tags:
+        - Employee
+    post:
+      summary: Creates a new employee
+      tags:
+        - Employee
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Employee'
+      responses:
+        '201':
+          description: Success
+        '400':
+          description: Bad request
+
+  /employees/{id}:
+    get:
+      summary: Get an employee by id
+      description: Returns an employee with matching id.
+      operationId: getEmployee
+      tags:
+        - Employee
+      parameters:
+        - name: id
+          in: path
+          description: Employee id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Employee'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Employee not found
+    put:
+      summary: Update an existing employee
+      description: >-
+        Given an existent employee with id matching the one provided in the
+        request body, update the given employee
+      operationId: updateEmployee
+      parameters:
+        - name: id
+          in: path
+          description: Employee id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Employee'
+      responses:
+        '200':
+          description: Success
+        '400':
+          description: Bad request
+        '404':
+          description: Not found
+      tags:
+        - Employee
+    patch:
+      summary: Partially updates an existing employee
+      tags:
+        - Employee
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Employee'
+      responses:
+        '200':
+          description: Success
+        '400':
+          description: Bad request
+        '404':
+          description: Not found
+    delete:
+      summary: Deletes an employee by id
+      tags:
+        - Employee
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+        '404':
+          description: Not found
+  /projects:
+    summary: Projects' info
+    get:
+      summary: Return all projects from a company
+      description: It returns all projects
+      operationId: getProjects
+      responses:
+        '200':
+            description: Success
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Project'
+      tags:
+        - Projects
+  /skills:
+    summary: Available skills
+    get:
+      summary: Return all skills from a company
+      description: It returns all skills
+      operationId: getSkills
+      responses:
+        '200':
+            description: Success
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    type: string
+      tags:
+        - Skills
+
+  
+
+components:
+  schemas:
+    Employee:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        surname:
+          type: string
+        dateOfEmployment:
+          type: string
+          format: date
+        manager:
+          $ref: '#/components/schemas/Employee'
+          nullable: true
+        skills:
+          type: array
+          items:
+            type: string
+        projects:
+          type: array
+          items:
+            $ref: '#/components/schemas/Project'
+
+    Project:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        technologies:
+          type: array
+          items:
+            type: string
