@@ -6,15 +6,18 @@ import com.project.competence.employee.dto.CreateEmployeeRequest;
 import com.project.competence.employee.dto.EmployeeResource;
 import com.project.competence.employee.dto.PartiallyUpdateEmployeeRequest;
 import com.project.competence.employee.mapper.EmployeeMapper;
+import com.project.competence.employee.mapper.ProjectMapper;
+import com.project.competence.employee.mapper.SkillMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -23,6 +26,8 @@ public class EmployeeService {
 
     private final EmployeeRepository employeeRepository;
     private final EmployeeMapper employeeMapper;
+    private final SkillMapper skillMapper;
+    private final ProjectMapper projectMapper;
 
     @Transactional(readOnly = true)
     public List<EmployeeResource> getEmployees() {
@@ -92,14 +97,26 @@ public class EmployeeService {
         if (request.dateOfEmployment() != null) {
             employee.setDateOfEmployment(request.dateOfEmployment());
         }
-        if (request.manager() != null) {
-            employee.setManager(request.manager());
+        if (request.managerId() != null) {
+            final var manager = employeeRepository.findEmployeeById(request.managerId()).orElseThrow(NoSuchElementException::new);
+            employee.setManager(manager);
         }
         if (request.skills() != null) {
-            employee.setSkills(new HashSet<>(request.skills()));
+            final var skills = request.skills()
+                    .stream()
+                    .map(skillMapper::skillNameToSkill)
+                    .filter(Objects::nonNull)
+                    .collect(Collectors.toSet());
+
+            employee.setSkills(skills);
         }
         if (request.projects() != null) {
-            employee.setProjects(new HashSet<>(request.projects()));
+            final var projects = request.projects()
+                    .stream()
+                    .map(projectMapper::projectResourceToProject)
+                    .collect(Collectors.toSet());
+
+            employee.setProjects(projects);
         }
     }
 }

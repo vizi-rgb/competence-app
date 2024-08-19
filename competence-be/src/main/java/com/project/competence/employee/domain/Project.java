@@ -1,8 +1,12 @@
 package com.project.competence.employee.domain;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+
+import java.util.Set;
 
 @Entity
+@Getter
 public class Project {
 
     @Id
@@ -14,6 +18,7 @@ public class Project {
 
     private String description;
 
-    private String technologies;
+    @ManyToMany
+    private Set<Skill> technologies;
 
 }
