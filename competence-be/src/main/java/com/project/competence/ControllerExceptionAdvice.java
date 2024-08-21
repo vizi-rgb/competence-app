@@ -1,43 +1,20 @@
 package com.project.competence;
 
+import com.project.competence.exception.ApplicationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.util.List;
 import java.util.Map;
-import java.util.NoSuchElementException;
 
 @RestControllerAdvice
 public class ControllerExceptionAdvice {
 
     private static final String RESPONSE_ERRORS_KEY = "errors";
-
-    @ExceptionHandler(IllegalStateException.class)
-    public ResponseEntity<Map<String, List<String>>> handleIllegalStateException(IllegalStateException exception) {
-        return createResponse(exception.getMessage(), HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<Map<String, List<String>>> handleIllegalArgumentException(IllegalArgumentException exception) {
-        return createResponse(exception.getMessage(), HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler(NoSuchElementException.class)
-    public ResponseEntity<Map<String, List<String>>> handleNoSuchElementException(NoSuchElementException exception) {
-        return createResponse(exception.getMessage(), HttpStatus.NOT_FOUND);
-    }
-
-    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
-    public ResponseEntity<Map<String, List<String>>> handleMethodArgumentTypeMismatchException(
-            MethodArgumentTypeMismatchException exception
-    ) {
-        return createResponse(exception.getMessage(), HttpStatus.BAD_REQUEST);
-    }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, List<String>>> handleMethodArgumentNotValidException(
@@ -51,6 +28,11 @@ public class ControllerExceptionAdvice {
                 )
                 .toList();
         return createResponse(messages, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(ApplicationException.class)
+    public ResponseEntity<Map<String, List<String>>> handleApplicationException(ApplicationException exception) {
+        return createResponse(exception.getMessage(), exception.getHttpStatus());
     }
 
     @ExceptionHandler(Exception.class)
