@@ -1,6 +1,5 @@
 package com.project.competence.employee.dto;
 
-import com.project.competence.employee.domain.SkillName;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -13,7 +12,7 @@ public record CreateEmployeeRequest(
         @NotBlank String surname,
         @NotNull LocalDate dateOfEmployment,
         UUID managerId,
-        @NotNull List<SkillName> skills,
+        @NotNull List<SkillResource> skills,
         @NotNull List<ProjectResource> projects
 ) {
 }
