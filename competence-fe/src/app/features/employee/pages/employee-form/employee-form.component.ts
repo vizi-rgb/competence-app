@@ -28,7 +28,7 @@ import {
 import { ProjectModel } from '../../models/project.model';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { SkillToTranslationKeyPipe } from '../../pipes/skill-to-translation-key.pipe';
-import { EMPTY, finalize, Observable } from 'rxjs';
+import { EMPTY, finalize, Observable, tap } from 'rxjs';
 import { EmployeeService } from '../../services/employee.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TechnologyKey } from '../../../../core/constants/technology.enum';
@@ -67,6 +67,9 @@ import { isMoment, Moment } from 'moment';
 import { ActivatedRoute } from '@angular/router';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { MatProgressBar } from '@angular/material/progress-bar';
+import { SkillModel } from '../../models/skill.model';
+import { UpdateEmployeeRequest } from '../../dto/update-employee-request';
+import { CreateEmployeeRequest } from '../../dto/create-employee-request';
 
 @Component({
   selector: 'app-employee-form',
@@ -124,7 +127,7 @@ export class EmployeeFormComponent implements OnInit {
 
   employeeForm: FormGroup;
   allProjects: ProjectModel[] = [];
-  allSkills: string[] = [];
+  allSkills: SkillModel[] = [];
   managers$: Observable<EmployeeModel[]> = EMPTY;
 
   areSkillsLoading: boolean = true;
@@ -159,9 +162,23 @@ export class EmployeeFormComponent implements OnInit {
 
     if (id) {
       this.getEmployee(id);
+      this.managers$ = this.employeeService.getAvailableManagers(id).pipe(
+        tap((managers: EmployeeModel[]) => {
+          if (!managers.length) {
+            this.managerControl?.disable();
+          }
+        })
+      );
+    } else {
+      this.managers$ = this.employeeService.getAllEmployees().pipe(
+        tap((managers: EmployeeModel[]) => {
+          if (!managers.length) {
+            this.managerControl?.disable();
+          }
+        })
+      );
     }
 
-    this.managers$ = this.employeeService.getAllManagers();
     this.getAllProjects();
     this.getAllSkills();
   }
@@ -210,7 +227,8 @@ export class EmployeeFormComponent implements OnInit {
   }
 
   addSkill(skill: string): void {
-    this.skillsControl.push(this.fb.nonNullable.control(skill));
+    const skillModel: SkillModel = { name: skill };
+    this.skillsControl.push(this.fb.nonNullable.control(skillModel));
   }
 
   deleteProject(project: ProjectModel): void {
@@ -231,31 +249,36 @@ export class EmployeeFormComponent implements OnInit {
     });
 
     if (this.employee) {
-      const employee: EmployeeModel = {
-        id: this.employee.id,
+      const updateEmployeeRequest: UpdateEmployeeRequest = {
         ...this.employeeForm.getRawValue(),
+        managerId: this.managerControl?.value?.id,
       };
 
       this.employeeService
-        .updateEmployee(this.employee.id, employee)
+        .updateEmployee(this.employee.id, updateEmployeeRequest)
         .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe({
           error: () => {
             this.messageService.add(MessageCode.PUT_EMPLOYEE_ERROR);
           },
+          complete: () => this.goBack(),
         });
     } else {
+      const createEmployeeRequest: CreateEmployeeRequest = {
+        ...this.employeeForm.getRawValue(),
+        managerId: this.managerControl?.value?.id,
+      };
+
       this.employeeService
-        .createEmployee(this.employeeForm.getRawValue())
+        .createEmployee(createEmployeeRequest)
         .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe({
           error: () => {
             this.messageService.add(MessageCode.POST_EMPLOYEE_ERROR);
           },
+          complete: () => this.goBack(),
         });
     }
-
-    this.goBack();
   }
 
   onCancelClicked(): void {
@@ -283,7 +306,11 @@ export class EmployeeFormComponent implements OnInit {
   }
 
   isInEmployeeSkills(skillKey: string): boolean {
-    const skillsSet: Set<string> = new Set<string>(this.employee?.skills);
+    const skillNames = this.employee?.skills.map(
+      (skill: SkillModel) => skill.name
+    );
+
+    const skillsSet: Set<string> = new Set<string>(skillNames);
 
     return skillsSet.has(skillKey);
   }
@@ -313,8 +340,9 @@ export class EmployeeFormComponent implements OnInit {
   }
 
   getAvailableSkillsWrapper(): SkillTranslation[] {
+    const skillNames = this.allSkills.map((skill: SkillModel) => skill.name);
     return getAvailableSkillsSorted(
-      this.allSkills as (SoftSkillKey | TechnologyKey)[],
+      skillNames as unknown as (SoftSkillKey | TechnologyKey)[],
       [],
       this.translate
     );
@@ -355,7 +383,7 @@ export class EmployeeFormComponent implements OnInit {
         takeUntilDestroyed(this.destroyRef)
       )
       .subscribe({
-        next: (skills: string[]) => (this.allSkills = skills),
+        next: (skills: SkillModel[]) => (this.allSkills = skills),
         error: () => this.messageService.add(MessageCode.GET_ALL_SKILLS_ERROR),
         complete: () =>
           this.messageService.add(MessageCode.GET_ALL_SKILLS_SUCCESS),
@@ -381,7 +409,8 @@ export class EmployeeFormComponent implements OnInit {
 
   private convertMomentToDate(value: Date | Moment): Date {
     if (isMoment(value)) {
-      return (value as Moment).toDate();
+      const moment: Moment = value as Moment;
+      return moment.utc(true).toDate();
     }
 
     return value;

@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
-import { CreateEmployeeRequest } from '../dto/employee-dto';
 import { EmployeeModel } from '../models/employee.model';
 import { Observable, of } from 'rxjs';
 import { ProjectModel } from '../models/project.model';
 import { MessageService } from '../../../core/services/message.service';
 import { MessageCode } from '../../../core/constants/message-code.enum';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { EmployeeEndpoints } from './employee.endpoints';
+import { SkillModel } from '../models/skill.model';
+import { UpdateEmployeeRequest } from '../dto/update-employee-request';
+import { CreateEmployeeRequest } from '../dto/create-employee-request';
 
 @Injectable({
   providedIn: 'root',
@@ -28,6 +30,12 @@ export class EmployeeService {
     );
   }
 
+  getAvailableManagers(id: string): Observable<EmployeeModel[]> {
+    this.messageService.add(MessageCode.GET_ALL_MANAGERS);
+    const endpoint = `${EmployeeEndpoints.GET_EMPLOYEES}/${id}/${EmployeeEndpoints.GET_MANAGERS}`;
+    return this.http.get<EmployeeModel[]>(endpoint);
+  }
+
   deleteEmployee(employee: EmployeeModel): Observable<object> {
     const url = `${EmployeeEndpoints.GET_EMPLOYEES}/${employee.id}`;
     return this.http.delete(url);
@@ -38,8 +46,17 @@ export class EmployeeService {
       return of([]);
     }
 
+    const stringArray: string[] = term.split(/\s+/);
+
+    let params: HttpParams = new HttpParams().set('name', stringArray[0]);
+
+    if (stringArray.length > 1) {
+      params = params.set('surname', stringArray[1]);
+    }
+
     return this.http.get<EmployeeModel[]>(
-      `${EmployeeEndpoints.GET_EMPLOYEES}/?surname=${term}`
+      `${EmployeeEndpoints.SEARCH_EMPLOYEES}`,
+      { params: params }
     );
   }
 
@@ -53,20 +70,19 @@ export class EmployeeService {
     return this.http.get<ProjectModel[]>(EmployeeEndpoints.GET_PROJECTS);
   }
 
-  getAllSkills(): Observable<string[]> {
-    return this.http.get<string[]>(EmployeeEndpoints.GET_SKILLS);
+  getAllSkills(): Observable<SkillModel[]> {
+    return this.http.get<SkillModel[]>(EmployeeEndpoints.GET_SKILLS);
   }
 
-  updateEmployee(id: string, employee: EmployeeModel): Observable<object> {
+  updateEmployee(
+    id: string,
+    employee: UpdateEmployeeRequest
+  ): Observable<object> {
+    console.log(employee.dateOfEmployment);
     return this.http.put(`${EmployeeEndpoints.GET_EMPLOYEES}/${id}`, employee);
   }
 
-  createEmployee(payload: CreateEmployeeRequest): Observable<object> {
-    const newEmployee: EmployeeModel = {
-      id: crypto.randomUUID(),
-      ...payload,
-    };
-
-    return this.http.post(`${EmployeeEndpoints.GET_EMPLOYEES}`, newEmployee);
+  createEmployee(employee: CreateEmployeeRequest): Observable<object> {
+    return this.http.post(`${EmployeeEndpoints.GET_EMPLOYEES}`, employee);
   }
 }

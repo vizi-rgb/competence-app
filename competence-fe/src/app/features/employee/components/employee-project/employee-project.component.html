@@ -10,7 +10,7 @@
     <mat-chip-set>
       @for (tech of project.technologies; track tech) {
         <mat-chip>
-          {{ tech | skillToTranslationKey | translate }}
+          {{ tech.name | skillToTranslationKey | translate }}
         </mat-chip>
       }
     </mat-chip-set>

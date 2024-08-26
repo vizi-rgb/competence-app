@@ -9,12 +9,3 @@ export interface UpdateEmployeeRequest {
   skills: string[] | null;
   projects: ProjectModel[] | null;
 }
-
-export interface CreateEmployeeRequest {
-  name: string;
-  surname: string;
-  dateOfEmployment: Date;
-  manager: EmployeeModel | null;
-  skills: string[];
-  projects: ProjectModel[];
-}

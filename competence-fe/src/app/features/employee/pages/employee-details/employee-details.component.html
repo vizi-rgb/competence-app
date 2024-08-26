@@ -75,7 +75,7 @@
               <div class="employee-card__skills-grid">
                 @for (skill of employee.skills; track $index) {
                   <mat-chip>
-                    {{ skill | skillToTranslationKey | translate }}
+                    {{ skill.name | skillToTranslationKey | translate }}
                   </mat-chip>
                 }
               </div>
