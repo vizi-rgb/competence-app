@@ -1,0 +1,50 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: wnasierowski
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                  name: employee_id
+                  type: UUID
+              - column:
+                  constraints:
+                    nullable: false
+                  name: skills_id
+                  type: BIGINT
+            tableName: employee_skills
+  - changeSet:
+      id: 2
+      author: wnasierowski
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addPrimaryKey:
+            columnNames: employee_id, skills_id
+            constraintName: pk_employee_skills
+            tableName: employee_skills
+  - changeSet:
+      id: 3
+      author: wnasierowski
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: employee_id
+            baseTableName: employee_skills
+            constraintName: fk_employee_skill
+            referencedColumnNames: id
+            referencedTableName: employee
+  - changeSet:
+      id: 4
+      author: wnasierowski
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: skills_id
+            baseTableName: employee_skills
+            constraintName: fk_skill_employee
+            referencedColumnNames: id
+            referencedTableName: skill

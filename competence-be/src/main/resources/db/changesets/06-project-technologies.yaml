@@ -1,0 +1,50 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: wnasierowski
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                  name: project_id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: technologies_id
+                  type: BIGINT
+            tableName: project_technologies
+  - changeSet:
+      id: 2
+      author: wnasierowski
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addPrimaryKey:
+            columnNames: project_id, technologies_id
+            constraintName: pk_project_technologies
+            tableName: project_technologies
+  - changeSet:
+      id: 3
+      author: wnasierowski
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: project_id
+            baseTableName: project_technologies
+            constraintName: fk_project_technologies
+            referencedColumnNames: id
+            referencedTableName: project
+  - changeSet:
+      id: 4
+      author: wnasierowski
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: technologies_id
+            baseTableName: project_technologies
+            constraintName: fk_technologies_project
+            referencedColumnNames: id
+            referencedTableName: skill

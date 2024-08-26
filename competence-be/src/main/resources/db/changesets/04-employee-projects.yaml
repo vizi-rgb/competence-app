@@ -1,0 +1,50 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: wnasierowski
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                  name: employee_id
+                  type: UUID
+              - column:
+                  constraints:
+                    nullable: false
+                  name: projects_id
+                  type: BIGINT
+            tableName: employee_projects
+  - changeSet:
+      id: 2
+      author: wnasierowski
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: projects_id
+            baseTableName: employee_projects
+            constraintName: fk_project_employee
+            referencedColumnNames: id
+            referencedTableName: project
+  - changeSet:
+      id: 3
+      author: wnasierowski
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: employee_id
+            baseTableName: employee_projects
+            constraintName: fk_employee_project
+            referencedColumnNames: id
+            referencedTableName: employee
+  - changeSet:
+      id: 4
+      author: wnasierowski
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addPrimaryKey:
+            columnNames: employee_id, projects_id
+            constraintName: pk_employee_projects
+            tableName: employee_projects

@@ -3,14 +3,10 @@ package com.project.competence.employee.service;
 import com.project.competence.employee.domain.Employee;
 import com.project.competence.employee.domain.Project;
 import com.project.competence.employee.domain.Skill;
-import com.project.competence.employee.domain.SkillName;
 import com.project.competence.employee.domain.repository.EmployeeRepository;
 import com.project.competence.employee.domain.repository.ProjectRepository;
 import com.project.competence.employee.domain.repository.SkillRepository;
-import com.project.competence.employee.dto.CreateEmployeeRequest;
-import com.project.competence.employee.dto.EmployeeResource;
-import com.project.competence.employee.dto.PartiallyUpdateEmployeeRequest;
-import com.project.competence.employee.dto.ProjectResource;
+import com.project.competence.employee.dto.*;
 import com.project.competence.employee.mapper.EmployeeMapper;
 import com.project.competence.exception.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -35,32 +31,48 @@ public class EmployeeService {
     private final ProjectRepository projectRepository;
 
     @Transactional(readOnly = true)
-    public List<EmployeeResource> getEmployees() {
+    public List<EmployeeCompactResource> getEmployees() {
+        log.info("Get all employees");
         return employeeRepository
                 .findAll()
                 .stream()
-                .map(employeeMapper::employeeToEmployeeResource)
+                .map(employeeMapper::employeeToEmployeeCompactResource)
                 .toList();
     }
 
     @Transactional(readOnly = true)
     public EmployeeResource getEmployee(UUID id) {
         final var employee = mapEmployeeIdToEmployee(id);
+        log.info("Get employee by id: {}", id);
         return employeeMapper.employeeToEmployeeResource(employee);
+    }
+
+    @Transactional(readOnly = true)
+    public List<EmployeeCompactResource> getEmployeeAvailableManagers(UUID id) {
+        log.info("Get employee available managers by id: {}", id);
+        return employeeRepository
+                .findAll()
+                .stream()
+                .filter(employee -> !employee.getId().equals(id))
+                .filter(employee -> employee.getManager() == null || !employee.getManager().getId().equals(id))
+                .map(employeeMapper::employeeToEmployeeCompactResource)
+                .toList();
+    }
+
+    @Transactional(readOnly = true)
+    public List<EmployeeCompactResource> searchEmployees(String name, String surname) {
+        log.info("Search employees by name: {} and surname: {}", name, surname);
+        return employeeRepository
+                .findAllByNameContainingIgnoreCaseAndSurnameContainingIgnoreCase(name, surname)
+                .stream()
+                .map(employeeMapper::employeeToEmployeeCompactResource)
+                .toList();
     }
 
     @Transactional
     public void createEmployee(CreateEmployeeRequest request) {
-        final var employeeManager = mapEmployeeIdToEmployee(request.managerId());
-        final var skills = mapSkillNameCollectionToSkillSet(request.skills());
-        final var projects = mapProjectResourceCollectionToProjectSet(request.projects());
-
-        final var employee = employeeMapper.createEmployeeRequestToEmployee(
-                request,
-                employeeManager,
-                skills,
-                projects
-        );
+        log.info("Create employee: {}", request);
+        final var employee = employeeFromRequest(request);
 
         employeeRepository.save(employee);
     }
@@ -71,20 +83,9 @@ public class EmployeeService {
             log.error("Tried to update employee with id {}, but employee not found", id);
             throw new EntityNotFoundException(id);
         }
+        log.info("Update employee: {}", employee);
 
-        Employee manager = null;
-        if (employee.managerId() != null) {
-            manager = mapEmployeeIdToEmployee(employee.managerId());
-        }
-        final var skills = mapSkillNameCollectionToSkillSet(employee.skills());
-        final var projects = mapProjectResourceCollectionToProjectSet(employee.projects());
-
-        final var employeeToSave = employeeMapper.createEmployeeRequestToEmployee(
-                employee,
-                manager,
-                skills,
-                projects
-        );
+        final var employeeToSave = employeeFromRequest(employee);
         employeeToSave.setId(id);
 
         employeeRepository.save(employeeToSave);
@@ -93,6 +94,7 @@ public class EmployeeService {
     @Transactional
     public void partiallyUpdateEmployee(UUID id, PartiallyUpdateEmployeeRequest request) {
         final var employee = mapEmployeeIdToEmployee(id);
+        log.info("Partially update employee: {}", employee);
         doPartialUpdates(employee, request);
         employeeRepository.save(employee);
     }
@@ -100,7 +102,24 @@ public class EmployeeService {
     @Transactional
     public void deleteEmployee(UUID id) {
         final var employee = mapEmployeeIdToEmployee(id);
+        log.info("Delete employee: {}", employee);
         employeeRepository.delete(employee);
+    }
+
+    private Employee employeeFromRequest(CreateEmployeeRequest request) {
+        Employee manager = null;
+        if (request.managerId() != null) {
+            manager = mapEmployeeIdToEmployee(request.managerId());
+        }
+        final var skills = mapSkillResourcesToSkillSet(request.skills());
+        final var projects = mapProjectResourceCollectionToProjectSet(request.projects());
+
+        return employeeMapper.createEmployeeRequestToEmployee(
+                request,
+                manager,
+                skills,
+                projects
+        );
     }
 
     private Employee mapEmployeeIdToEmployee(UUID id) {
@@ -114,7 +133,8 @@ public class EmployeeService {
                 );
     }
 
-    private Skill mapSkillNameToSkill(SkillName skillName) {
+    private Skill mapSkillResourceToSkill(SkillResource skillResource) {
+        final var skillName = skillResource.name();
         return skillRepository.findByName(skillName).orElseThrow(
                 () -> {
                     log.error("Skill with name {} not found", skillName);
@@ -123,10 +143,10 @@ public class EmployeeService {
         );
     }
 
-    private Set<Skill> mapSkillNameCollectionToSkillSet(Collection<SkillName> skillNameCollection) {
-        return skillNameCollection
+    private Set<Skill> mapSkillResourcesToSkillSet(Collection<SkillResource> skillResources) {
+        return skillResources
                 .stream()
-                .map(this::mapSkillNameToSkill)
+                .map(this::mapSkillResourceToSkill)
                 .collect(Collectors.toSet());
     }
 
@@ -163,7 +183,7 @@ public class EmployeeService {
             employee.setManager(manager);
         }
         if (request.skills() != null) {
-            final var skills = mapSkillNameCollectionToSkillSet(request.skills());
+            final var skills = mapSkillResourcesToSkillSet(request.skills());
             employee.setSkills(skills);
         }
         if (request.projects() != null) {

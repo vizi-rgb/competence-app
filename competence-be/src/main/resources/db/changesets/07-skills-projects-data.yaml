@@ -1,0 +1,15 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: wnasierowski
+      changes:
+        - loadData:
+            file: db/static_data/skills.csv
+            tableName: skill
+  - changeSet:
+      id: 2
+      author: wnasierowski
+      changes:
+        - loadData:
+            file: db/static_data/projects.csv
+            tableName: project

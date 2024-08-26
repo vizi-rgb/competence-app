@@ -1,6 +1,7 @@
 package com.project.competence.employee;
 
 import com.project.competence.employee.dto.CreateEmployeeRequest;
+import com.project.competence.employee.dto.EmployeeCompactResource;
 import com.project.competence.employee.dto.EmployeeResource;
 import com.project.competence.employee.dto.PartiallyUpdateEmployeeRequest;
 import com.project.competence.employee.service.EmployeeService;
@@ -15,19 +16,32 @@ import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
+@CrossOrigin("*")
 @RequestMapping("/employees")
 public class EmployeeController {
 
     private final EmployeeService employeeService;
 
     @GetMapping
-    public ResponseEntity<List<EmployeeResource>> getEmployees() {
+    public ResponseEntity<List<EmployeeCompactResource>> getEmployees() {
         return ResponseEntity.ok(employeeService.getEmployees());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<EmployeeResource> getEmployee(@PathVariable UUID id) {
         return ResponseEntity.ok(employeeService.getEmployee(id));
+    }
+
+    @GetMapping("/{id}/managers")
+    public ResponseEntity<List<EmployeeCompactResource>> getEmployeeManagers(@PathVariable UUID id) {
+        return ResponseEntity.ok(employeeService.getEmployeeAvailableManagers(id));
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<EmployeeCompactResource>> searchEmployees(
+            @RequestParam(defaultValue = "") String name, @RequestParam(defaultValue = "") String surname
+    ) {
+        return ResponseEntity.ok(employeeService.searchEmployees(name, surname));
     }
 
     @PostMapping
@@ -53,5 +67,4 @@ public class EmployeeController {
         employeeService.partiallyUpdateEmployee(id, request);
         return ResponseEntity.noContent().build();
     }
-
 }

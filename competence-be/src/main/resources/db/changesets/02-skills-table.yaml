@@ -1,0 +1,23 @@
+databaseChangeLog:
+- changeSet:
+    id: 1
+    author: wnasierowski
+    objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+    changes:
+      - createTable:
+          columns:
+            - column:
+                autoIncrement: true
+                constraints:
+                  nullable: false
+                  primaryKey: true
+                  primaryKeyName: pk_skill
+                name: id
+                type: BIGINT
+            - column:
+                constraints:
+                  nullable: false
+                  unique: true
+                name: name
+                type: VARCHAR(255)
+          tableName: skill

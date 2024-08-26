@@ -1,6 +1,5 @@
 package com.project.competence.employee.dto;
 
-import com.project.competence.employee.domain.SkillName;
 import com.project.competence.validator.NullOrNotBlank;
 
 import java.time.LocalDate;
@@ -12,7 +11,7 @@ public record PartiallyUpdateEmployeeRequest(
         @NullOrNotBlank String surname,
         LocalDate dateOfEmployment,
         UUID managerId,
-        List<SkillName> skills,
+        List<SkillResource> skills,
         List<ProjectResource> projects
 ) {
 }
