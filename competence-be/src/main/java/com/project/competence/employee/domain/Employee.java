@@ -11,6 +11,16 @@ import java.util.UUID;
 @Entity
 @Getter
 @Setter
+@NamedEntityGraph(
+        name = "Employee.allAttributes", includeAllAttributes = true,
+        attributeNodes = @NamedAttributeNode(value = "projects", subgraph = "subgraph.projects"),
+        subgraphs = {
+                @NamedSubgraph(name = "subgraph.projects",
+                        attributeNodes = {@NamedAttributeNode(value = "technologies")}
+                )
+        }
+
+)
 public class Employee {
 
     @Id
@@ -23,7 +33,7 @@ public class Employee {
 
     private LocalDate dateOfEmployment;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Employee manager;
 
     @ManyToMany

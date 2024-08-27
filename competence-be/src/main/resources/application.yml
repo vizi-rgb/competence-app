@@ -1,13 +1,10 @@
 spring:
   application:
     name: Competence
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.xml
   jpa:
-    hibernate:
-      ddl-auto: update
-    defer-datasource-initialization: true
-  sql:
-    init:
-      mode: always
+    show-sql: true
 springdoc:
   swagger-ui:
     enabled: true
