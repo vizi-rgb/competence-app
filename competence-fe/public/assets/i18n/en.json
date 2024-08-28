@@ -12,6 +12,9 @@
         "edit": "Edit employee data",
         "delete": "Delete employee"
       },
+      "snackbar": {
+        "deletionErrorMessage": "Cannot delete an employee as he is someone's manager"
+      },
       "dialog": {
         "title": "Deleting an employee",
         "question": "Are you sure you want to delete",

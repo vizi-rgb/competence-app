@@ -12,6 +12,9 @@
         "edit": "Edytuj dane pracownika",
         "delete": "Usuń pracownika"
       },
+      "snackbar": {
+        "deletionErrorMessage": "Nie można usunać pracownika, gdyż pracownik jest czyimś managerem"
+      },
       "dialog": {
         "title": "Usuwanie pracownika",
         "question": "Czy jesteś pewny, że chcesz usunąć",
