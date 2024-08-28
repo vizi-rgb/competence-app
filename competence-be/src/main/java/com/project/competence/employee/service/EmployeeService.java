@@ -8,6 +8,7 @@ import com.project.competence.employee.domain.repository.ProjectRepository;
 import com.project.competence.employee.domain.repository.SkillRepository;
 import com.project.competence.employee.dto.*;
 import com.project.competence.employee.mapper.EmployeeMapper;
+import com.project.competence.exception.EmployeeIsSomeonesManager;
 import com.project.competence.exception.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -102,6 +103,12 @@ public class EmployeeService {
     @Transactional
     public void deleteEmployee(UUID id) {
         final var employee = mapEmployeeIdToEmployee(id);
+        final var subordinates = employeeRepository.findAllByManager(employee);
+
+        if (!subordinates.isEmpty()) {
+            throw new EmployeeIsSomeonesManager(employee);
+        }
+
         log.info("Delete employee: {}", employee);
         employeeRepository.delete(employee);
     }
