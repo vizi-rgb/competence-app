@@ -1,6 +1,7 @@
-package com.project.competence.exception;
+package com.project.competence.employee.exception;
 
 import com.project.competence.employee.domain.Employee;
+import com.project.competence.exception.ApplicationException;
 import org.springframework.http.HttpStatus;
 
 public class EmployeeIsSomeonesManager extends ApplicationException {

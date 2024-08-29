@@ -9,3 +9,20 @@ springdoc:
   swagger-ui:
     enabled: true
     path: /swagger-ui.html
+
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG
+cors:
+  allowedOrigins:
+    - http://localhost:4200
+    - https://localhost:4200
+  allowedMethods:
+    - PUT
+    - DELETE
+    - POST
+    - GET
+  allowedHeaders:
+    - Authorization
