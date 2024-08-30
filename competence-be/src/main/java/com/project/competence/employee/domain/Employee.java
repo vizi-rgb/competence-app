@@ -1,8 +1,7 @@
 package com.project.competence.employee.domain;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.util.Set;
@@ -11,6 +10,9 @@ import java.util.UUID;
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+@Builder
 @NamedEntityGraph(
         name = "Employee.allAttributes", includeAllAttributes = true,
         attributeNodes = @NamedAttributeNode(value = "projects", subgraph = "subgraph.projects"),

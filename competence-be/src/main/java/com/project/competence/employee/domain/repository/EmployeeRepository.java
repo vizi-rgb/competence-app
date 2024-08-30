@@ -14,5 +14,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, UUID> {
     @EntityGraph(value = "Employee.allAttributes")
     Optional<Employee> findEmployeeById(UUID id);
 
+    List<Employee> findAllByManager(Employee manager);
+
     List<Employee> findAllByNameContainingIgnoreCaseAndSurnameContainingIgnoreCase(String name, String surname);
 }

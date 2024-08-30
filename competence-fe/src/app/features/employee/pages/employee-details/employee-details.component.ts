@@ -10,7 +10,7 @@ import { AsyncPipe, DatePipe, Location } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EmployeeProjectComponent } from '../../components/employee-project/employee-project.component';
 import { EmployeeModel } from '../../models/employee.model';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { SkillToTranslationKeyPipe } from '../../pipes/skill-to-translation-key.pipe';
 import {
   MatCard,
@@ -37,6 +37,8 @@ import {
 import { MessageService } from '../../../../core/services/message.service';
 import { MessageCode } from '../../../../core/constants/message-code.enum';
 import { finalize } from 'rxjs';
+import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
+import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-employee-details',
@@ -77,11 +79,20 @@ export class EmployeeDetailsComponent implements OnInit {
 
   protected readonly EMPLOYEE_ROUTE = EMPLOYEE_ROUTE;
   private readonly destroyRef: DestroyRef = inject(DestroyRef);
+  private _snackBar = inject(MatSnackBar);
+  private snackBarErrorMsgKey =
+    'employee.details.snackbar.deletionErrorMessage';
+  private snackBarConfig: MatSnackBarConfig = {
+    horizontalPosition: 'center',
+    verticalPosition: 'top',
+    duration: 5000,
+  };
 
   constructor(
     private route: ActivatedRoute,
     private employeeService: EmployeeService,
     private messageService: MessageService,
+    private translate: TranslateService,
     private location: Location,
     private dialog: MatDialog,
     private router: Router
@@ -116,7 +127,15 @@ export class EmployeeDetailsComponent implements OnInit {
   deleteEmployee(employee: EmployeeModel): void {
     this.employeeService.deleteEmployee(employee).subscribe({
       complete: () => this.router.navigate(['/', EMPLOYEE_ROUTE.LIST]),
-      error: () => {
+      error: (err: HttpErrorResponse) => {
+        if (err.status === HttpStatusCode.MethodNotAllowed) {
+          this.translate
+            .get(this.snackBarErrorMsgKey)
+            .subscribe((res: string) => {
+              this._snackBar.open(res, undefined, this.snackBarConfig);
+            });
+        }
+
         this.messageService.add(MessageCode.DELETE_EMPLOYEE_ERROR);
       },
     });
