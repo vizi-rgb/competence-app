@@ -6,7 +6,7 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 import { MatButton } from '@angular/material/button';
 import { MatRipple } from '@angular/material/core';
 import { DatePipe } from '@angular/common';
-import * as EMPLOYEE_ROUTE from '../../../../core/constants/employee-route';
+import { EMPLOYEE_ROUTE } from '../../../../core/constants/employee-route';
 import {
   LangChangeEvent,
   TranslateModule,

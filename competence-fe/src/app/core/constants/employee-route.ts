@@ -1,5 +1,10 @@
-export const DASHBOARD = 'dashboard';
-export const LIST = 'employees';
-export const DETAILS = LIST;
-export const ADD = `${LIST}/add`;
-export const EDIT = `${LIST}/edit`;
+const DASHBOARD = 'dashboard';
+const EMPLOYEES = 'employees';
+
+export const EMPLOYEE_ROUTE = {
+  DASHBOARD: DASHBOARD,
+  LIST: `${EMPLOYEES}`,
+  DETAILS: `${EMPLOYEES}`,
+  ADD: `${EMPLOYEES}/add`,
+  EDIT: `${EMPLOYEES}/edit`,
+};

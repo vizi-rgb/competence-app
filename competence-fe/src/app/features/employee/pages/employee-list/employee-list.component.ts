@@ -16,7 +16,7 @@ import {
 import { MatIconModule } from '@angular/material/icon';
 import { MatDivider } from '@angular/material/divider';
 import { RouterLink, RouterOutlet } from '@angular/router';
-import * as EMPLOYEE_ROUTE from '../../../../core/constants/employee-route';
+import { EMPLOYEE_ROUTE } from '../../../../core/constants/employee-route';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { EmployeeSearchComponent } from '../../components/employee-search/employee-search.component';
 

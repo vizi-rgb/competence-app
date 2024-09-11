@@ -26,3 +26,4 @@ cors:
     - GET
   allowedHeaders:
     - Authorization
+    - Content-Type

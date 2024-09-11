@@ -97,6 +97,12 @@
       "skill": {
         "fetchingError": "Error while fetching skills",
         "onComplete": "Successfully fetched all skills"
+      },
+      "auth": {
+        "login": "Successfully logged in",
+        "loginError": "Error during login attempt",
+        "logout": "Successfully logged the user out",
+        "badCredentials": "Email or password is incorrect"
       }
     },
     "title": "Messages"
@@ -130,7 +136,30 @@
   "header": {
     "button": {
       "dashboard": "Dashboard",
-      "employees": "Employees"
+      "employees": "Employees",
+      "login": "Log in",
+      "logout": "Log out"
+    }
+  },
+  "loginPage": {
+    "title": "Log in",
+    "button": {
+      "login": "Log in",
+      "clear": "Clear"
+    },
+    "label": {
+      "email": "Email",
+      "password": "Password"
+    },
+    "validation": {
+      "email": {
+        "required": "Email is required",
+        "format": "Provide a valid email address"
+      },
+      "password": {
+        "required": "Password is required",
+        "minlength": "Password should have at least {{value1}} characters"
+      }
     }
   }
 }

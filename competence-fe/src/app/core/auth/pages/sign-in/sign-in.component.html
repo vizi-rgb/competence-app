@@ -1,0 +1,55 @@
+<div class="login-container">
+  <mat-card class="login-container__card" appearance="outlined">
+    <mat-card-header>
+      <mat-card-title>{{ 'loginPage.title' | translate }}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form
+        class="login-container__card-inputs"
+        [formGroup]="loginForm"
+        (ngSubmit)="onSubmit()">
+        <mat-form-field>
+          <mat-label>{{ 'loginPage.label.email' | translate }}</mat-label>
+          <input matInput formControlName="email" />
+          <mat-error>
+            @if (isModifiedAndInvalid(emailControl)) {
+              @if (isMissing(emailControl)) {
+                {{ 'loginPage.validation.email.required' | translate }}
+              } @else if (emailControl?.hasError('email')) {
+                {{ 'loginPage.validation.email.format' | translate }}
+              }
+            }
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>{{ 'loginPage.label.password' | translate }}</mat-label>
+          <input type="password" matInput formControlName="password" />
+          <mat-error>
+            @if (isModifiedAndInvalid(passwordControl)) {
+              @if (isMissing(passwordControl)) {
+                {{ 'loginPage.validation.password.required' | translate }}
+              } @else if (passwordControl?.hasError('minlength')) {
+                {{
+                  'loginPage.validation.password.minlength'
+                    | translate: { value1: this.minPasswordLength }
+                }}
+              }
+            }
+          </mat-error>
+        </mat-form-field>
+        <div class="login-container__card-buttons">
+          <button mat-flat-button type="submit" [disabled]="loginForm.invalid">
+            {{ 'loginPage.button.login' | translate }}
+          </button>
+          <button
+            mat-stroked-button
+            type="button"
+            [disabled]="loginForm.untouched && !loginForm.dirty"
+            (click)="onClear()">
+            {{ 'loginPage.button.clear' | translate }}
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

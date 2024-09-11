@@ -78,7 +78,6 @@ export class EmployeeService {
     id: string,
     employee: UpdateEmployeeRequest
   ): Observable<object> {
-    console.log(employee.dateOfEmployment);
     return this.http.put(`${EmployeeEndpoints.GET_EMPLOYEES}/${id}`, employee);
   }
 

@@ -3,6 +3,7 @@ package com.project.competence;
 import com.project.competence.exception.ApplicationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -33,6 +34,11 @@ public class ControllerExceptionAdvice {
     @ExceptionHandler(ApplicationException.class)
     public ResponseEntity<Map<String, List<String>>> handleApplicationException(ApplicationException exception) {
         return createResponse(exception.getMessage(), exception.getHttpStatus());
+    }
+
+    @ExceptionHandler(AuthenticationException.class)
+    public ResponseEntity<Void> handleAuthenticationException() {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
 
     @ExceptionHandler(Exception.class)

@@ -3,29 +3,62 @@
     {{ 'appTitle' | translate }}
   </h3>
   <div class="header__section">
-    <a mat-raised-button [routerLink]="['/', EMPLOYEE_ROUTE.DASHBOARD]">
-      {{ 'header.button.dashboard' | translate }}
-    </a>
-    <a mat-raised-button [routerLink]="['/', EMPLOYEE_ROUTE.LIST]">
-      {{ 'header.button.employees' | translate }}
-    </a>
+    @if (auth.isLoggedIn) {
+      <a mat-raised-button [routerLink]="['/', EMPLOYEE_ROUTE.DASHBOARD]">
+        {{ 'header.button.dashboard' | translate }}
+      </a>
+      <a mat-raised-button [routerLink]="['/', EMPLOYEE_ROUTE.LIST]">
+        {{ 'header.button.employees' | translate }}
+      </a>
+      <button mat-stroked-button [matMenuTriggerFor]="menu">
+        {{ (auth.userValue | async)?.username }}
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="onLogout()">
+          <mat-icon>logout</mat-icon>
+          <span>{{ 'header.button.logout' | translate }}</span>
+        </button>
+      </mat-menu>
+    } @else {
+      <button mat-stroked-button [routerLink]="['/', AUTH_ROUTE.LOGIN]">
+        {{ 'header.button.login' | translate }}
+      </button>
+    }
     <app-message></app-message>
     <app-lang-selector></app-lang-selector>
   </div>
 
   <div class="header__section-mobile">
-    <button
-      mat-icon-button
-      [routerLink]="['/', EMPLOYEE_ROUTE.DASHBOARD]"
-      [routerLinkActive]="'mat-primary'">
-      <mat-icon>dashboard</mat-icon>
-    </button>
-    <button
-      mat-icon-button
-      [routerLink]="['/', EMPLOYEE_ROUTE.LIST]"
-      [routerLinkActive]="'mat-primary'">
-      <mat-icon>group</mat-icon>
-    </button>
+    @if (auth.isLoggedIn) {
+      <button
+        mat-icon-button
+        [routerLink]="['/', EMPLOYEE_ROUTE.DASHBOARD]"
+        [routerLinkActive]="'mat-primary'">
+        <mat-icon>dashboard</mat-icon>
+      </button>
+      <button
+        mat-icon-button
+        [routerLink]="['/', EMPLOYEE_ROUTE.LIST]"
+        [routerLinkActive]="'mat-primary'">
+        <mat-icon>group</mat-icon>
+      </button>
+      <button
+        mat-icon-button
+        [matMenuTriggerFor]="mobileMenu"
+        aria-label="Mobile menu">
+        <mat-icon>account_circle</mat-icon>
+      </button>
+      <mat-menu #mobileMenu="matMenu">
+        <button mat-menu-item>
+          <mat-icon>badge</mat-icon>
+          <span>{{ (auth.userValue | async)?.username }}</span>
+        </button>
+        <button mat-menu-item (click)="onLogout()">
+          <mat-icon>logout</mat-icon>
+          <span>{{ 'header.button.logout' | translate }}</span>
+        </button>
+      </mat-menu>
+    }
     <app-message></app-message>
     <app-lang-selector></app-lang-selector>
   </div>

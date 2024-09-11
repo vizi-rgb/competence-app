@@ -97,6 +97,12 @@
       "skill": {
         "fetchingError": "Błąd podczas pobierania umiejętności",
         "onComplete": "Pomyślnie pobrano wszystkie umiejętności"
+      },
+      "auth": {
+        "login": "Pomyślnie zalogowano",
+        "loginError": "Błąd podczas próby zalogowania",
+        "logout": "Pomyślnie wylogowano użytkownika",
+        "badCredentials": "Email lub hasło są nieprawidłowe"
       }
     },
     "title": "Wiadomości"
@@ -130,7 +136,30 @@
   "header": {
     "button": {
       "dashboard": "Dashboard",
-      "employees": "Pracownicy"
+      "employees": "Pracownicy",
+      "login": "Zaloguj się",
+      "logout": "Wyloguj się"
+    }
+  },
+  "loginPage": {
+    "title": "Zaloguj się",
+    "button": {
+      "login": "Zaloguj się",
+      "clear": "Wyczyść"
+    },
+    "label": {
+      "email": "Email",
+      "password": "Hasło"
+    },
+    "validation": {
+      "email": {
+        "required": "Email jest wymagany",
+        "format": "Podaj prawidłowy adres email"
+      },
+      "password": {
+        "required": "Hasło jest wymagane",
+        "minlength": "Hasło powinno zawierać co najmniej {{value1}} znaków"
+      }
     }
   }
 }

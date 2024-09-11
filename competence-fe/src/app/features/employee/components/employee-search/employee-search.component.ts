@@ -16,7 +16,7 @@ import { MatButton } from '@angular/material/button';
 import { RouterLink } from '@angular/router';
 import { MatDivider } from '@angular/material/divider';
 import { TranslateModule } from '@ngx-translate/core';
-import * as EMPLOYEE_ROUTES from '../../../../core/constants/employee-route';
+import { EMPLOYEE_ROUTE } from '../../../../core/constants/employee-route';
 
 @Component({
   selector: 'app-employee-search',
@@ -37,7 +37,7 @@ import * as EMPLOYEE_ROUTES from '../../../../core/constants/employee-route';
 })
 export class EmployeeSearchComponent implements OnInit {
   employees$: Observable<EmployeeModel[]> = EMPTY;
-  protected readonly EMPLOYEE_ROUTES = EMPLOYEE_ROUTES;
+  protected readonly EMPLOYEE_ROUTE = EMPLOYEE_ROUTE;
   private searchTerms: Subject<string> = new Subject<string>();
 
   constructor(private employeeService: EmployeeService) {}

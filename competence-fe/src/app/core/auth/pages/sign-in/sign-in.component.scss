@@ -1,0 +1,31 @@
+$container-top-padding: 3rem;
+$inputs-top-padding: 2rem;
+$inputs-row-gap: 1rem;
+$buttons-col-gap: 2rem;
+$card-width: 40rem;
+
+.login-container {
+  padding-top: $container-top-padding;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+
+  &__card {
+    width: min(90%, $card-width);
+
+    &-inputs {
+      padding-top: $inputs-top-padding;
+      display: flex;
+      flex-direction: column;
+      row-gap: $inputs-row-gap;
+    }
+
+    &-buttons {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      column-gap: $buttons-col-gap;
+    }
+  }
+
+}

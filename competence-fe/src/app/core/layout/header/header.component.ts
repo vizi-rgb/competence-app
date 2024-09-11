@@ -4,8 +4,12 @@ import { TranslateModule } from '@ngx-translate/core';
 import { MessageComponent } from '../../../shared/components/message/message.component';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { MatAnchor, MatButton, MatIconButton } from '@angular/material/button';
-import * as EMPLOYEE_ROUTE from '../../constants/employee-route';
+import { EMPLOYEE_ROUTE } from '../../constants/employee-route';
 import { MatIcon } from '@angular/material/icon';
+import { AuthService } from '../../auth/services/auth.service';
+import { AsyncPipe } from '@angular/common';
+import { MatMenu, MatMenuItem, MatMenuTrigger } from '@angular/material/menu';
+import { AUTH_ROUTE } from '../../constants/auth-route';
 
 @Component({
   selector: 'app-header',
@@ -20,6 +24,10 @@ import { MatIcon } from '@angular/material/icon';
     RouterLinkActive,
     MatIconButton,
     MatIcon,
+    AsyncPipe,
+    MatMenu,
+    MatMenuTrigger,
+    MatMenuItem,
   ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
@@ -27,4 +35,11 @@ import { MatIcon } from '@angular/material/icon';
 })
 export class HeaderComponent {
   protected readonly EMPLOYEE_ROUTE = EMPLOYEE_ROUTE;
+  protected readonly AUTH_ROUTE = AUTH_ROUTE;
+
+  constructor(public auth: AuthService) {}
+
+  onLogout() {
+    this.auth.logout();
+  }
 }

@@ -24,7 +24,7 @@ import { MatChip, MatChipSet } from '@angular/material/chips';
 import { MatButton } from '@angular/material/button';
 import { EmployeeService } from '../../services/employee.service';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import * as EMPLOYEE_ROUTE from '../../../../core/constants/employee-route';
+import { EMPLOYEE_ROUTE } from '../../../../core/constants/employee-route';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import {
@@ -126,7 +126,7 @@ export class EmployeeDetailsComponent implements OnInit {
 
   deleteEmployee(employee: EmployeeModel): void {
     this.employeeService.deleteEmployee(employee).subscribe({
-      complete: () => this.router.navigate(['/', EMPLOYEE_ROUTE.LIST]),
+      complete: () => this.router.navigate([EMPLOYEE_ROUTE.LIST]),
       error: (err: HttpErrorResponse) => {
         if (err.status === HttpStatusCode.MethodNotAllowed) {
           this.translate
