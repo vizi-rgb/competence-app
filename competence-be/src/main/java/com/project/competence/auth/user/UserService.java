@@ -9,12 +9,15 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
 public class UserService {
 
     private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
@@ -30,6 +33,12 @@ public class UserService {
                 registerUserRequest.email(),
                 passwordEncoder.encode(registerUserRequest.password())
         );
+
+        final var userRole = roleRepository
+                .findByRoleName(RoleName.ROLE_USER)
+                .orElseThrow();
+
+        user.setRoles(List.of(userRole));
 
         log.info("Saving employee with username {}", user.getUsername());
         final var savedUser = userRepository.save(user);

@@ -15,4 +15,5 @@ export enum MessageCode {
   LOGIN_ERROR = 'messageService.message.auth.loginError',
   LOGOUT_SUCCESS = 'messageService.message.auth.logout',
   BAD_CREDENTIALS = 'messageService.message.auth.badCredentials',
+  ACCESS_FORBIDDEN = 'messageService.message.auth.forbidden',
 }

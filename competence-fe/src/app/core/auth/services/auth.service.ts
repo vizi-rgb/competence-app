@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
-import { AuthResponse } from '../dto/auth-response';
+import { Authority, AuthResponse } from '../dto/auth-response';
 import { RegisterUserRequest } from '../dto/register-user-request';
 import { AuthEndpoints } from './auth.endpoints';
 import { LoginUserRequest } from '../dto/login-user-request';
@@ -39,6 +39,14 @@ export class AuthService {
 
   get authTokenValue(): string | null {
     return this.authToken;
+  }
+
+  get roles(): string[] {
+    return (
+      this.userSubject$
+        .getValue()
+        ?.authorities.map((value: Authority) => value.authority) ?? []
+    );
   }
 
   register(request: RegisterUserRequest): Observable<AuthResponse> {
