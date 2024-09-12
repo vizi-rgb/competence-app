@@ -39,6 +39,8 @@ import { MessageCode } from '../../../../core/constants/message-code.enum';
 import { finalize } from 'rxjs';
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
+import { AuthService } from '../../../../core/auth/services/auth.service';
+import { UserAuthority } from '../../../../core/constants/user-authority';
 
 @Component({
   selector: 'app-employee-details',
@@ -73,6 +75,7 @@ import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 export class EmployeeDetailsComponent implements OnInit {
   employee?: EmployeeModel;
   isLoading: boolean = true;
+  canMakeChangesToEmployee: boolean;
 
   @ViewChild('dialog')
   matDialog!: TemplateRef<MatDialog>;
@@ -92,11 +95,16 @@ export class EmployeeDetailsComponent implements OnInit {
     private route: ActivatedRoute,
     private employeeService: EmployeeService,
     private messageService: MessageService,
+    private authService: AuthService,
     private translate: TranslateService,
     private location: Location,
     private dialog: MatDialog,
     private router: Router
-  ) {}
+  ) {
+    this.canMakeChangesToEmployee = this.authService.hasRole(
+      UserAuthority.ADMIN
+    );
+  }
 
   ngOnInit(): void {
     const id: string | null = this.route.snapshot.paramMap.get('id');

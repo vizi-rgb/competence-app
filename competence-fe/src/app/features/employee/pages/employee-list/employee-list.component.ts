@@ -19,6 +19,8 @@ import { RouterLink, RouterOutlet } from '@angular/router';
 import { EMPLOYEE_ROUTE } from '../../../../core/constants/employee-route';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { EmployeeSearchComponent } from '../../components/employee-search/employee-search.component';
+import { AuthService } from '../../../../core/auth/services/auth.service';
+import { UserAuthority } from '../../../../core/constants/user-authority';
 
 @Component({
   selector: 'app-employee-list',
@@ -47,9 +49,17 @@ import { EmployeeSearchComponent } from '../../components/employee-search/employ
 export class EmployeeListComponent implements OnInit {
   employees$!: Observable<EmployeeModel[]>;
   isLoading: boolean = true;
+  canAddNewEmployee: boolean;
+  isUser: boolean;
   protected readonly EMPLOYEE_ROUTE = EMPLOYEE_ROUTE;
 
-  constructor(private employeeService: EmployeeService) {}
+  constructor(
+    private employeeService: EmployeeService,
+    private authService: AuthService
+  ) {
+    this.canAddNewEmployee = this.authService.hasRole(UserAuthority.ADMIN);
+    this.isUser = this.authService.hasRole(UserAuthority.USER);
+  }
 
   ngOnInit(): void {
     this.employees$ = this.employeeService

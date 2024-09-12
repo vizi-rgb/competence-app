@@ -10,6 +10,7 @@
     }
     <button
       mat-stroked-button
+      [disabled]="isUser"
       [routerLink]="['/' + EMPLOYEE_ROUTE.DETAILS, employee.id]">
       {{ employee.name + ' ' + employee.surname }}
     </button>

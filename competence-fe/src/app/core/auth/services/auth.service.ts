@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { MessageService } from '../../services/message.service';
 import { MessageCode } from '../../constants/message-code.enum';
 import { AUTH_ROUTE } from '../../constants/auth-route';
+import { UserAuthority } from '../../constants/user-authority';
 
 @Injectable({
   providedIn: 'root',
@@ -47,6 +48,10 @@ export class AuthService {
         .getValue()
         ?.authorities.map((value: Authority) => value.authority) ?? []
     );
+  }
+
+  hasRole(role: UserAuthority) {
+    return this.roles.includes(role.toString());
   }
 
   register(request: RegisterUserRequest): Observable<AuthResponse> {

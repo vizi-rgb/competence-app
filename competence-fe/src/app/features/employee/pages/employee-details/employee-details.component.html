@@ -95,17 +95,19 @@
           </div>
         </mat-card-content>
 
-        <mat-card-actions>
-          <button
-            mat-button
-            [routerLink]="['/' + EMPLOYEE_ROUTE.EDIT, employee.id]">
-            {{ 'employee.details.button.edit' | translate }}
-          </button>
+        @if (canMakeChangesToEmployee) {
+          <mat-card-actions>
+            <button
+              mat-button
+              [routerLink]="['/' + EMPLOYEE_ROUTE.EDIT, employee.id]">
+              {{ 'employee.details.button.edit' | translate }}
+            </button>
 
-          <button mat-button class="mat-warn" (click)="onDeleteClicked()">
-            {{ 'employee.details.button.delete' | translate }}
-          </button>
-        </mat-card-actions>
+            <button mat-button class="mat-warn" (click)="onDeleteClicked()">
+              {{ 'employee.details.button.delete' | translate }}
+            </button>
+          </mat-card-actions>
+        }
       }
     }
   </mat-card>

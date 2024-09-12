@@ -17,6 +17,8 @@ import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { EmployeeSearchComponent } from '../../components/employee-search/employee-search.component';
 import { MessageService } from '../../../../core/services/message.service';
 import { MessageCode } from '../../../../core/constants/message-code.enum';
+import { AuthService } from '../../../../core/auth/services/auth.service';
+import { UserAuthority } from '../../../../core/constants/user-authority';
 
 @Component({
   selector: 'app-employee-dashboard',
@@ -39,15 +41,18 @@ export class EmployeeDashboardComponent implements OnInit {
   locale: string;
   isLoading: boolean = true;
 
+  isUser: boolean;
   protected readonly EMPLOYEE_ROUTE = EMPLOYEE_ROUTE;
   private readonly destroyRef: DestroyRef = inject(DestroyRef);
 
   constructor(
     private employeeService: EmployeeService,
     private messageService: MessageService,
+    private authService: AuthService,
     private translate: TranslateService
   ) {
-    this.locale = translate.currentLang;
+    this.locale = this.translate.currentLang;
+    this.isUser = this.authService.hasRole(UserAuthority.USER);
   }
 
   ngOnInit(): void {

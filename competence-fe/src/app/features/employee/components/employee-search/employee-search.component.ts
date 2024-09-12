@@ -17,6 +17,8 @@ import { RouterLink } from '@angular/router';
 import { MatDivider } from '@angular/material/divider';
 import { TranslateModule } from '@ngx-translate/core';
 import { EMPLOYEE_ROUTE } from '../../../../core/constants/employee-route';
+import { AuthService } from '../../../../core/auth/services/auth.service';
+import { UserAuthority } from '../../../../core/constants/user-authority';
 
 @Component({
   selector: 'app-employee-search',
@@ -37,10 +39,16 @@ import { EMPLOYEE_ROUTE } from '../../../../core/constants/employee-route';
 })
 export class EmployeeSearchComponent implements OnInit {
   employees$: Observable<EmployeeModel[]> = EMPTY;
+  isUser: boolean;
   protected readonly EMPLOYEE_ROUTE = EMPLOYEE_ROUTE;
   private searchTerms: Subject<string> = new Subject<string>();
 
-  constructor(private employeeService: EmployeeService) {}
+  constructor(
+    private employeeService: EmployeeService,
+    private authService: AuthService
+  ) {
+    this.isUser = this.authService.hasRole(UserAuthority.USER);
+  }
 
   search(term: string): void {
     this.searchTerms.next(term);

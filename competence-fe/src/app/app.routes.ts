@@ -6,6 +6,7 @@ import { authGuard } from './core/auth/guards/auth.guard';
 import { authWithRedirectGuard } from './core/auth/guards/auth-with-redirect.guard';
 import { UserAuthority } from './core/constants/user-authority';
 import { PageNotFoundComponent } from './core/page-not-found/page-not-found.component';
+import { requireAnyRoleGuard } from './core/auth/guards/require-any-role.guard';
 
 export const routes: Routes = [
   {
@@ -19,10 +20,14 @@ export const routes: Routes = [
       import(
         './features/employee/pages/employee-list/employee-list.component'
       ).then((m) => m.EmployeeListComponent),
-    canActivate: [authGuard],
-    data: {
-      roles: [UserAuthority.ADMIN, UserAuthority.MANAGER, UserAuthority.USER],
-    },
+    canActivate: [
+      authGuard,
+      requireAnyRoleGuard([
+        UserAuthority.ADMIN,
+        UserAuthority.MANAGER,
+        UserAuthority.USER,
+      ]),
+    ],
   },
   {
     path: EMPLOYEE_ROUTE.ADD,
@@ -30,8 +35,7 @@ export const routes: Routes = [
       import(
         './features/employee/pages/employee-form/employee-form.component'
       ).then((m) => m.EmployeeFormComponent),
-    canActivate: [authGuard],
-    data: { roles: [UserAuthority.ADMIN] },
+    canActivate: [authGuard, requireAnyRoleGuard([UserAuthority.ADMIN])],
   },
   {
     path: EMPLOYEE_ROUTE.DETAILS + '/:id',
@@ -39,8 +43,10 @@ export const routes: Routes = [
       import(
         './features/employee/pages/employee-details/employee-details.component'
       ).then((m) => m.EmployeeDetailsComponent),
-    canActivate: [authGuard],
-    data: { roles: [UserAuthority.ADMIN, UserAuthority.MANAGER] },
+    canActivate: [
+      authGuard,
+      requireAnyRoleGuard([UserAuthority.ADMIN, UserAuthority.MANAGER]),
+    ],
   },
   {
     path: EMPLOYEE_ROUTE.EDIT + '/:id',
@@ -48,8 +54,7 @@ export const routes: Routes = [
       import(
         './features/employee/pages/employee-form/employee-form.component'
       ).then((m) => m.EmployeeFormComponent),
-    canActivate: [authGuard],
-    data: { roles: [UserAuthority.ADMIN] },
+    canActivate: [authGuard, requireAnyRoleGuard([UserAuthority.ADMIN])],
   },
   {
     path: AUTH_ROUTE.LOGIN,

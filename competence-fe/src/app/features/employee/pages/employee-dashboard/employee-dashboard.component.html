@@ -7,7 +7,9 @@
       @for (employee of employees; track $index) {
         <div
           matRipple
-          class="dashboard__grid-element dashboard__grid-element--hover"
+          [matRippleDisabled]="isUser"
+          class="dashboard__grid-element"
+          [class.dashboard__grid-element--hover]="!isUser"
           [routerLink]="['/', EMPLOYEE_ROUTE.LIST, employee.id]">
           <p>{{ employee.name + ' ' + employee.surname }}</p>
           <p>
