@@ -5,6 +5,7 @@ import { AUTH_ROUTE } from './core/constants/auth-route';
 import { authGuard } from './core/auth/guards/auth.guard';
 import { authWithRedirectGuard } from './core/auth/guards/auth-with-redirect.guard';
 import { UserAuthority } from './core/constants/user-authority';
+import { PageNotFoundComponent } from './core/page-not-found/page-not-found.component';
 
 export const routes: Routes = [
   {
@@ -61,5 +62,9 @@ export const routes: Routes = [
     path: '',
     pathMatch: 'full',
     redirectTo: EMPLOYEE_ROUTE.DASHBOARD,
+  },
+  {
+    path: '**',
+    component: PageNotFoundComponent,
   },
 ];

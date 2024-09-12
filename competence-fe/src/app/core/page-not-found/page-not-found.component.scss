@@ -1,0 +1,30 @@
+@import "colors";
+
+$container-padding: 10rem;
+$flex-gap: 2rem;
+$error-code-size: 6rem;
+$error-message-size: 1.5rem;
+
+.container {
+  text-align: center;
+  padding: $container-padding;
+  display: flex;
+  flex-direction: column;
+  row-gap: $flex-gap;
+  align-items: center;
+
+  &__error-code {
+    font-size: $error-code-size;
+    margin: 0;
+    color: $error;
+  }
+
+  &__error-message {
+    font-size: $error-message-size;
+  }
+
+  &__button {
+    width: max-content;
+  }
+}
+

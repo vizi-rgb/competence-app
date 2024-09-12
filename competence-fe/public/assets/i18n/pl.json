@@ -162,5 +162,9 @@
         "minlength": "Hasło powinno zawierać co najmniej {{value1}} znaków"
       }
     }
+  },
+  "pageNotFound": {
+    "message": "Ups! Strona, której szukasz, nie istnieje",
+    "button": "Idź do dashboard"
   }
 }

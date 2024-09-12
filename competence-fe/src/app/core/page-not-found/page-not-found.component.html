@@ -1,0 +1,12 @@
+<div class="container" @fadeSlideIn>
+  <h1 class="container__error-code">404</h1>
+  <p class="container__error-message">
+    {{ 'pageNotFound.message' | translate }}
+  </p>
+  <button
+    class="container__button"
+    mat-flat-button
+    [routerLink]="['/', EMPLOYEE_ROUTE.DASHBOARD]">
+    {{ 'pageNotFound.button' | translate }}
+  </button>
+</div>

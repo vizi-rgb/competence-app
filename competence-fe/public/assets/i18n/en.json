@@ -162,5 +162,9 @@
         "minlength": "Password should have at least {{value1}} characters"
       }
     }
+  },
+  "pageNotFound": {
+    "message": "Oops! The page you're looking for doesn't exist",
+    "button": "Go to dashboard"
   }
 }
